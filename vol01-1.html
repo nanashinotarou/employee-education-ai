@@ -7,7 +7,9 @@
     <title>Day 1 | AI市場のトレンドと今後の展望</title>
     <!-- フォントとアイコン -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             /* 桜/ピンクテーマ */
@@ -36,9 +38,9 @@
         body {
             font-family: 'Noto Sans JP', sans-serif;
             background-color: var(--bg-body);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(255,255,255,0.8) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, rgba(252,228,236,0.8) 0, transparent 50%);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.8) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(252, 228, 236, 0.8) 0, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
@@ -67,6 +69,7 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 1000;
         }
+
         .home-btn:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 30px rgba(216, 27, 96, 0.5);
@@ -90,8 +93,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ヘッダー */
@@ -170,13 +180,21 @@
             min-height: 500px;
             animation: fadeInTab 0.4s ease-out;
         }
+
         .tab-content.active {
             display: block;
         }
 
         @keyframes fadeInTab {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* 見出しスタイル設定 */
@@ -187,8 +205,11 @@
             padding-left: 15px;
             margin: 30px 0 20px;
         }
-        h2:first-child { margin-top: 0; }
-        
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
         h3 {
             font-size: 1.3rem;
             color: var(--accent-pink-dark);
@@ -256,7 +277,7 @@
 
         .video-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
             border-color: var(--accent-pink);
         }
 
@@ -271,14 +292,14 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .vc-thumb i {
             font-size: 2.5rem;
-            color: rgba(255,255,255,0.8);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
         }
-        
+
         .video-card:hover .vc-thumb i {
             transform: scale(1.1);
             color: white;
@@ -316,7 +337,7 @@
             border-radius: 0 var(--radius-small) var(--radius-small) 0;
             padding: 25px;
             margin: 30px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .instructor-note-title {
@@ -333,6 +354,7 @@
             margin-bottom: 10px;
             font-size: 1rem;
         }
+
         .instructor-note p:last-child {
             margin-bottom: 0;
         }
@@ -354,7 +376,7 @@
             background: #000;
             border-radius: var(--radius-small);
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
         .video-embed iframe {
@@ -374,6 +396,7 @@
             margin: 20px 0;
             position: relative;
         }
+
         .prompt-box::before {
             content: '💻 Prompt Example';
             position: absolute;
@@ -402,6 +425,7 @@
             transition: 0.3s;
             margin-bottom: 20px;
         }
+
         .tool-link-btn:hover {
             background: #3367d6;
             transform: translateY(-2px);
@@ -412,12 +436,14 @@
             list-style: none;
             padding-left: 0;
         }
+
         .step-list li {
             position: relative;
             padding-left: 40px;
             margin-bottom: 15px;
             font-size: 1.05rem;
         }
+
         .step-list li::before {
             content: '\f00c';
             font-family: 'Font Awesome 6 Free';
@@ -437,10 +463,22 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.8rem; }
-            .tab-btn { padding: 15px; font-size: 0.9rem; }
-            .tab-content { padding: 20px; }
-            .video-grid { grid-template-columns: 1fr; }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .tab-btn {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -461,7 +499,8 @@
         <nav class="tabs">
             <button class="tab-btn active" onclick="openTab('goal')"><i class="fa-solid fa-bullseye"></i> 本日の目標</button>
             <button class="tab-btn" onclick="openTab('first')"><i class="fa-solid fa-sun"></i> 前半 (First Half)</button>
-            <button class="tab-btn" onclick="openTab('second')"><i class="fa-solid fa-moon"></i> 後半 (Second Half)</button>
+            <button class="tab-btn" onclick="openTab('second')"><i class="fa-solid fa-moon"></i> 後半 (Second
+                Half)</button>
             <button class="tab-btn" onclick="openTab('summary')"><i class="fa-solid fa-list-check"></i> まとめ</button>
         </nav>
 
@@ -474,54 +513,56 @@
             </div>
             <h2>月間目標（最終課題）への繋がり</h2>
             <p>今月の最終目標は<b>「AI活用によるWEBサイト制作またはアプリ開発」</b>です。今日学ぶ「AIの基礎知識」と「Geminiの使い方」は、ただの知識ではありません。</p>
-            <p>これらは、自分が作るサイトのターゲットを誰にするか、どんなコンテンツを載せるかといった<b>「上流工程（事業企画や構造設計）」</b>をAIと一緒にゼロから練り上げるための、強力な土台（武器）となります。</p>
+            <p>これらは、自分が作るサイトのターゲットを誰にするか、どんなコンテンツを載せるかといった<b>「上流工程（事業企画や構造設計）」</b>をAIと一緒にゼロから練り上げるための、強力な土台（武器）となります。
+            </p>
         </div>
 
         <!-- 前半 タブ -->
         <div id="first" class="tab-content">
             <h2>セクション1：AIの基礎とキャリアのマインドセット</h2>
-            <p>まずは、最終課題で使うAI技術の裏側（テキスト生成、画像生成など）を整理し、AI時代のキャリアの本質を掴みましょう。以下の動画は、AIポータルメディア「AIsmiley」や「スタビジ」チャンネルからの厳選リストです。</p>
-            
+            <p>まずは、最終課題で使うAI技術の裏側（テキスト生成、画像生成など）を整理し、AI時代のキャリアの本質を掴みましょう。以下の動画は、AIポータルメディア「AIsmiley」や「スタビジ」チャンネルからの厳選リストです。
+            </p>
+
             <div class="video-grid">
-                <a href="https://www.youtube.com/playlist?list=PLoQApr14fcePwytFYnGE7oUwX6fEoUzaY" target="_blank" class="video-card">
-                    <div class="vc-thumb" style="background-image: url('https://img.youtube.com/vi/WJ1R3D0ntf8/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube"></i>
+                <div class="video-card">
+                    <div class="vc-thumb">
+                        <iframe src="https://www.youtube.com/embed/WJ1R3D0ntf8" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類</div>
                         <div class="vc-tag">基礎知識</div>
                     </div>
-                </a>
-                
-                <a href="https://www.youtube.com/playlist?list=PLoQApr14fcePwytFYnGE7oUwX6fEoUzaY" target="_blank" class="video-card">
-                    <div class="vc-thumb" style="background-image: url('https://img.youtube.com/vi/KUNBWh9rprI/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube"></i>
+                </div>
+
+                <div class="video-card">
+                    <div class="vc-thumb">
+                        <iframe src="https://www.youtube.com/embed/KUNBWh9rprI" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.2】生成AIとは？使い方・種類・仕組み</div>
                         <div class="vc-tag">特化技術</div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://www.youtube.com/playlist?list=PLoQApr14fcePwytFYnGE7oUwX6fEoUzaY" target="_blank" class="video-card">
-                    <div class="vc-thumb" style="background-image: url('https://img.youtube.com/vi/YYx0zrIYS2o/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube"></i>
+                <div class="video-card">
+                    <div class="vc-thumb">
+                        <iframe src="https://www.youtube.com/embed/YYx0zrIYS2o" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.5】大規模言語モデル（LLM）とは？</div>
                         <div class="vc-tag">特化技術</div>
                     </div>
-                </a>
-                
-                <a href="https://www.youtube.com/playlist?list=PLoQApr14fcePwytFYnGE7oUwX6fEoUzaY" target="_blank" class="video-card">
-                    <div class="vc-thumb" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
-                        <i class="fa-brands fa-youtube"></i>
+                </div>
+
+                <div class="video-card">
+                    <div class="vc-thumb">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLoQApr14fcePwytFYnGE7oUwX6fEoUzaY&index=4" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【生き残れ！】AIによって将来なくならない仕事4選！</div>
                         <div class="vc-tag">キャリア論</div>
                     </div>
-                </a>
+                </div>
             </div>
 
             <!-- Instructor's Note -->
@@ -529,8 +570,9 @@
                 <div class="instructor-note-title">
                     <i class="fa-solid fa-lightbulb"></i> Instructor's Note : 「仕事がなくなる」のではなく…
                 </div>
-                <p>動画のタイトルは便宜上ショッキングな煽りとなっていますが、本質は**「AIが仕事を奪う」のではなく、「強力なツールであるAIを使いこなせない人が、使いこなせる人に置いていかれる」**という事実です。</p>
-                <p>業界や職種を問わず、中堅以上のビジネスパーソンが常に直面してきた「いかにして単純な下流工程から抜け出し、企画や設計などの『上流工程』を担う人材になるか」。AIの普及はこの普遍的な課題の解決を後押ししてくれます。</p>
+                <p>動画のタイトルは便宜上ショッキングな煽りとなっていますが、本質は「AIが仕事を奪う」のではなく、「強力なツールであるAIを使いこなせない人が、使いこなせる人に置いていかれる」という事実です。</p>
+                <p>業界や職種を問わず、中堅以上のビジネスパーソンが常に直面してきた「いかにして単純な下流工程から抜け出し、企画や設計などの『上流工程』を担う人材になるか」。AIの普及はこの普遍的な課題の解決を後押ししてくれます。
+                </p>
                 <p>今回の研修でも、AIに「作業」を任せ、自分は「何を作るか」という本質的な企画に集中するマネジメント視点を磨いていきましょう。</p>
             </div>
 
@@ -543,11 +585,12 @@
                 <div class="video-embed">
                     <iframe src="https://www.youtube.com/embed/o5kXK5JvIt8" allowfullscreen></iframe>
                 </div>
-                
+
                 <h3><i class="fa-solid fa-list-ol"></i> 実習の進め方</h3>
                 <ol class="step-list">
                     <li>ブラウザで別タブを開き、Googleアカウントでログインします。（実習用がない場合は新規作成）</li>
-                    <li>Gemini (<a href="https://gemini.google.com/" target="_blank">gemini.google.com</a>) へアクセスします。</li>
+                    <li>Gemini (<a href="https://gemini.google.com/" target="_blank">gemini.google.com</a>) へアクセスします。
+                    </li>
                     <li>上記の参考動画を見ながら、インターフェースや基本機能をテストします。</li>
                     <li>慣れてきたら、以下のプロンプト（指示文）をコピー＆ペーストして、最終課題のアイデアを出してもらいましょう。</li>
                 </ol>
@@ -567,7 +610,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div style="text-align: right; margin-top: 30px;">
                 <button class="tool-link-btn" onclick="openTab('second')" style="background:var(--accent-pink-dark);">
                     後半へ進む <i class="fa-solid fa-arrow-right"></i>
@@ -589,15 +632,17 @@
         <div id="summary" class="tab-content">
             <h2>DAY 1 まとめ</h2>
             <p>本日の研修お疲れ様でした！以下のポイントを振り返りましょう。</p>
-            
-            <ul class="step-list" style="background: #fff; padding: 30px 30px 30px 50px; border-radius: 16px; border: 1px solid #eee;">
+
+            <ul class="step-list"
+                style="background: #fff; padding: 30px 30px 30px 50px; border-radius: 16px; border: 1px solid #eee;">
                 <li>AIの基本的な種類（テキスト生成、画像生成など）と仕組みを言葉にできるようになった</li>
                 <li>「AIに仕事を奪われる」のではなく「AIを活用して自分が上流工程を担う」というマインドセットを持てた</li>
                 <li>月間課題（WEB制作・アプリ開発）で自分が担うべき役割（企画・ディレクション）が見えてきた</li>
                 <li>Geminiにログインし、効果的なプロンプト（指示文）を出して壁打ちを体験した</li>
             </ul>
 
-            <div style="margin-top: 40px; text-align: center; padding: 20px; background: var(--accent-pink-light); border-radius: var(--radius-small);">
+            <div
+                style="margin-top: 40px; text-align: center; padding: 20px; background: var(--accent-pink-light); border-radius: var(--radius-small);">
                 <strong>Next Step:</strong> 明日は「Day2 各AIツールの特徴と強み」に進み、Gemini以外の選択肢も深掘りします。
             </div>
         </div>
@@ -610,14 +655,14 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             // 押されたボタンのアクティブ化
             event.currentTarget.classList.add('active');
-            
+
             // 全コンテンツの非表示化
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             // 対象コンテンツの表示
             document.getElementById(tabId).classList.add('active');
-            
+
             // 少しだけ上部にスクロール
             window.scrollTo({
                 top: document.querySelector('.tabs').offsetTop - 20,
@@ -626,4 +671,5 @@
         }
     </script>
 </body>
+
 </html>
