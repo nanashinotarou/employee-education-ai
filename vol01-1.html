@@ -79,7 +79,7 @@
         /* メインコンテナ (Glassmorphism) */
         .container {
             width: 96%;
-            max-width: 1500px;
+            max-width: none;
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -224,6 +224,7 @@
             margin-bottom: 20px;
             color: #555;
             font-size: 1.05rem;
+            max-width: 1000px;
         }
 
         /* Course Goals タブ向け特別レイアウト */
@@ -650,7 +651,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin: 20px 0;
+            margin: 20px auto;
+            max-width: 1000px;
             background: #fff;
             padding: 25px;
             border-radius: var(--radius-large);
@@ -1028,6 +1030,24 @@
                     <a href="https://notebooklm.google.com/" target="_blank" class="tool-link-btn" style="background:linear-gradient(135deg, #0f9d58, #0b8043); font-size:1.1rem; padding:15px 35px; box-shadow:0 8px 20px rgba(15,157,88,0.3);">
                         <i class="fa-solid fa-book"></i> NotebookLM を開く
                     </a>
+                </div>
+            </div>
+
+            <!-- 発展実例コラム -->
+            <div class="goal-box" style="margin: 50px auto 40px; background: linear-gradient(135deg, #fff3e0, #fff); border-color: #ffb74d; max-width: 1000px; text-align: left; box-shadow: 0 10px 30px rgba(255, 183, 77, 0.15);">
+                <h3 style="color: #e65100; margin-top: 0; margin-bottom: 15px;"><i class="fa-solid fa-lightbulb"></i> ＋αの挑戦枠 〜 先輩受講者の素敵な壁打ち例 〜</h3>
+                <p style="font-size: 1rem; color: #555; margin-bottom: 10px;">ただテキストでディスカッションを重ねるだけでなく、最後に<strong>「これから作るサイトのイメージを、ポスター画像として出力して」</strong>と画像生成まで丸投げすることで、企画がたった一枚で可視化されます！</p>
+                <p style="font-size: 0.95rem; color: #555;">※実際のやり取りは以下のモックアップ内をスクロールしてみてください。</p>
+                
+                <div class="showcase-mockup" style="max-height: 500px; overflow-y: auto; border-radius: 12px; border: 8px solid #333; box-shadow: 0 15px 35px rgba(0,0,0,0.2); margin: 30px auto 10px; max-width: 600px; background: #fff;">
+                    <!-- Chrome風のミニヘッダー -->
+                    <div style="background: #e0e0e0; height: 24px; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 10px; gap: 6px; position: sticky; top: 0; z-index: 10;">
+                        <span style="width: 10px; height: 10px; background: #ff5f56; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #ffbd2e; border-radius: 50%;"></span>
+                        <span style="width: 10px; height: 10px; background: #27c93f; border-radius: 50%;"></span>
+                    </div>
+                    <!-- 本体の画像 -->
+                    <img src="./素材/【0401】Gemini実践例.png" alt="Geminiでの実践例" style="width: 100%; height: auto; display: block; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;">
                 </div>
             </div>
             
