@@ -1,0 +1,94 @@
+# プロジェクト実装ルール (GEMINI.md)
+
+このファイルは本プロジェクト固有の実装ルールや推奨パターンを記録したものです。AIエージェント（Antigravity, Gemini等）はプロジェクトを編集する際、必ずこのファイルの内容を遵守してください。
+
+## 1. YouTube動画の最適化埋め込み（Facadeパターン）
+
+YouTube動画を埋め込む際は、そのまま単純な `<iframe>` を記述するのではなく、**必ず「Facade（ファサード）パターン」を採用**してください。
+
+### 採用理由
+- **サムネイルの高画質化:** 通常の埋め込みでは表示枠が小さい場合に低解像度（480p相当等）のサムネが強制適用され、文字が粗くなる（ガビガビになる）のを防ぐため。
+- **パフォーマンス向上:** 初期表示時に重いYouTubeのPlayer APIや複数のiframeを読み込まないようにするため。
+- **UXの統一:** クリック時に別タブへ遷移させず、その場の枠内でいきなり再生を開始させるため。
+
+### 実装の必須要件
+
+1. **フォールバック付きの背景画像設定**
+   `maxresdefault.jpg` (1080p相当) を第一候補とし、存在しない場合に備えてCSSの複数背景指定を利用して `hqdefault.jpg` をフォールバックとしてカンマ区切りで必ず記述すること。
+2. **プレースホルダーのHTML構造**
+   `<iframe>` ではなく、以下のような `<div>` の枠を用いること。
+3. **Vanilla JSによる遅延読み込み**
+   クリックイベントを検知してから `innerHTML` を `<iframe>` (引数に `?autoplay=1` を付与) で置換すること。
+
+### 実装コードのテンプレート
+
+**【HTML】**
+```html
+<div class="video-card">
+    <div class="vc-thumb" data-video-id="[YouTube動画ID]" style="background-image: url('https://img.youtube.com/vi/[YouTube動画ID]/maxresdefault.jpg'), url('https://img.youtube.com/vi/[YouTube動画ID]/hqdefault.jpg');">
+        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+    </div>
+    <div class="vc-info">
+        <div class="vc-title">動画タイトル</div>
+    </div>
+</div>
+```
+
+**【CSS】**
+```css
+/* サムネイル枠 */
+.vc-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+}
+/* ホバー時の暗転（オプション） */
+.vc-thumb::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+    pointer-events: none;
+}
+.vc-thumb:hover::before {
+    background: rgba(0, 0, 0, 0.2);
+}
+/* 中央のYouTubeアイコン */
+.vc-thumb-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, color 0.3s ease;
+    pointer-events: none;
+}
+.vc-thumb:hover .vc-thumb-play {
+    transform: translate(-50%, -50%) scale(1.1);
+    color: #ff0000;
+}
+```
+
+**【JavaScript】**
+```javascript
+// YouTube Facadeの実装（クリック時にiframeへ変換してインライン再生）
+document.querySelectorAll('.vc-thumb[data-video-id]').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        const videoId = this.dataset.videoId;
+        // iframeに置き換え、自動再生（autoplay=1）
+        this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
+        // 背景画像を消す
+        this.style.backgroundImage = 'none';
+        this.style.cursor = 'default';
+        // 再度クリックされないようにする
+        this.onclick = null;
+    }, { once: true });
+});
+```
