@@ -78,8 +78,8 @@
 
         /* メインコンテナ (Glassmorphism) */
         .container {
-            width: 100%;
-            max-width: 1100px;
+            width: 96%;
+            max-width: 1500px;
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -584,8 +584,21 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px 5px;
+            }
+
+            .container {
+                width: 100%;
+                border-radius: var(--radius-medium);
+            }
+
+            .header {
+                padding: 30px 20px 15px;
+            }
+
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
 
             .tab-btn {
@@ -594,11 +607,41 @@
             }
 
             .tab-content {
-                padding: 20px;
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+                margin: 20px 0 15px;
+            }
+
+            .goal-box {
+                padding: 20px 15px;
+            }
+
+            .step-list li {
+                font-size: 0.95rem;
+                padding-left: 30px;
             }
 
             .video-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .chat-prompt-container {
+                padding: 15px;
+            }
+
+            .chat-bubble {
+                max-width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                border-radius: 12px;
+            }
+
+            .copy-btn {
+                align-self: flex-end;
             }
         }
 
@@ -900,7 +943,7 @@
             <!-- Learning Card 2: 階級社会 -->
             <div class="learning-card">
                 <div class="lc-video">
-                    <div class="vc-thumb" data-video-id="kYJzXwTzHhE" style="background-image: url('https://img.youtube.com/vi/kYJzXwTzHhE/maxresdefault.jpg'), url('https://img.youtube.com/vi/kYJzXwTzHhE/hqdefault.jpg');">
+                    <div class="vc-thumb" data-video-id="lECkrKfKSq4" style="background-image: url('https://img.youtube.com/vi/lECkrKfKSq4/maxresdefault.jpg'), url('https://img.youtube.com/vi/lECkrKfKSq4/hqdefault.jpg');">
                         <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
                 </div>
