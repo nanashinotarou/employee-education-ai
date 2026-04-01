@@ -255,6 +255,116 @@
             color: var(--text-main);
         }
 
+        /* 学習カードレイアウト (Horizontal) */
+        .learning-card {
+            display: flex;
+            flex-direction: row;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-medium);
+            border: var(--glass-border);
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .learning-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-pink-light);
+        }
+
+        .lc-video {
+            flex: 0 0 45%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lc-video .vc-thumb {
+            height: 100%;
+        }
+
+        .lc-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .lc-header {
+            border-bottom: 2px dashed #fce4ec;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .lc-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 10px 0 0 0;
+            line-height: 1.4;
+        }
+
+        .lc-body h4 {
+            font-size: 1.1rem;
+            color: var(--accent-pink-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lc-body p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .lc-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            background: #fdfdfd;
+            padding: 15px;
+            border-radius: var(--radius-small);
+            border: 1px solid #f5f5f5;
+        }
+
+        .lc-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .lc-list li::before {
+            content: '\f0da';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            color: var(--accent-pink);
+        }
+
+        @media (max-width: 768px) {
+            .learning-card {
+                flex-direction: column;
+            }
+            .lc-video {
+                width: 100%;
+                flex: none;
+            }
+            .lc-content {
+                padding: 20px;
+            }
+        }
+
         /* リストとカードのレイアウト */
         .video-grid {
             display: grid;
@@ -534,57 +644,98 @@
             <p>まずは、最終課題で使うAI技術の裏側（テキスト生成、画像生成など）を整理し、AI時代のキャリアの本質を掴みましょう。以下の動画は、AIポータルメディア「AIsmiley」や「スタビジ」チャンネルからの厳選リストです。
             </p>
 
-            <div class="video-grid">
-                <div class="video-card">
+            <!-- Learning Card 1: Vol.1 -->
+            <div class="learning-card">
+                <div class="lc-video">
                     <div class="vc-thumb" data-video-id="WJ1R3D0ntf8" style="background-image: url('https://img.youtube.com/vi/WJ1R3D0ntf8/maxresdefault.jpg'), url('https://img.youtube.com/vi/WJ1R3D0ntf8/hqdefault.jpg');">
                         <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
-                    <div class="vc-info">
-                        <div class="vc-title">【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類</div>
-                        <div class="vc-tag">基礎知識</div>
-                    </div>
                 </div>
-
-                <div class="video-card">
-                    <div class="vc-thumb" data-video-id="KUNBWh9rprI" style="background-image: url('https://img.youtube.com/vi/KUNBWh9rprI/maxresdefault.jpg'), url('https://img.youtube.com/vi/KUNBWh9rprI/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                <div class="lc-content">
+                    <div class="lc-header">
+                        <span class="vc-tag">基礎知識</span>
+                        <h3 class="lc-title">【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類</h3>
                     </div>
-                    <div class="vc-info">
-                        <div class="vc-title">【AI学習Vol.2】生成AIとは？使い方・種類・仕組み</div>
-                        <div class="vc-tag">特化技術</div>
-                    </div>
-                </div>
-
-                <div class="video-card">
-                    <div class="vc-thumb" data-video-id="YYx0zrIYS2o" style="background-image: url('https://img.youtube.com/vi/YYx0zrIYS2o/maxresdefault.jpg'), url('https://img.youtube.com/vi/YYx0zrIYS2o/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
-                    </div>
-                    <div class="vc-info">
-                        <div class="vc-title">【AI学習Vol.5】大規模言語モデル（LLM）とは？</div>
-                        <div class="vc-tag">特化技術</div>
-                    </div>
-                </div>
-
-                <div class="video-card">
-                    <div class="vc-thumb" data-video-id="NBWGnzpeEHk" style="background-image: url('https://img.youtube.com/vi/NBWGnzpeEHk/maxresdefault.jpg'), url('https://img.youtube.com/vi/NBWGnzpeEHk/hqdefault.jpg');">
-                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
-                    </div>
-                    <div class="vc-info">
-                        <div class="vc-title">【生き残れ！】AIによって将来なくならない仕事4選！</div>
-                        <div class="vc-tag">キャリア論</div>
+                    <div class="lc-body">
+                        <h4><i class="fa-solid fa-book-open"></i> 学習のポイント</h4>
+                        <p>第1次から現在の第3次AIブーム（ディープラーニング）に至るまでの歴史と、AI進化の全体像を把握します。<br>「AIとは何か」「機械学習とは何か」という根本の定義を揃えるための必須動画です。</p>
+                        <ul class="lc-list">
+                            <li>ディープラーニング（深層学習）がもたらしたブレイクスルー</li>
+                            <li>「特化型AI」と「汎用AI（AGI）」の決定的な違い</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Instructor's Note -->
-            <div class="instructor-note">
-                <div class="instructor-note-title">
-                    <i class="fa-solid fa-lightbulb"></i> Instructor's Note : 「仕事がなくなる」のではなく…
+            <!-- Learning Card 2: Vol.2 -->
+            <div class="learning-card">
+                <div class="lc-video">
+                    <div class="vc-thumb" data-video-id="KUNBWh9rprI" style="background-image: url('https://img.youtube.com/vi/KUNBWh9rprI/maxresdefault.jpg'), url('https://img.youtube.com/vi/KUNBWh9rprI/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
                 </div>
-                <p>動画のタイトルは便宜上ショッキングな煽りとなっていますが、本質は「AIが仕事を奪う」のではなく、「強力なツールであるAIを使いこなせない人が、使いこなせる人に置いていかれる」という事実です。</p>
-                <p>業界や職種を問わず、中堅以上のビジネスパーソンが常に直面してきた「いかにして単純な下流工程から抜け出し、企画や設計などの『上流工程』を担う人材になるか」。AIの普及はこの普遍的な課題の解決を後押ししてくれます。
-                </p>
-                <p>今回の研修でも、AIに「作業」を任せ、自分は「何を作るか」という本質的な企画に集中するマネジメント視点を磨いていきましょう。</p>
+                <div class="lc-content">
+                    <div class="lc-header">
+                        <span class="vc-tag">特化技術</span>
+                        <h3 class="lc-title">【AI学習Vol.2】生成AIとは？使い方・種類・仕組み</h3>
+                    </div>
+                    <div class="lc-body">
+                        <h4><i class="fa-solid fa-book-open"></i> 学習のポイント</h4>
+                        <p>従来の「データから予測や分析を行うAI」と、ChatGPTなどに代表される「ゼロからデータを創り出す（生成する）AI」の役割の違いを学びます。<br>私たちが事業企画でアシスタントとして使うのは後者の「生成AI」です。</p>
+                        <ul class="lc-list">
+                            <li>テキスト生成・画像生成・音声生成の違い</li>
+                            <li>なぜ生成AIが「クリエイティブの民主化」を起こしているのか</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Card 3: Vol.5 -->
+            <div class="learning-card">
+                <div class="lc-video">
+                    <div class="vc-thumb" data-video-id="YYx0zrIYS2o" style="background-image: url('https://img.youtube.com/vi/YYx0zrIYS2o/maxresdefault.jpg'), url('https://img.youtube.com/vi/YYx0zrIYS2o/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                </div>
+                <div class="lc-content">
+                    <div class="lc-header">
+                        <span class="vc-tag">特化技術</span>
+                        <h3 class="lc-title">【AI学習Vol.5】大規模言語モデル（LLM）とは？</h3>
+                    </div>
+                    <div class="lc-body">
+                        <h4><i class="fa-solid fa-book-open"></i> 学習のポイント</h4>
+                        <p>テキスト生成AIの心臓部である「LLM（Large Language Model）」の仕組みを解剖します。<br>AIが意思を持って返答しているのではなく、「膨大なデータから次に確率的に来る単語を予測して繋げている」という言葉の裏側を理解しましょう。</p>
+                        <ul class="lc-list">
+                            <li>プロンプトエンジニアリングがなぜ重要かの本質的理由</li>
+                            <li>確率論ベースによる「ハルシネーション（嘘）」のリスク</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Card 4: Career & Instructor's Note -->
+            <div class="learning-card">
+                <div class="lc-video">
+                    <div class="vc-thumb" data-video-id="NBWGnzpeEHk" style="background-image: url('https://img.youtube.com/vi/NBWGnzpeEHk/maxresdefault.jpg'), url('https://img.youtube.com/vi/NBWGnzpeEHk/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                </div>
+                <div class="lc-content">
+                    <div class="lc-header">
+                        <span class="vc-tag">キャリア論</span>
+                        <h3 class="lc-title">【生き残れ！】AIによって将来なくならない仕事4選！</h3>
+                    </div>
+                    <div class="lc-body">
+                        <div class="instructor-note" style="margin: 0; box-shadow: none; border: 1px solid #fce4ec; border-left: 6px solid #d81b60; background: #fffafb; border-radius: var(--radius-small);">
+                            <div class="instructor-note-title" style="color: #d81b60;">
+                                <i class="fa-solid fa-lightbulb"></i> Instructor's Note : 「仕事がなくなる」のではなく…
+                            </div>
+                            <p style="margin-bottom:10px;">動画のタイトルは便宜上ショッキングな煽りとなっていますが、本質は「AIが仕事を奪う」のではなく、「強力なツールであるAIを使いこなせない人が淘汰される」という事実です。</p>
+                            <p style="margin-bottom:12px;">業界や職種を問わず、中堅以上のビジネスパーソンが常に直面してきた「単純な下流工程から抜け出し、企画や設計などの『上流工程』を担う」という課題。AIの普及はこれを後押ししてくれます。</p>
+                            <p style="margin-bottom:0; font-weight:bold; color:#ad1457;">AIに「作業」を任せ、自分は「何を作るか」という本質的な企画に集中するマネジメント視点を磨きましょう。</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <hr style="border:0; border-top:1px dashed #ccc; margin: 40px 0;">
