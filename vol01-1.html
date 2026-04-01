@@ -281,28 +281,45 @@
             border-color: var(--accent-pink);
         }
 
+        /* Facade サムネイル */
         .vc-thumb {
             width: 100%;
             aspect-ratio: 16/9;
-            background-color: #eee;
+            background-color: #000;
             background-size: cover;
             background-position: center;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            cursor: pointer;
         }
 
-        .vc-thumb i {
-            font-size: 2.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+        .vc-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+            pointer-events: none;
         }
 
-        .video-card:hover .vc-thumb i {
-            transform: scale(1.1);
-            color: white;
+        .vc-thumb:hover::before {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .vc-thumb-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, color 0.3s ease;
+            pointer-events: none;
+        }
+
+        .vc-thumb:hover .vc-thumb-play {
+            transform: translate(-50%, -50%) scale(1.1);
+            color: #ff0000;
         }
 
         .vc-info {
@@ -377,12 +394,6 @@
             border-radius: var(--radius-small);
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .video-embed iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
         .prompt-box {
@@ -525,8 +536,8 @@
 
             <div class="video-grid">
                 <div class="video-card">
-                    <div class="vc-thumb">
-                        <iframe src="https://www.youtube.com/embed/WJ1R3D0ntf8" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                    <div class="vc-thumb" data-video-id="WJ1R3D0ntf8" style="background-image: url('https://img.youtube.com/vi/WJ1R3D0ntf8/maxresdefault.jpg'), url('https://img.youtube.com/vi/WJ1R3D0ntf8/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類</div>
@@ -535,8 +546,8 @@
                 </div>
 
                 <div class="video-card">
-                    <div class="vc-thumb">
-                        <iframe src="https://www.youtube.com/embed/KUNBWh9rprI" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                    <div class="vc-thumb" data-video-id="KUNBWh9rprI" style="background-image: url('https://img.youtube.com/vi/KUNBWh9rprI/maxresdefault.jpg'), url('https://img.youtube.com/vi/KUNBWh9rprI/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.2】生成AIとは？使い方・種類・仕組み</div>
@@ -545,8 +556,8 @@
                 </div>
 
                 <div class="video-card">
-                    <div class="vc-thumb">
-                        <iframe src="https://www.youtube.com/embed/YYx0zrIYS2o" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                    <div class="vc-thumb" data-video-id="YYx0zrIYS2o" style="background-image: url('https://img.youtube.com/vi/YYx0zrIYS2o/maxresdefault.jpg'), url('https://img.youtube.com/vi/YYx0zrIYS2o/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【AI学習Vol.5】大規模言語モデル（LLM）とは？</div>
@@ -555,8 +566,8 @@
                 </div>
 
                 <div class="video-card">
-                    <div class="vc-thumb">
-                        <iframe src="https://www.youtube.com/embed/NBWGnzpeEHk" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                    <div class="vc-thumb" data-video-id="NBWGnzpeEHk" style="background-image: url('https://img.youtube.com/vi/NBWGnzpeEHk/maxresdefault.jpg'), url('https://img.youtube.com/vi/NBWGnzpeEHk/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
                     </div>
                     <div class="vc-info">
                         <div class="vc-title">【生き残れ！】AIによって将来なくならない仕事4選！</div>
@@ -582,8 +593,8 @@
             <p>本質を掴んだところで、最強の企画アシスタント「Gemini」を実際に動かしてみましょう。</p>
 
             <div class="practice-area">
-                <div class="video-embed">
-                    <iframe src="https://www.youtube.com/embed/o5kXK5JvIt8" allowfullscreen></iframe>
+                <div class="video-embed vc-thumb" data-video-id="o5kXK5JvIt8" style="background-image: url('https://img.youtube.com/vi/o5kXK5JvIt8/maxresdefault.jpg'), url('https://img.youtube.com/vi/o5kXK5JvIt8/hqdefault.jpg'); display: block; height: 100%;">
+                    <i class="fa-brands fa-youtube vc-thumb-play" style="font-size: 5rem;"></i>
                 </div>
 
                 <h3><i class="fa-solid fa-list-ol"></i> 実習の進め方</h3>
@@ -669,6 +680,20 @@
                 behavior: 'smooth'
             });
         }
+
+        // YouTube Facade (クリック時にiframeへ変換して高画質サムネを維持しつつインライン再生)
+        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const videoId = this.dataset.videoId;
+                // iframeに置き換え、自動再生（autoplay=1）
+                this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
+                // 背景画像を消す
+                this.style.backgroundImage = 'none';
+                this.style.cursor = 'default';
+                // 再度クリックされないようにする
+                this.onclick = null;
+            }, { once: true });
+        });
     </script>
 </body>
 
