@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2 | 各AIツールの特徴と強み</title>
+    <!-- フォントとアイコン -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* 桜/ピンクテーマ */
+            --bg-body: #fff0f5;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-solid: #ffffff;
+            --text-main: #333333;
+            --text-sub: #777777;
+            --accent-pink: #f48fb1;
+            --accent-pink-dark: #d81b60;
+            --accent-pink-light: #fce4ec;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 40px rgba(244, 143, 177, 0.2);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+            
+            /* 前月流用UI用の追加変数 */
+            --accent: var(--accent-pink-dark);
+            --accent-light: var(--accent-pink);
+            --accent-bg: var(--accent-pink-light);
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.8) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(252, 228, 236, 0.8) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        /* 共通UI部品 */
+        .home-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-pink-dark);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1000;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(216, 27, 96, 0.5);
+            background: #ad1457;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            padding: 40px 40px 20px;
+            border-bottom: 2px solid var(--accent-pink-light);
+            text-align: center;
+        }
+
+        .header-tag {
+            display: inline-block;
+            background: var(--accent-pink-dark);
+            color: white;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent-pink-dark);
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            border: none;
+            background: none;
+            padding: 20px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-pink-dark);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 4px;
+            background: var(--accent-pink-dark);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .content-area {
+            padding: 40px;
+            min-height: 400px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInContent 0.5s ease-out forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ビデオ要素 (Facade版) */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        .vc-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .vc-thumb::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.1); transition: background 0.3s ease; pointer-events: none;
+        }
+        .vc-thumb:hover::before { background: rgba(0, 0, 0, 0.2); }
+        .vc-thumb-play {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 3.5rem; color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, color 0.3s ease; pointer-events: none;
+        }
+        .vc-thumb:hover .vc-thumb-play { transform: translate(-50%, -50%) scale(1.1); color: #ff0000; }
+
+        /* 前月流用カードUI */
+        .glass-card { background: #fff; border-radius: var(--radius-medium); padding: 2.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-soft); border-top: 5px solid var(--accent); }
+        .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-bg); padding-bottom: 1rem; }
+        .card-header i { font-size: 1.5rem; color: var(--accent); background: var(--accent-bg); padding: 1rem; border-radius: 12px; }
+        .card-header h2 { margin: 0; font-size: 1.6rem; font-weight: 800; }
+
+        .diagram-box { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; text-align: center; }
+        .diagram-box h4 { margin-bottom: 1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .flip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
+        .flip-card { perspective: 1000px; height: 260px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .flip-front { background: var(--accent-bg); border: 2px solid var(--accent-light); }
+        .flip-back { background: var(--accent); color: white; transform: rotateY(180deg); }
+        .flip-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .flip-back p { font-size: 0.85rem; text-align: left; line-height: 1.5; }
+
+        /* Before/After Toggle */
+        .ba-toggle { background: #fff; border-radius: 16px; border: 1px solid #eee; padding: 1.5rem; margin: 2rem 0; }
+        .ba-switch { display: flex; margin-bottom: 1.2rem; border-radius: 10px; overflow: hidden; border: 2px solid #eee; }
+        .ba-switch button { flex: 1; padding: 0.8rem; border: none; background: #f9f9f9; cursor: pointer; font-weight: 700; color: #666; transition: 0.3s; }
+        .ba-switch .active-ng { background: #fff1f2; color: #e11d48; border-bottom: 3px solid #e11d48; }
+        .ba-switch .active-ok { background: #f0fdf4; color: #166534; border-bottom: 3px solid #22c55e; }
+        .ba-panel { display: none; padding: 1rem; border-radius: 8px; font-size: 0.95rem; }
+        .ba-panel.active { display: block; animation: fadeIn 0.3s; }
+        .ba-ng { background: #fff1f2; border: 1px solid #fecaca; }
+        .ba-ok { background: #f0fdf4; border: 1px solid #bbf7d0; }
+
+        /* ミッションエリア */
+        .mission-area { margin-top: 3rem; background: #fff; border: 3px dashed #eee; border-radius: 24px; padding: 30px; position: relative; }
+        .mission-area.completed { border-color: var(--accent-pink-dark); background: var(--accent-pink-light); }
+        .mission-header h3 { font-size: 1.4rem; color: var(--accent-pink-dark); margin-bottom: 5px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .task-list { list-style: none; margin-top: 20px; }
+        .task-item { display: flex; align-items: flex-start; gap: 15px; padding: 15px; background: #fdfdfd; border: 1px solid #eee; border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .task-item:hover { border-color: var(--accent-pink); background: #fff; transform: translateX(5px); }
+        .task-item.completed { background: var(--teal-bg); border-color: #99f6e4; }
+        .custom-checkbox { width: 28px; height: 28px; border: 2px solid #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #fff; }
+        .task-item.completed .custom-checkbox { background: var(--teal); border-color: var(--teal); color: #fff; }
+        .wax-seal { position: absolute; top: -15px; right: -15px; width: 100px; height: 100px; border-radius: 50%; background: #d81b60; color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; transform: rotate(-15deg) scale(2); opacity: 0; pointer-events: none; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .completed .wax-seal { animation: stamp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes stamp { 0% { opacity: 0; transform: scale(3) rotate(-30deg); } 100% { opacity: 1; transform: scale(1) rotate(-15deg); } }
+
+        /* まとめ画面 */
+        .summary-box { background: linear-gradient(135deg, #fff0f5, #ffffff); border-radius: 20px; padding: 40px; border: 2px solid var(--accent-pink-light); }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <span class="header-tag">DAY 02</span>
+            <h1>各AIツールの特徴と強み</h1>
+            <p style="color:var(--text-sub); font-weight:500;">デザインの常識を変えるCanvaと、AI素材生成の連携フローをマスターする</p>
+        </header>
+
+        <!-- タブボタン -->
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="showTab('goal', this)"><i class="fa-solid fa-bullseye"></i> 本日の目標</button>
+            <button class="tab-btn" onclick="showTab('first', this)"><i class="fa-solid fa-sun"></i> 前半：Canva実習</button>
+            <button class="tab-btn" onclick="showTab('second', this)"><i class="fa-solid fa-moon"></i> 後半：素材生成と編集</button>
+            <button class="tab-btn" onclick="showTab('summary', this)"><i class="fa-solid fa-flag-checkered"></i> 今日のまとめ</button>
+        </nav>
+
+        <div class="content-area">
+            <!-- 本日の目標 -->
+            <div id="goal" class="tab-content active">
+                <div class="glass-card">
+                    <div class="card-header"><i class="fa-solid fa-star"></i><h2>デザインを「スキル」から「選択」へ</h2></div>
+                    <p style="line-height:1.8;">本日は、誰でもプロ級のデザインを瞬時に作成できる魔法のツール「Canva」を使い倒します。<br>
+                    AIを駆使すれば、センスがなくてもプロンプト（言葉）だけで高品質なバナーや動画素材が手に入ります。デザインの壁を取り払い、情報発信力を一気に加速させましょう！</p>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <button class="tab-btn" style="background:#d81b60; color:white; border-radius:30px; padding:15px 40px; box-shadow:0 10px 20px rgba(216,27,96,0.3);" onclick="document.querySelector('.tab-btn:nth-child(2)').click(); window.scrollTo(0,0);">
+                        前半の実習へ進む <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 前半：Canva実習 -->
+            <div id="first" class="tab-content">
+                <div class="glass-card">
+                    <div class="card-header"><i class="fa-brands fa-youtube" style="background:#ffebee;"></i><h2>動画解説：Canvaの衝撃と基本操作</h2></div>
+                    <p>テンプレートの選び方から、AIを活用した「Magic Studio」の使い方まで、基本をサクッとおさえます。</p>
+                    
+                    <div class="video-grid">
+                        <div class="vc-thumb" data-video-id="nRds9qeaLiM" style="background-image: url('https://img.youtube.com/vi/nRds9qeaLiM/maxresdefault.jpg'), url('https://img.youtube.com/vi/nRds9qeaLiM/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-thumb" data-video-id="nstHWt2_4LE" style="background-image: url('https://img.youtube.com/vi/nstHWt2_4LE/maxresdefault.jpg'), url('https://img.youtube.com/vi/nstHWt2_4LE/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                    </div>
+
+                    <div class="diagram-box">
+                        <h4><i class="fa-solid fa-diagram-project" style="color: var(--accent-pink-dark);"></i> Canva × AI の爆速ワークフロー</h4>
+                        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:0.5rem; font-weight:700;">
+                            <div style="background:#fff; border:2px solid #ddd; border-radius:12px; padding:10px 20px;">💡 アイデア</div>
+                            <i class="fa-solid fa-arrow-right" style="color:#ddd;"></i>
+                            <div style="background:#fce4ec; border:2px solid #f48fb1; border-radius:12px; padding:10px 20px;">🪄 AI生成 / 型を選択</div>
+                            <i class="fa-solid fa-arrow-right" style="color:#ddd;"></i>
+                            <div style="background:#fce4ec; border:2px solid #f48fb1; border-radius:12px; padding:10px 20px;">🎨 Canvaで組む</div>
+                            <i class="fa-solid fa-arrow-right" style="color:#ddd;"></i>
+                            <div style="background:#d81b60; color:#fff; border-radius:12px; padding:10px 20px;">✨ 完成！</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-grid">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="flip-icon">🪄</div><h5>Magic Studio</h5><span style="font-size:0.7rem; color:var(--text-sub);">クリックで裏面</span></div>
+                                <div class="flip-back"><p>Canvaに搭載されたAI機能の総称。テキストから画像を作ったり、写真の一部を書き換えたりする魔法のような機能が詰まっています。</p></div>
+                            </div>
+                        </div>
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="flip-icon">📐</div><h5>マジックリサイズ</h5><span style="font-size:0.7rem; color:var(--text-sub);">クリックで裏面</span></div>
+                                <div class="flip-back"><p>一つのデザインを、Instagram、YouTube、ポスター用など、異なるサイズに一瞬で自動変換する超時短機能です。</p></div>
+                            </div>
+                        </div>
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="flip-icon">🖼️</div><h5>テンプレート</h5><span style="font-size:0.7rem; color:var(--text-sub);">クリックで裏面</span></div>
+                                <div class="flip-back"><p>プロが作った数百万点のデザインの「型」。これをベースに文字と画像を入れ替えるのが、Canvaで最短でオシャレに作るコツです。</p></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ba-toggle">
+                        <div class="ba-switch">
+                            <button class="active-ng" onclick="toggleBA(this, 'ng')">❌ センスに頼る（NG）</button>
+                            <button onclick="toggleBA(this, 'ok')">✅ Canvaを使い倒す（OK）</button>
+                        </div>
+                        <div id="ba-ng" class="ba-panel ba-ng active">
+                            <p>白紙から自分でレイアウトを考え、フォントを1つずつ調整し、外部のフリー素材サイトから画像を探し回る……。これでは日が暮れてしまいます。</p>
+                        </div>
+                        <div id="ba-ok" class="ba-panel ba-ok">
+                            <p>イメージに合う「テンプレート」を検索し、足りない素材は「AI画像生成」で自作。仕上げは「マジックリサイズ」で全SNS仕様へ一括出力。これが令和の爆速デザインです！</p>
+                        </div>
+                    </div>
+
+                    <div class="mission-area" id="mission1">
+                        <div class="wax-seal"><i class="fa-solid fa-check"></i></div>
+                        <div class="mission-header">
+                            <h3><i class="fa-solid fa-trophy"></i> MILESTONE 01：Canvaデビュー</h3>
+                            <p>まずは触ってみて、AIの凄さを体感しましょう！</p>
+                        </div>
+                        <ul class="task-list">
+                            <li class="task-item" onclick="checkTask(this, 'mission1')"><div class="custom-checkbox"></div>動画(1)(2)を視聴した！</li>
+                            <li class="task-item" onclick="checkTask(this, 'mission1')"><div class="custom-checkbox"></div>テンプレートを使って何か1枚作った！</li>
+                            <li class="task-item" onclick="checkTask(this, 'mission1')"><div class="custom-checkbox"></div>AIで画像を生成してみた！</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 後半：素材生成と制作 -->
+            <div id="second" class="tab-content">
+                <div class="glass-card">
+                    <div class="card-header"><i class="fa-brands fa-youtube" style="background:#f3e5f5;"></i><h2>動画解説：プロ向けツールと無料AI</h2></div>
+                    <p>Adobe代替として注目のAffinityシリーズと、無料AI「Nano Banana」によるプロンプト編集を学びます。</p>
+                    
+                    <div class="video-grid">
+                        <div class="vc-thumb" data-video-id="ThbMYDqI0VY" style="background-image: url('https://img.youtube.com/vi/ThbMYDqI0VY/maxresdefault.jpg'), url('https://img.youtube.com/vi/ThbMYDqI0VY/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-thumb" data-video-id="JiUFPy97nEU" style="background-image: url('https://img.youtube.com/vi/JiUFPy97nEU/maxresdefault.jpg'), url('https://img.youtube.com/vi/JiUFPy97nEU/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                    </div>
+
+                    <div style="background:#fff9f9; border-left:4px solid #ba68c8; padding:20px; margin:20px 0; border-radius:4px;">
+                        <h4 style="color:#7b1fa2; margin-bottom:10px;"><i class="fa-solid fa-lightbulb"></i> プロンプト4要素の秘密</h4>
+                        <p style="font-size:0.9rem; line-height:1.7;">AIにいい感じの画像を作らせるには、**「被写体」「背景」「照明」「カメラ」**の4つを意識して言葉にするのがコツです。 Nano Banana等で生成したこだわりの素材をCanvaに入れれば、作品の質が桁違いに上がります。</p>
+                    </div>
+
+                    <div class="mission-area" id="mission2" style="border-color: #ba68c8;">
+                        <div class="wax-seal" style="background:#7b1fa2;"><i class="fa-solid fa-stamp"></i></div>
+                        <div class="mission-header">
+                            <h3 style="color:#7b1fa2;"><i class="fa-solid fa-palette"></i> MILESTONE 02：素材マスター</h3>
+                            <p>AIとデザインツールを組み合わせる力を磨こう！</p>
+                        </div>
+                        <ul class="task-list">
+                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>動画(3)(4)を視聴した！</li>
+                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>Nano Bananaで素材を生成してみた！</li>
+                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>作った素材をCanvaで編集・保存した！</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 今日のまとめ -->
+            <div id="summary" class="tab-content">
+                <div class="summary-box">
+                    <h2 style="text-align:center; color:var(--accent-pink-dark); margin-bottom:30px;">🎁 DAY 02 クリア！</h2>
+                    <p style="text-align:center; margin-bottom:40px; font-weight:700;">お疲れ様でした！本日の要点をまとめます。</p>
+                    
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+                        <div style="background:#fff; padding:20px; border-radius:12px; border-top:4px solid #d81b60;">
+                            <h4 style="margin-bottom:10px;">Canvaの基本</h4>
+                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2;">
+                                <li>テンプレートを「選んで変える」が最強</li>
+                                <li>Magic StudioでAI画像編集</li>
+                                <li>マジックリサイズでマルチSNS対応</li>
+                            </ul>
+                        </div>
+                        <div style="background:#fff; padding:20px; border-radius:12px; border-top:4px solid #ba68c8;">
+                            <h4 style="margin-bottom:10px;">素材生成と編集</h4>
+                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2;">
+                                <li>プロンプト4要素を意識する</li>
+                                <li>Nano Bananaで高品質素材自作</li>
+                                <li>「AI生成→Canva編集」の黄金フロー</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:50px; text-align:center;">
+                        <a href="index.html" style="background:var(--accent-pink-dark); color:white; text-decoration:none; padding:15px 50px; border-radius:40px; font-weight:900; box-shadow:0 10px 25px rgba(216,27,96,0.3); display:inline-block;">
+                            コースホームへ戻る <i class="fa-solid fa-house"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // タブ切り替え
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Before/After 切り替え
+        function toggleBA(btn, type) {
+            const container = btn.closest('.ba-toggle');
+            container.querySelectorAll('.ba-panel').forEach(p => p.classList.remove('active'));
+            container.querySelectorAll('button').forEach(b => b.className = '');
+            
+            if (type === 'ng') {
+                container.querySelector('#ba-ng').classList.add('active');
+                btn.className = 'active-ng';
+            } else {
+                container.querySelector('#ba-ok').classList.add('active');
+                btn.className = 'active-ok';
+            }
+        }
+
+        // タスクチェック
+        function checkTask(el, missionId) {
+            el.classList.toggle('completed');
+            const mission = document.getElementById(missionId);
+            const total = mission.querySelectorAll('.task-item').length;
+            const checks = mission.querySelectorAll('.task-item.completed').length;
+            
+            if (total === checks) {
+                mission.classList.add('completed');
+            } else {
+                mission.classList.remove('completed');
+            }
+        }
+
+        // YouTube Facade 実装
+        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const videoId = this.dataset.videoId;
+                this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
+                this.style.backgroundImage = 'none';
+                this.style.cursor = 'default';
+                this.onclick = null;
+            }, { once: true });
+        });
+    </script>
+</body>
+
+</html>
