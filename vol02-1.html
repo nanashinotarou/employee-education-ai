@@ -261,6 +261,50 @@
 
         /* まとめ画面 */
         .summary-box { background: linear-gradient(135deg, #fff0f5, #ffffff); border-radius: 20px; padding: 40px; border: 2px solid var(--accent-pink-light); }
+
+        /* Learning Card 系 (Day 1から移植) */
+        .learning-card {
+            display: flex;
+            background: #fff;
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid #eee;
+            transition: transform 0.3s;
+        }
+        .learning-card:hover { transform: translateY(-5px); }
+        .lc-video { flex: 0 0 40%; background: #000; }
+        .lc-content { flex: 1; padding: 30px; display: flex; flex-direction: column; }
+        .lc-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+        .lc-title { font-size: 1.25rem; font-weight: 900; color: var(--text-main); margin: 10px 0 0 0; line-height: 1.4; }
+        .lc-body h4 { font-size: 1.1rem; color: var(--accent-pink-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .lc-body p { font-size: 1rem; line-height: 1.7; margin-bottom: 15px; color: #555; }
+        .lc-list { list-style: none; padding-left: 0; margin-bottom: 0; background: #fdfdfd; padding: 15px; border-radius: var(--radius-small); border: 1px solid #f5f5f5; }
+        .lc-list li { position: relative; padding-left: 25px; margin-bottom: 8px; font-size: 0.95rem; color: #444; }
+        .lc-list li::before { content: '\f0da'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 5px; top: 1px; color: var(--accent-pink); }
+        .vc-tag { font-size: 0.75rem; background: var(--accent-pink-light); color: var(--accent-pink-dark); padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+
+        /* Instructor's Note */
+        .instructor-note { background: #fff8e1; border-left: 6px solid #ffb300; border-radius: 0 var(--radius-small) var(--radius-small) 0; padding: 25px; margin: 30px 0; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); }
+        .instructor-note-title { color: #d84315; font-weight: 900; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+
+        /* チャットプロンプト UI */
+        .chat-prompt-container { display: flex; flex-direction: column; gap: 15px; margin: 20px auto; background: #fff; padding: 25px; border-radius: var(--radius-large); box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #eee; }
+        .chat-bubble { display: flex; align-items: center; justify-content: space-between; background: #f1f3f4; padding: 12px 20px; border-radius: 20px 20px 20px 0; max-width: 95%; align-self: flex-start; gap: 15px; transition: all 0.2s; border: 1px solid transparent; }
+        .chat-bubble:hover { border-color: var(--accent-pink-light); background: var(--accent-pink-light); }
+        .chat-text { font-size: 1.05rem; color: #202124; line-height: 1.5; font-weight: 500; }
+        .copy-btn { background: #fff; border: 1px solid #dadce0; color: var(--accent-pink-dark); padding: 8px 15px; border-radius: 15px; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+        .copy-btn:hover { background: var(--accent-pink-light); }
+        .copy-btn.copied { background: #e6f4ea; border-color: #ceead6; color: #137333; }
+
+        .practice-area { background: #fff9f9; border: 1px solid var(--accent-pink-light); border-radius: var(--radius-medium); padding: 30px; margin-top: 30px; }
+        .tool-link-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--accent-pink-dark); color: white; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2); }
+        .tool-link-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3); }
+
+        .step-list { list-style: none; padding-left: 0; }
+        .step-list li { position: relative; padding-left: 40px; margin-bottom: 15px; font-size: 1.05rem; }
+        .step-list li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; top: 2px; width: 25px; height: 25px; background: var(--accent-pink); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
     </style>
 </head>
 
@@ -272,14 +316,14 @@
         <header class="header">
             <span class="header-tag">DAY 02</span>
             <h1>各AIツールの特徴と強み</h1>
-            <p style="color:var(--text-sub); font-weight:500;">デザインの常識を変えるCanvaと、AI素材生成の連携フローをマスターする</p>
+            <p style="color:var(--text-sub); font-weight:500;">主要AIツールの使い分けを学び、最終課題への企画を始める</p>
         </header>
 
         <!-- タブボタン -->
         <nav class="tabs">
             <button class="tab-btn active" onclick="showTab('goal', this)"><i class="fa-solid fa-bullseye"></i> 本日の目標</button>
             <button class="tab-btn" onclick="showTab('first', this)"><i class="fa-solid fa-sun"></i> 前半：Canva実習</button>
-            <button class="tab-btn" onclick="showTab('second', this)"><i class="fa-solid fa-moon"></i> 後半：素材生成と編集</button>
+            <button class="tab-btn" onclick="showTab('second', this)"><i class="fa-solid fa-moon"></i> 後半：AIツール比較＆企画</button>
             <button class="tab-btn" onclick="showTab('summary', this)"><i class="fa-solid fa-flag-checkered"></i> 今日のまとめ</button>
         </nav>
 
@@ -287,13 +331,14 @@
             <!-- 本日の目標 -->
             <div id="goal" class="tab-content active">
                 <div class="glass-card">
-                    <div class="card-header"><i class="fa-solid fa-star"></i><h2>デザインを「スキル」から「選択」へ</h2></div>
-                    <p style="line-height:1.8;">本日は、誰でもプロ級のデザインを瞬時に作成できる魔法のツール「Canva」を使い倒します。<br>
-                    AIを駆使すれば、センスがなくてもプロンプト（言葉）だけで高品質なバナーや動画素材が手に入ります。デザインの壁を取り払い、情報発信力を一気に加速させましょう！</p>
+                    <div class="card-header"><i class="fa-solid fa-star"></i><h2>AIを使いこなし、「選ぶ側」の人間になる</h2></div>
+                    <p style="line-height:1.8;">本日は、デザインの常識を変える「Canva」の習得に加え、主要なテキスト生成AI（ChatGPT / Gemini / Claude）の具体的な使い分けを学びます。<br><br>
+                    <strong>📌 研修目的:</strong> 主要AIツールの特徴を把握し、目的に応じて適切に選択・活用する力を身につける。<br><br>
+                    どのAIが何を得意としているのかを知ることは、あなたが「作業員」から「AIディレクター」へとステップアップするための第一歩です。デザインも企画も、AIを部下として指揮する感覚を掴みましょう！</p>
                 </div>
                 <div style="text-align: center; margin-top: 40px;">
                     <button class="tab-btn" style="background:#d81b60; color:white; border-radius:30px; padding:15px 40px; box-shadow:0 10px 20px rgba(216,27,96,0.3);" onclick="document.querySelector('.tab-btn:nth-child(2)').click(); window.scrollTo(0,0);">
-                        前半の実習へ進む <i class="fa-solid fa-arrow-right"></i>
+                        前半（Canva実習）へ進む <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -375,37 +420,106 @@
                 </div>
             </div>
 
-            <!-- 後半：素材生成と制作 -->
+            <!-- 後半：AIツール比較＆企画 -->
             <div id="second" class="tab-content">
                 <div class="glass-card">
-                    <div class="card-header"><i class="fa-brands fa-youtube" style="background:#f3e5f5;"></i><h2>動画解説：プロ向けツールと無料AI</h2></div>
-                    <p>Adobe代替として注目のAffinityシリーズと、無料AI「Nano Banana」によるプロンプト編集を学びます。</p>
+                    <div class="card-header"><i class="fa-brands fa-youtube" style="background:#f3e5f5;"></i><h2>動画解説：AI戦国時代を生き抜くための「使い分け」</h2></div>
+                    <p>ChatGPT, Gemini, Claude……。それぞれの強みを知り、目的に合わせてAIを「指名」できるようになりましょう。</p>
                     
-                    <div class="video-grid">
-                        <div class="vc-thumb" data-video-id="ThbMYDqI0VY" style="background-image: url('https://img.youtube.com/vi/ThbMYDqI0VY/maxresdefault.jpg'), url('https://img.youtube.com/vi/ThbMYDqI0VY/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    <div class="learning-card">
+                        <div class="lc-video">
+                            <div class="vc-thumb" data-video-id="4gaP_6RC2VY" style="background-image: url('https://img.youtube.com/vi/4gaP_6RC2VY/maxresdefault.jpg'), url('https://img.youtube.com/vi/4gaP_6RC2VY/hqdefault.jpg');">
+                                <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                            </div>
                         </div>
-                        <div class="vc-thumb" data-video-id="JiUFPy97nEU" style="background-image: url('https://img.youtube.com/vi/JiUFPy97nEU/maxresdefault.jpg'), url('https://img.youtube.com/vi/JiUFPy97nEU/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        <div class="lc-content">
+                            <div class="lc-header">
+                                <span class="vc-tag">徹底比較</span>
+                                <h3 class="lc-title">ChatGPT vs Claude vs Gemini 課金するならどれ？</h3>
+                            </div>
+                            <div class="lc-body">
+                                <h4><i class="fa-solid fa-book-open"></i> 学習のポイント</h4>
+                                <p>主要3モデルの料金体系から、得意分野までを一気に解説。AIエージェント時代に、どのツールを相棒に選ぶべきかの基準を明確にします。</p>
+                                <ul class="lc-list">
+                                    <li><strong>ChatGPT:</strong> 論理・検索に強く、実利主義。</li>
+                                    <li><strong>Gemini:</strong> Google連携・マルチモーダル・視覚に強い。</li>
+                                    <li><strong>Claude:</strong> ライティング（美文）・EQ・コードに強い。</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
-                    <div style="background:#fff9f9; border-left:4px solid #ba68c8; padding:20px; margin:20px 0; border-radius:4px;">
-                        <h4 style="color:#7b1fa2; margin-bottom:10px;"><i class="fa-solid fa-lightbulb"></i> プロンプト4要素の秘密</h4>
-                        <p style="font-size:0.9rem; line-height:1.7;">AIにいい感じの画像を作らせるには、**「被写体」「背景」「照明」「カメラ」**の4つを意識して言葉にするのがコツです。 Nano Banana等で生成したこだわりの素材をCanvaに入れれば、作品の質が桁違いに上がります。</p>
+                    <div class="learning-card">
+                        <div class="lc-video">
+                            <div class="vc-thumb" data-video-id="GViszyE2Wss" style="background-image: url('https://img.youtube.com/vi/GViszyE2Wss/maxresdefault.jpg'), url('https://img.youtube.com/vi/GViszyE2Wss/hqdefault.jpg');">
+                                <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                            </div>
+                        </div>
+                        <div class="lc-content">
+                            <div class="lc-header">
+                                <span class="vc-tag">実践検証</span>
+                                <h3 class="lc-title">最新3大モデル徹底比較実況：同じプロンプトでどう変わる？</h3>
+                            </div>
+                            <div class="lc-body">
+                                <h4><i class="fa-solid fa-vial"></i> 学習のポイント</h4>
+                                <p>Webサイト制作、資料作成、Excel作業など、具体的な業務シーンで3大AIの出力結果を比較。その「クセ」を体感します。</p>
+                                <ul class="lc-list">
+                                    <li>Webデザインにおける各AIのセンスの違い</li>
+                                    <li>Excel関数や複雑な計算を完璧にこなすのはどれか？</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mission-area" id="mission2" style="border-color: #ba68c8;">
-                        <div class="wax-seal" style="background:#7b1fa2;"><i class="fa-solid fa-stamp"></i></div>
-                        <div class="mission-header">
-                            <h3 style="color:#7b1fa2;"><i class="fa-solid fa-palette"></i> MILESTONE 02：素材マスター</h3>
-                            <p>AIとデザインツールを組み合わせる力を磨こう！</p>
+                    <!-- デデン！インパクトセクション -->
+                    <div style="margin: 40px 0; text-align: center; padding: 35px 25px; background: #fffde7; border: 4px dashed #fbc02d; border-radius: 20px; box-shadow: 8px 8px 0px #ffe082; transform: rotate(-0.5deg); position: relative; z-index: 5;">
+                        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%) rotate(2deg); background: #d81b60; color: #fff; padding: 6px 25px; font-weight: 900; border-radius: 25px; font-size: 1.1rem; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); white-space: nowrap;">
+                            💥 導き出された結論 💥
                         </div>
-                        <ul class="task-list">
-                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>動画(3)(4)を視聴した！</li>
-                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>Nano Bananaで素材を生成してみた！</li>
-                            <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>作った素材をCanvaで編集・保存した！</li>
-                        </ul>
+                        <div style="font-size: 1.4rem; font-weight: 900; color: #3e2723; line-height: 1.6; letter-spacing: 1px; margin-top: 15px;">
+                            <span style="font-size: 1.1rem; color: #5d4037;">迷ったらとりあえず ChatGPT。でも本当の正解は、</span><br>
+                            <span style="font-size: 2.2rem; background: linear-gradient(180deg, transparent 60%, rgba(255,235,59,1) 60%); padding: 0 5px; color: #d32f2f; display: inline-block; margin: 12px 0; transform: scale(1.05);">「適材適所で使い分ける」</span> 👔✨<br>
+                            <span style="font-size: 1.6rem; color: #0d47a1; display: inline-block; font-weight: 900; margin-top: 5px;">あなたが「AIディレクター」になることだ。</span>
+                        </div>
+                    </div>
+
+                    <div class="practice-area">
+                        <h3 style="color:var(--accent-pink-dark); margin-bottom:15px;"><i class="fa-solid fa-pen-nib"></i> 実習：社員教育 × AI の企画を考えよう</h3>
+                        <p style="margin-bottom:20px; font-size:0.95rem;">最終課題（Web/アプリ制作）に向けて、「誰の、どんな困りごとをAIで解決するか」を定義します。</p>
+                        
+                        <div class="instructor-note">
+                            <div class="instructor-note-title"><i class="fa-solid fa-lightbulb"></i> 企画のヒント：課題解決フレームワーク</div>
+                            <p>① 要件定義（目的の定義） → ② 課題発見（誰が何に困っているか） → ③ 解決策（どんな機能で救うか） → ④ 企画書へ！</p>
+                        </div>
+
+                        <div class="chat-prompt-container">
+                            <p style="font-weight:700; margin-bottom:10px; font-size:0.9rem; color:var(--text-sub);">Geminiへの壁打ちプロンプト（クリックでコピー）</p>
+                            <div class="chat-bubble">
+                                <div class="chat-text"><span class="prompt-text">社員教育でAIを活用すると、どんなことができますか？事例も教えて。</span></div>
+                                <button class="copy-btn"><i class="fa-regular fa-copy"></i> コピー</button>
+                            </div>
+                            <div class="chat-bubble">
+                                <div class="chat-text"><span class="prompt-text">新人社員が「社内ルールの把握」に苦労しています。AIでどう解決できる？</span></div>
+                                <button class="copy-btn"><i class="fa-regular fa-copy"></i> コピー</button>
+                            </div>
+                            <div class="chat-bubble" style="background:var(--accent-pink-light); border-color:var(--accent-pink);">
+                                <div class="chat-text" style="color:var(--accent-pink-dark); font-weight:700;">🌟 企画案を提案してもらう：<br><span class="prompt-text">社員教育の課題を解決する「Webサイト」の企画アイデアを3つ出してください。</span></div>
+                                <button class="copy-btn"><i class="fa-regular fa-copy"></i> コピー</button>
+                            </div>
+                        </div>
+
+                        <div class="mission-area" id="mission2" style="border-color: var(--accent-pink);">
+                            <div class="wax-seal" style="background:var(--accent-pink-dark);"><i class="fa-solid fa-stamp"></i></div>
+                            <div class="mission-header">
+                                <h3 style="color:var(--accent-pink-dark);"><i class="fa-solid fa-palette"></i> MILESTONE 02：企画デビュー</h3>
+                                <p>AIと比較の知識を使って、自分のアイデアを形にしよう！</p>
+                            </div>
+                            <ul class="task-list">
+                                <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>動画(1)(2)を視聴した！</li>
+                                <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>3つのAIの特徴を理解した！</li>
+                                <li class="task-item" onclick="checkTask(this, 'mission2')"><div class="custom-checkbox"></div>企画の「課題」と「解決策」を決めた！</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -414,29 +528,34 @@
             <div id="summary" class="tab-content">
                 <div class="summary-box">
                     <h2 style="text-align:center; color:var(--accent-pink-dark); margin-bottom:30px;">🎁 DAY 02 クリア！</h2>
-                    <p style="text-align:center; margin-bottom:40px; font-weight:700;">お疲れ様でした！本日の要点をまとめます。</p>
+                    <p style="text-align:center; margin-bottom:40px; font-weight:700;">お疲れ様でした！本日の重要な学びを振り返りましょう。</p>
                     
                     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
-                        <div style="background:#fff; padding:20px; border-radius:12px; border-top:4px solid #d81b60;">
-                            <h4 style="margin-bottom:10px;">Canvaの基本</h4>
-                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2;">
-                                <li>テンプレートを「選んで変える」が最強</li>
-                                <li>Magic StudioでAI画像編集</li>
-                                <li>マジックリサイズでマルチSNS対応</li>
+                        <div style="background:#fff; padding:25px; border-radius:12px; border-top:4px solid var(--accent-pink-dark); box-shadow:var(--shadow-soft);">
+                            <h4 style="margin-bottom:12px; color:var(--accent-pink-dark);"><i class="fa-solid fa-wand-magic-sparkles"></i> Canvaの習得</h4>
+                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2; color:#555;">
+                                <li>テンプレートを「選んで変える」のが爆速のコツ</li>
+                                <li>AI画像編集で素材の悩みから解放される</li>
+                                <li>マルチSNS展開もマジックリサイズで瞬時</li>
                             </ul>
                         </div>
-                        <div style="background:#fff; padding:20px; border-radius:12px; border-top:4px solid #ba68c8;">
-                            <h4 style="margin-bottom:10px;">素材生成と編集</h4>
-                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2;">
-                                <li>プロンプト4要素を意識する</li>
-                                <li>Nano Bananaで高品質素材自作</li>
-                                <li>「AI生成→Canva編集」の黄金フロー</li>
+                        <div style="background:#fff; padding:25px; border-radius:12px; border-top:4px solid #1976d2; box-shadow:var(--shadow-soft);">
+                            <h4 style="margin-bottom:12px; color:#1976d2;"><i class="fa-solid fa-shuffle"></i> 3大AIの使い分け</h4>
+                            <ul style="font-size:0.9rem; padding-left:20px; line-height:2; color:#555;">
+                                <li><strong>ChatGPT:</strong> 頼れる実利・論理性・Deep Research</li>
+                                <li><strong>Gemini:</strong> 視覚的UIデザイン・Workspace連携</li>
+                                <li><strong>Claude:</strong> 美しい文章・共感力・コーディング</li>
                             </ul>
                         </div>
                     </div>
+
+                    <div style="background:#fff; padding:25px; border-radius:12px; border:1px solid #eee; margin-top:20px; box-shadow:var(--shadow-soft);">
+                        <h4 style="margin-bottom:12px; color:var(--text-main);"><i class="fa-solid fa-lightbulb"></i> AIディレクターとしての企画</h4>
+                        <p style="font-size:0.95rem; line-height:1.8; color:#555;">「何を、誰のために作るか」という上流工程（要件定義）こそが、AIに負けない価値を生みます。今日決めた企画の第一歩を大切にしていきましょう！</p>
+                    </div>
                     
                     <div style="margin-top:50px; text-align:center;">
-                        <a href="index.html" style="background:var(--accent-pink-dark); color:white; text-decoration:none; padding:15px 50px; border-radius:40px; font-weight:900; box-shadow:0 10px 25px rgba(216,27,96,0.3); display:inline-block;">
+                        <a href="index.html" style="background:var(--accent-pink-dark); color:white; text-decoration:none; padding:15px 50px; border-radius:40px; font-weight:900; box-shadow:0 10px 25px rgba(216,27,96,0.3); display:inline-block; transition:0.3s;">
                             コースホームへ戻る <i class="fa-solid fa-house"></i>
                         </a>
                     </div>
@@ -493,6 +612,22 @@
                 this.style.cursor = 'default';
                 this.onclick = null;
             }, { once: true });
+        });
+
+        // プロンプトコピー機能 (Day 1から移植)
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const text = this.previousElementSibling.querySelector('.prompt-text').textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
         });
     </script>
 </body>
