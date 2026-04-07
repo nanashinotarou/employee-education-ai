@@ -455,45 +455,58 @@
                 <p class="text-sub" style="text-align: center; font-size: 0.8rem; margin-top: 10px;">動画2：AI仕事術・効率化（スモールスタートの重要性）</p>
             </div>
 
-            <h3><i class="fa-solid fa-lightbulb"></i> 動画内テクニック解説</h3>
+            <h3><i class="fa-solid fa-lightbulb"></i> 動画内テクニック解説（文字起こし級詳細ガイド）</h3>
             
             <div class="info-grid">
                 <!-- Tech 1 -->
                 <div class="tech-card">
                     <span class="tech-tag">テクニック 01</span>
-                    <strong>カスタム指示（Custom Instructions）の活用</strong>
+                    <strong>ChatGPTの内部構造と基本ツールの完全理解</strong>
                     <p>
-                        毎回「あなたはプロの編集者として...」と入力しなくても、あらかじめAIの「人格（ペルソナ）」と「回答のルール」を設定しておく機能です。これにより、自分専用の秘書として常に最適化された回答が届くようになります。
+                        動画ではまず「チャットボットとしての基本操作」だけでなく、内部で動いている<strong>ブラウジング（Web検索）、データ分析（Advanced Data Analysis）、およびDALL-E 3（画像生成）</strong>といった「ツール」をAIが状況に応じて自動で呼び出している仕組みが解説されています。この「今どのツールを使っているか」を意識することが、意図通りの回答を引き出す第一歩です。
                     </p>
                     <div class="gemini-column">
                         <h4><i class="fa-solid fa-gem"></i> Geminiならこう使う！</h4>
-                        <p>Geminiには同様の機能として<strong>「Gems」</strong>があります。特定のアシスタントをプロンプトで作っておけば、チャットごとに呼び出し可能です。</p>
+                        <p>Geminiは「拡張機能（Extensions）」という形で各ツールをオン・オフできます。画像生成は標準で行われますが、最新のネット検索（Google検索）の速さと精度はGeminiの最も得意とする領域です。</p>
                     </div>
                 </div>
 
                 <!-- Tech 2 -->
                 <div class="tech-card">
                     <span class="tech-tag">テクニック 02</span>
-                    <strong>MyGPTs（自分専用のGPT）</strong>
+                    <strong>作業を劇的に速くする「隠れ機能と設定（カスタム指示）」</strong>
                     <p>
-                        特定の業務（例えば「契約書のチェック」「ブログ記事の構成案」など）に特化したオリジナルのAIアプリを作ることができます。ナレッジ（資料）を学習させることで、社内規定に基づいた回答も可能になります。
+                        動画で紹介された「隠れ機能」の中で特に重要なのが<strong>カスタム指示（Custom Instructions）</strong>です。毎回「あなたはプロの編集者です。必ず敬語で、箇条書きで出力して」と入力しなくても、設定画面に一度書いておけば、すべてのチャットでそのペルソナと出力ルールが引き継がれます。また、便利な会話のアーカイブ機能や、チャット内容をそのままURLで他人に共有できる機能など、UIに隠された時短テクニックを取りこぼさないようにしましょう。
                     </p>
                     <div class="gemini-column">
                         <h4><i class="fa-solid fa-gem"></i> Geminiならこう使う！</h4>
-                        <p>これも<strong>「Gems」</strong>が対応します。ナレッジの読み込み（ドキュメント添付）も可能で、Googleドライブ内の資料から回答を探させることができます。</p>
+                        <p>Geminiの強みは「回答のエクスポート機能」です。出力された回答の下にあるボタンから、そのままワンクリックで「Googleドキュメント」や「Gmailの下書き」へ送信できるため、コピペの手間すら省けます。</p>
                     </div>
                 </div>
 
                 <!-- Tech 3 -->
                 <div class="tech-card">
                     <span class="tech-tag">テクニック 03</span>
-                    <strong>高度なデータ分析と画像生成</strong>
+                    <strong>究極の業務自動化：MyGPTs（自分専用AI）の作成</strong>
                     <p>
-                        CSVやExcelを読み込ませてグラフ化したり、DALL-E 3を使って指示通りの画像を出力したりする機能です。単なるテキストだけでなく、視覚的な資料作成に威力を発揮します。
+                        「契約書チェックボット」「社内用語翻訳ボット」など、特定の業務に全振りしたオリジナルAIアプリを作る機能が「MyGPTs」です。特に強力なのが<strong>ナレッジ（PDFやExcelなどの独自資料）を事前に学習させておける点</strong>です。これにより、「社内規定マニュアル」を丸ごと読み込ませておき、「この経費精算はルール違反ですか？」と聞くだけで、マニュアルに基づいた正確な回答をしてくれるようになります。
                     </p>
                     <div class="gemini-column">
                         <h4><i class="fa-solid fa-gem"></i> Geminiならこう使う！</h4>
-                        <p>Geminiは<strong>Pythonコードの自動実行</strong>により、データ分析からグラフ出力まで非常に高速です。画像生成も最新モデルが常に更新されています。</p>
+                        <p>GeminiにはMyGPTsに相当する<strong>「Gemini Gems（ジェム）」</strong>という機能があります（Advanced限定機能）。専門家の役割を与えておくことで、瞬時に「いつものあのプロンプト」を再現し、ファイルの読み込みにも対応しています。</p>
+                    </div>
+                </div>
+
+                <!-- Tech 4 -->
+                <div class="tech-card">
+                    <span class="tech-tag">テクニック 04</span>
+                    <strong>スモールスタートによる仕事術（AI活用マインド）</strong>
+                    <p>
+                        動画2で強く語られているのが、「いきなり巨大なシステムを作ろうとしない」こと。メールの返信案作成、会議アジェンダの整理、あるいはブレインストーミングの壁打ち相手など、<strong>「身近な1つの作業」からAIに任せる</strong>ことが最も効率的なAI導入法です。また、作業時間が減った分を別の作業で埋めるのではなく、根幹から「無駄な業務自体を見直す」マインドセットが不可欠だと解説されています。
+                    </p>
+                    <div class="gemini-column">
+                        <h4><i class="fa-solid fa-gem"></i> どのAIでも共通の極意</h4>
+                        <p>AIの回答をそのまま使うのではなく、必ず最後は「人間の魂（意図や微調整）」を吹き込んで完成させること。これがAIと共存する上での最大のポイントです。</p>
                     </div>
                 </div>
             </div>
@@ -538,49 +551,52 @@
                 <p class="text-sub" style="text-align: center; font-size: 0.8rem; margin-top: 10px;">Gemini 徹底活用法</p>
             </div>
 
-            <h3><i class="fa-solid fa-bolt"></i> 尖ったAI：Claude 3.5 Sonnet</h3>
+            <h3><i class="fa-solid fa-bolt"></i> 尖ったAI：Claude 3.5 Sonnetの衝撃的機能</h3>
             <p>
-                Claudeは開発者の意図を汲む能力が非常に高く、<strong>「Artifacts（アーティファクツ）」</strong>という画期的な機能を搭載しています。
+                「Claude 3.5 Sonnetの使い方」の動画で解説されている通り、ClaudeはChatGPTと比較しても明確な「尖った特長」を持っています。最も革命的なのが<strong>「Artifacts（アーティファクツ）」機能</strong>です。
             </p>
             <ul>
-                <li><strong>Artifacts機能:</strong> コードや図解、Webページ案を別のウィンドウで即座にプレビュー表示。チャットが埋もれず、その場で修正を反映できます。</li>
-                <li><strong>自然な日本語:</strong> いわゆる「AI臭さ」が極めて少なく、情緒的で人間らしい文章を書くのが得意です。</li>
+                <li><strong>別ウィンドウでのリアルタイムプレビュー (Artifacts):</strong> 例えば「タイマーアプリを作って」と指示すると、右側に独立したウィンドウが開き、実際に動くタイマーのUI（Webアプリ）がその場で表示されます。チャットのログにコードが埋もれないため、「ボタンを赤くして」と追加指示を出すだけで、右側の完成品がリアルタイムに修正されていく魔法のようなUI体験が可能です。</li>
+                <li><strong>圧倒的な「人間らしい」表現力:</strong> 他のAIは「AIっぽさ（紋切り型の文章）」が出やすいですが、Claudeは情緒的で、細かなニュアンスを汲み取った極めて自然な日本語を生成します。ブログやメール文の作成・推敲では他を圧倒します。</li>
             </ul>
 
-            <h3><i class="fa-solid fa-snowflake"></i> Googleの秘蔵っ子：Gemini</h3>
+            <h3><i class="fa-solid fa-snowflake"></i> Googleの秘蔵っ子：Geminiの底力</h3>
             <p>
-                Geminiの最大の強みは、独立したAIではなく<strong>「Googleの全サービスと繋がっている」</strong>点にあります。
+                「Gemini使い方徹底活用法」の動画で強調されているのは、Geminiが単なるAIではなく<strong>「Googleの全サービスを束ねる司令塔」</strong>として振る舞えることです。
             </p>
             <ul>
-                <li><strong>@拡張機能:</strong> 「@Gmail 先週の打ち合わせのメールから要点をまとめて」「@Drive 資料から見積りを作成して」など、Googleドキュメントやメールを自由自在に参照できます。</li>
-                <li><strong>YouTube爆速要約:</strong> 動画のURLを貼るだけで、その内容を一瞬で要約・整理してくれます（この研修でも大活躍ですね！）。</li>
+                <li><strong>「@（アットマーク）」による神連携:</strong> 入力欄で「@」を打つと拡張機能が起動します。「@Google Workspace 先週の進捗会議のメールを要約して」と打つだけで、あなたのGmailを自動検索して読んできてくれます。また「@Google Docs この文章をドキュメントに保存して」といった連携がシームレスに行えます。</li>
+                <li><strong>YouTubeの爆速要約プロンプト:</strong> この研修でも使っているテクニックです。長くて早口なYouTube動画でも、URLを貼り付けて「この動画の内容を3つのポイントに要約して詳細に教えて」と指示するだけで、文字起こしを内部で瞬時に読み込み、動画を見なくても内容を5秒で把握できてしまいます。</li>
             </ul>
 
-            <h3><i class="fa-solid fa-table"></i> 3大AI 使い分けマトリックス</h3>
+            <h3><i class="fa-solid fa-table"></i> 万能はない！3大AIの超実践的使い分けマトリックス</h3>
+            <p>
+                動画内での「Claude vs Gemini比較」でも言及されているように、万能なAIは存在しません。用途に応じた使い分けが、AIを「パートナー」にする最大の近道です。
+            </p>
             <div class="comp-table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>用途</th>
-                            <th>おすすめAI</th>
-                            <th>強み</th>
+                            <th>目的・用途</th>
+                            <th>ベストチョイス</th>
+                            <th>選ばれる理由と強み</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="highlight">文章作成・創作</td>
-                            <td>Claude</td>
-                            <td>情緒的で自然な文体。Artifactsによる視覚的補助。</td>
+                            <td class="highlight">自然な文章の作成・UI開発</td>
+                            <td><strong>Claude 3.5 Sonnet</strong></td>
+                            <td>「Artifacts機能」によるプレビューとコード修正の容易さ。人間が書いたとしか思えない自然な文章構成力。</td>
                         </tr>
                         <tr>
-                            <td class="highlight">Google連携</td>
-                            <td>Gemini</td>
-                            <td>Gmail, Drive, カレンダー, YouTubeとのシームレスな同期。</td>
+                            <td class="highlight">情報検索・Google連携・動画要約</td>
+                            <td><strong>Gemini</strong></td>
+                            <td>GmailやGoogleドライブのファイルを即座に読み見込める連携力。最新のWeb検索能力と、YouTube動画の瞬時要約。</td>
                         </tr>
                         <tr>
-                            <td class="highlight">汎用・自動化</td>
-                            <td>ChatGPT</td>
-                            <td>豊富なプラグイン、GPTs、音声モードなどの圧倒的多機能。</td>
+                            <td class="highlight">何でもできる万能ツール・自動化</td>
+                            <td><strong>ChatGPT</strong></td>
+                            <td>MyGPTsによる特定の業務特化ボット作成、データ分析・画像生成まで何でもこなせる死角のなさ。まずはここから始めたい王者。</td>
                         </tr>
                     </tbody>
                 </table>
