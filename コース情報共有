@@ -197,3 +197,96 @@ https://www.youtube.com/watch?v=qJvFSShu23U
 4. 対象ユーザー
 5. 主な機能（解決方法）
 この企画の説明や、画面またはページ構成の説明や、AIをどう活用するか、など。
+
+Day4
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：オフィスアプリとAIの統合活用①
+研修目的：Microsoft 365やGoogle Workspace等にAIを組み合わせ、文書作成・執筆支援・データ分析の効率と品質を高める手法を習得する。
+
+前半
+再生動画
+https://youtu.be/MAqLaf-wp24?si=ZyI0GSl_aGne7qWX
+https://youtu.be/w_0h_XWsF-8?si=jKzH5zvIFeJvQiCV
+
+実習：思考を加速させるプロンプトを使って、課題の企画を考えてみよう。
+
+🎯 実習の目的
+・AIを使って思考を整理するスキルを身につける
+・AIの違いや特徴を体験する
+🎥参考動画　https://www.youtube.com/watch?v=qJvFSShu23U
+
+💡 実習の流れ
+① ChatGPTを使って思考を整理しよう。　https://chatgpt.com/
+プロンプト「私は社員教育を始めたいと思っているんだけど、何をすればいいかわからない。考えを深掘りするために、私に逆質問してください」
+② Claude AIを使って思考を整理しよう。　https://claude.ai/new
+✅ 使用プロンプト「社員教育の企画のアイデアを20個出してください。実現可能性は無視して、とにかく面白さ重視で」
+③ Geminiを使って思考を整理しよう。　https://gemini.google.com/
+✅ 使用プロンプト「このアイデアに対して、厳しい上司だったら、どんな反論をしてきますか？」
+④ 企画の目的と要件定義をまとめよう。
+
+☑️ 企画項目
+1. 解決したい課題
+2. 作るものの種類
+アプリ／Webサイト
+3. タイトル
+4. 対象ユーザー
+5. 主な機能（解決方法）
+この企画の説明や、画面またはページ構成の説明や、AIをどう活用するか、など。
+
+▼ Web 用 Microsoft 365 アプリを無料で使用
+https://www.microsoft.com/ja-jp/microsoft-365/free-office-online-for-the-web
+
+組織向け
+▼ Google Workspace Studio（有料版のみ）
+https://workspace.google.com/intl/ja/studio/
+
+▼ Google AI Studio（部分的に有料）
+https://aistudio.google.com/
+
+↓受講生よりの共有情報
+---
+情報交換部屋の最後にやっていた内容のリンクです。
+https://claude.ai/share/181938de-a2d7-4f55-b2ed-31976b9a242c
+---
+
+▼動画内スクリプトのシェア
+
+4:39 プロンプト「領収書のこういう情報を抽出して」
+https://docs.google.com/document/d/15vDpKPy66tOAFd9lJaC5WNpgISzTz078FLZCsX8XQ3o/edit?usp=sharing
+
+5:39 プロンプト「項目ごとにデータを分析して出力して」
+https://docs.google.com/document/d/1jsCL_J9Q8HttqelCOOcAnzzURVoTb9ZwNqxN7UFg6d8/edit?usp=sharing
+
+9:25 プロンプト「資料から以下の情報を抽出して」
+https://docs.google.com/document/d/1JRBGUxlK7Xwv-mVTjqIjjwj2z4Yl-KkdCiQOhZK6qRQ/edit?usp=sharing
+
+10:27 プロンプト「内容を分析して以下を判定して」
+https://docs.google.com/document/d/1VNhvldi1tNEmhKZ_R3nhcKOvKez6VvI_aY-JSRgc_i0/edit?usp=sharing
+
+後半
+再生動画
+https://youtu.be/vhWJqODqhIs?si=um4NSfqt-9RVtBG_
+https://youtu.be/RHmfJXXCpPg?si=GDCzOJw99owrByFY
+https://youtu.be/663b3qdIp-o?si=Aqnq5ZRS4Xd5mbkf
+
+実習：思考を加速させるプロンプトを使って、課題の企画を考えてみよう。
+🎯 実習の目的
+・AIを使って思考を整理するスキルを身につける
+・AIの違いや特徴を体験する
+🎥参考動画　https://www.youtube.com/watch?v=qJvFSShu23U
+💡実習の流れ
+① ChatGPTを使って思考を整理しよう。　https://chatgpt.com/
+プロンプト「私は社員教育を始めたいと思っているんだけど、何をすればいいかわからない。考えを深掘りするために、私に逆質問してください」
+② Claude AIを使って思考を整理しよう。　https://claude.ai/new
+✅ 使用プロンプト「社員教育の企画のアイデアを20個出してください。実現可能性は無視して、とにかく面白さ重視で」
+③ Geminiを使って思考を整理しよう。　https://gemini.google.com/
+✅ 使用プロンプト「このアイデアに対して、厳しい上司だったら、どんな反論をしてきますか？」
+④ 企画の目的と要件定義をまとめよう。
+☑️ 企画項目
+1. 解決したい課題
+2. 作るものの種類
+　　アプリ　／　Webサイト
+3. タイトル
+4. 対象ユーザー
+5. 主な機能（解決方法）
+　この企画の説明や、画面またはページ構成の説明や、AIをどう活用するか、など。

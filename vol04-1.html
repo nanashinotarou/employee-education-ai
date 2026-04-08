@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 4 | オフィスアプリとAIの統合活用①</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 4月テーマ：ソメイヨシノ（Pink 300系） */
+            --bg-body: #fff5f8;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --text-main: #4a4a4a;
+            --text-sub: #71717a;
+            --accent: #d81b60;          /* 深い桜色（文字やボーダー強調用） */
+            --accent-light: #f06292;    /* Pink 300 */
+            --accent-bg: #fce4ec;       /* Pink 50（薄い背景用） */
+            --accent-glow: rgba(216, 27, 96, 0.25);
+            /* サブカラー（Geminiの青、Claudeの紫など） */
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --blue: #2563eb;
+            --purple: #7c3aed;
+            --glass-blur: blur(20px);
+            --radius: 20px;
+        }
+
+        body { font-family: "Noto Sans JP", sans-serif; background-color: var(--bg-body); background-image: radial-gradient(at 0% 0%, rgba(252,228,236,0.5) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(255,255,255,0.8) 0px, transparent 50%); background-attachment: fixed; color: var(--text-main); margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+        
+        /* ======== HEADER ======== */
+        .fixed-header { position: fixed; top: 0; left: 0; right: 0; height: 75px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(240, 98, 146, 0.3); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; transition: 0.3s; padding: 8px 16px; border-radius: 12px; }
+        .back-link:hover { background: var(--accent-bg); color: var(--accent); }
+        .progress-container { width: 350px; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .progress-bar-bg { height: 8px; background: #fee2e2; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #f48fb1, #d81b60); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; }
+        
+        .container { max-width: 1000px; margin: 100px auto 60px; padding: 0 20px; }
+
+        /* ======== HERO ======== */
+        .hero { text-align: center; margin-bottom: 3.5rem; padding-top: 2rem; animation: fadeInDown 0.6s ease; }
+        .day-badge { display: inline-block; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; padding: 6px 20px; border-radius: 30px; font-family: 'Teko', sans-serif; font-size: 1.4rem; letter-spacing: 1.5px; margin-bottom: 1rem; box-shadow: 0 8px 20px var(--accent-glow); }
+        .hero h1 { font-size: 2.8rem; font-weight: 900; color: var(--text-main); margin: 0 0 1rem; letter-spacing: -1px; }
+        .hero p { font-size: 1.15rem; color: var(--text-sub); line-height: 1.7; max-width: 750px; margin: 0 auto; }
+
+        /* ======== PREMIUM TAB NAV ======== */
+        .tab-nav { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .tab-btn { background: #fff; border: 1px solid #fbcfe8; padding: 1.2rem 2rem; border-radius: 16px; font-size: 1.05rem; font-weight: 800; color: var(--text-sub); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 10px; }
+        .tab-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.05); color: var(--text-main); border-color: var(--accent-light); }
+        .tab-btn.active { background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; border: none; box-shadow: 0 10px 30px var(--accent-glow); transform: translateY(-5px); }
+        .tab-btn.active i { color: #fff !important; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ======== GLASS CARDS ======== */
+        .glass-card { background: var(--bg-card); backdrop-filter: var(--glass-blur); border: 1px solid rgba(255,255,255,0.7); border-radius: var(--radius); padding: 3rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(216, 27, 96, 0.05); transition: transform 0.3s; display: flex; flex-direction: column; gap: 1.5rem; }
+        .card-header { display: flex; align-items: center; gap: 1rem; border-bottom: 2px solid var(--accent-bg); padding-bottom: 1.2rem; margin-bottom: 1rem; }
+        .card-header i { font-size: 1.6rem; color: var(--accent); background: var(--accent-bg); padding: 1.2rem; border-radius: 14px; }
+        .card-header h2 { margin: 0; font-size: 1.8rem; color: var(--text-main); font-weight:900; letter-spacing: -0.5px;}
+
+        /* ======== NOTICES AND BOXES ======== */
+        .info-box { background: var(--accent-bg); border-left: 5px solid var(--accent); padding: 2rem; border-radius: 0 16px 16px 0; margin: 1rem 0; }
+        .info-box h4 { margin: 0 0 1rem; color: var(--accent); display: flex; align-items: center; gap: 0.8rem; font-size: 1.25rem; font-weight: 900;}
+        .info-box p { margin: 0; color: var(--text-main); line-height: 1.8; font-size: 1.05rem;}
+
+        .highlight-box { background: linear-gradient(135deg, #fff1f2, #ffe4e6); border-radius: 16px; padding: 2.5rem; margin: 2rem 0; color: #881337; box-shadow: 0 8px 25px rgba(225, 29, 72, 0.1); border: 1px solid #fecdd3; }
+        .highlight-box h3 { font-size: 1.4rem; font-weight: 900; margin-top: 0; border-bottom: 2px dashed #fb7185; padding-bottom: 12px; margin-bottom: 15px; display:flex; align-items:center; gap:8px;}
+
+        .column-box { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; padding: 2rem 2.5rem; border-radius: 16px; margin: 2.5rem 0; position: relative; box-shadow: 0 8px 25px rgba(13, 148, 136, 0.08); }
+        .column-label { position: absolute; top: -14px; left: 24px; background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; padding: 4px 20px; font-size: 0.95rem; font-weight: 900; border-radius: 20px; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
+        .column-box h4 { margin: 0.5rem 0 1rem; color: #115e59; font-size: 1.3rem; font-weight: 900; border-bottom: 2px dashed #5eead4; padding-bottom: 0.8rem;}
+
+        /* ======== VIDEO INTEGRATION ======== */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.8rem; margin: 1.5rem 0;}
+        .video-thumb { position: relative; border-radius: 16px; overflow: hidden; display: block; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); background: #000; aspect-ratio: 16/9; cursor: pointer; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.4s, transform 0.6s;}
+        .video-thumb:hover img { opacity: 1; transform: scale(1.05);}
+        .play-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center; transition: all 0.3s; pointer-events: none; }
+        .video-thumb:hover .play-overlay { background: rgba(216, 27, 96, 0.3);}
+        .play-overlay i { color: #fff; font-size: 4rem; text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); transition: transform 0.3s;}
+        .video-thumb:hover .play-overlay i { transform: scale(1.15);}
+        .video-desc-full { margin-top: 1rem; padding-top: 1.5rem; border-top: 2px dashed #fce4ec; }
+
+        /* ======== ACCORDION & BENTO ======== */
+        .accordion { margin: 1.5rem 0; border: 1px solid #fbcfe8; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(216,27,96,0.03); }
+        .accordion details { border-bottom: 1px solid #fce4ec; }
+        .accordion details:last-child { border-bottom: none; }
+        .accordion summary { padding: 1.5rem 2rem; cursor: pointer; display: flex; align-items: center; gap: 1rem; font-weight: 800; font-size: 1.15rem; color: var(--text-main); transition: background 0.2s; background: rgba(255,255,255,0.8); }
+        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion summary::before { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.9rem; color: var(--accent); transition: transform 0.3s; width: 20px; text-align: center; }
+        .accordion details[open] summary::before { transform: rotate(180deg); }
+        .accordion summary:hover { background: var(--accent-bg); }
+        .accordion .acc-body { padding: 0 2rem 2rem 3.8rem; color: var(--text-main); line-height: 1.8; font-size: 1.05rem; animation: fadeIn 0.3s ease; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2.5rem 0;}
+        .bento-item { background: #fff; border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 2px solid transparent; transition: transform 0.3s, box-shadow 0.3s;}
+        .bento-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(216,27,96,0.08); border-color: var(--accent-light);}
+        .bento-item h4 { margin: 0 0 1rem; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 0.8rem; font-weight:900;}
+
+        /* ======== DIAGRAM & TABLE ======== */
+        .diagram-box { background: #fff; border: 2px solid #fbcfe8; border-radius: 20px; padding: 2.5rem; margin: 2.5rem 0; text-align: center; box-shadow: 0 10px 30px rgba(216,27,96,0.05); }
+        .diagram-box h4 { margin: 0 0 1.5rem; font-size: 1.35rem; font-weight: 900; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 0.8rem; }
+        
+        .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; border-radius: 16px; overflow: hidden; border: 1px solid #fbcfe8; box-shadow: 0 8px 25px rgba(216,27,96,0.05); }
+        .compare-table th { background: var(--accent-bg); color: var(--accent); font-weight: 900; padding: 1.5rem 1.2rem; text-align: left; font-size: 1.1rem; border-bottom: 2px solid #f8bbd0; }
+        .compare-table td { padding: 1.5rem 1.2rem; border-bottom: 1px solid #fce4ec; color: var(--text-main); line-height: 1.7; background: #fff; }
+        .compare-table tr:hover td { background: #fffbfd; }
+
+        /* ======== MISSION CHECKLIST ======== */
+        .mission-area { margin-top: 3rem; background: #fff; border: 2px dashed #f48fb1; border-radius: 20px; padding: 3rem; position: relative; overflow: hidden; transition: all 0.4s;}
+        .mission-area.completed { border-color: var(--accent); border-style: solid; background: var(--accent-bg); box-shadow: 0 10px 40px var(--accent-glow);}
+        .mission-header { text-align: center; margin-bottom: 2.5rem; }
+        .mission-header h3 { font-size: 1.8rem; color: var(--text-main); margin:0 0 0.5rem; font-weight:900; display:flex; justify-content:center; align-items:center; gap:12px;}
+        
+        .task-list { list-style: none; padding: 0; margin: 0; display:flex; flex-direction:column; gap:1.2rem;}
+        .task-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 2rem; border-radius: 16px; background: #fafafa; border: 1px solid #e4e4e7; transition: all 0.3s; cursor: pointer; position: relative; z-index: 2;}
+        .task-item:hover { border-color: var(--accent-light); background: #fff; box-shadow: 0 10px 30px rgba(216,27,96,0.06); transform: translateX(5px);}
+        .task-item.completed { background: #fdf2f8; border-color: var(--accent-light); }
+        
+        .custom-checkbox { width: 36px; height: 36px; border: 3px solid #d4d4d8; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; background: #fff; }
+        .task-item.completed .custom-checkbox { background: var(--accent); border-color: var(--accent); }
+        .custom-checkbox i { color: #fff; font-size: 18px; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .task-item.completed .custom-checkbox i { opacity: 1; transform: scale(1); }
+        
+        .task-content { flex: 1; }
+        .task-content h4 { margin: 0 0 0.8rem; font-size: 1.3rem; color: var(--text-main); font-weight:900; transition:color 0.3s;}
+        .task-item.completed .task-content h4 { color: var(--accent); }
+        .task-content p { margin: 0; font-size: 1.05rem; line-height: 1.7; }
+        
+        /* Code / Prompt box inside mission */
+        .prompt-box { background: #1e293b; color: #f8fafc; padding: 1.5rem 2rem; border-radius: 12px; font-family: 'Consolas', monospace; font-size: 1rem; line-height: 1.7; margin-top: 1rem; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 1px solid #334155; }
+        .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight:bold; transition: all 0.2s; }
+        .copy-btn:hover { background: rgba(255,255,255,0.25); }
+
+        .wax-seal { position: absolute; top: -20px; right: -20px; width: 150px; height: 150px; background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f); border-radius: 50%; opacity: 0; transform: scale(3) rotate(-30deg); pointer-events: none; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.95); font-size: 4rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 40px rgba(216,27,96,0.5); border: 5px solid #880e4f; z-index: 10;}
+        .wax-seal::after { content: ''; position: absolute; inset: 12px; border: 3px dotted rgba(255,255,255,0.5); border-radius: 50%; }
+        .mission-area.completed .wax-seal { animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        @keyframes stampIn { 0% { opacity: 0; transform: scale(3) translateY(-50px) rotate(-30deg); } 60% { opacity: 1; transform: scale(0.9) translateY(0) rotate(5deg); } 80% { transform: scale(1.1) rotate(-2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+
+        /* ======== UTILITIES & NAVIGATION ======== */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-size: 1.15rem; font-weight: 900; transition: all 0.3s; cursor: pointer; box-shadow: 0 8px 20px var(--accent-glow); }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px var(--accent-glow); }
+        
+        .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; border-top: 2px dashed #fce4ec; padding-top: 2rem; }
+
+        /* Day 4 追加: リソースリンクカード */
+        .resource-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 2rem 0;
+        }
+        .resource-card {
+            background: #fff;
+            border: 2px solid #fbcfe8;
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(216,27,96,0.08);
+            border-color: var(--accent-light);
+        }
+        .resource-card h5 {
+            margin: 0 0 0.8rem;
+            font-size: 1.1rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-main);
+        }
+        .resource-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fixed-header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Course Home</a>
+        <div class="progress-container">
+            <div class="progress-text"><span>Day 4 Progress</span><span id="progress-percent">0%</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
+        </div>
+        <div style="width:100px;"></div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="day-badge">DAY 04</div>
+            <h1>オフィスアプリとAIの統合活用</h1>
+            <p>Microsoft 365やGoogle Workspace等にAIを組み合わせ、文書作成・データ分析・業務自動化の効率と品質を劇的に高める手法を習得します。</p>
+        </div>
+
+        <!-- Premium Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
+            <button class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-scale-balanced" style="color:#3b82f6;"></i> 前半：M365 vs Google比較</button>
+            <button class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed;"></i> 後半：Google最新AI活用</button>
+            <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日のまとめ</button>
+        </div>
+
+        <!-- ==========================================
+             TAB 1: COURSE GOALS
+        ========================================== -->
+        <div id="tab-goal" class="tab-content active">
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-bullseye" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>本日の研修ねらい</h2>
+                </div>
+                
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-rocket"></i> 🏢「日常業務ツール × AI」で仕事が変わる</h4>
+                    <p>
+                        普段何気なく使っているWord・Excel・Gmail・Googleドキュメント。<br>
+                        これらのオフィスアプリにAIを「相棒」として組み込むことで、<br>
+                        「手作業で1時間かかっていた領収書データの入力が数秒に」<br>
+                        「メールの要約・返信案を自動生成」といった劇的な効率化が実現します。<br>
+                        本日は、Microsoft 365とGoogle Workspaceの両陣営を横断的に学び、<br>
+                        どちらの環境でもAIを最大限に活かせる実践スキルを身につけます。
+                    </p>
+                </div>
+                
+                <div class="bento-grid" style="margin-top: 1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #3b82f6;">
+                        <h4 style="color:#2563eb;"><i class="fa-solid fa-scale-balanced"></i> 前半の学び</h4>
+                        <p>Microsoft 365とGoogle Workspaceの徹底比較から、無料でOfficeをWeb上で使う方法まで。さらに、AIを使ったプロンプト活用で領収書処理やデータ分析を自動化する具体的テクニックを動画で学びます。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <h4 style="color:#6d28d9;"><i class="fa-solid fa-wand-magic-sparkles"></i> 後半の学び</h4>
+                        <p>Google Workspaceの最新アップデート情報（Geminiによる会議要約など）、Googleツール同士を連携させて定型業務を完全自動化する「Workspace Studio」、そして無料でGeminiの全パワーを解放する「Google AI Studio」の使い方を習得します。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align:center;">
+                <button class="btn" onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    前半の解説へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 2: FIRST HALF (M365 vs Google)
+        ========================================== -->
+        <div id="tab-first" class="tab-content">
+            
+            <!-- SECTION 1: M365 vs Google -->
+            <div class="glass-card" style="border-top: 5px solid #3b82f6;">
+                <div class="card-header">
+                    <i class="fa-brands fa-youtube" style="color:#3b82f6; background:#eff6ff;"></i>
+                    <h2 style="color:#1e3a8a;">動画1：Microsoft 365 vs Google Workspace 超比較</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="MAqLaf-wp24" style="max-width: 800px; margin: 0 auto;">
+                            <img src="https://img.youtube.com/vi/MAqLaf-wp24/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/MAqLaf-wp24/hqdefault.jpg'" alt="M365 vs Google">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fa-solid fa-list-check"></i> この動画で学べるポイント</h3>
+                    
+                    <div class="accordion">
+                        <details open>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-shield-halved" style="color:#3b82f6;"></i>
+                                ⚖️ Microsoft 365 の強み
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>・Word / Excel / PowerPoint / Outlookは世界シェアNo.1のオフィスツール群。<br>
+                                   ・Copilot（有料アドオン）を追加すると、Wordで文章の自動生成、Excelで自然言語によるデータ分析、PowerPointでプレゼン自動作成が可能に。<br>
+                                   ・企業の既存システムとの互換性が圧倒的に高く、取引先との連携でも安心。</p>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-globe" style="color:#3b82f6;"></i>
+                                🌐 Google Workspace の強み
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>・ドキュメント / スプレッドシート / スライド / Gmailを中心としたクラウドネイティブ環境。<br>
+                                   ・Gemini AIが各ツールに標準搭載され、追加課金なしでAI支援が受けられる範囲が広い。<br>
+                                   ・複数人でのリアルタイム共同編集が最も得意。「全員が常に最新版」という安全さ。<br>
+                                   ・Googleドライブとの一体化により、ファイル管理の手間がほぼゼロ。</p>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-lightbulb" style="color:#3b82f6;"></i>
+                                💡 結局どっちを選ぶべき？
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>・「取引先がOffice中心」→ Microsoft 365 が安牌。<br>
+                                   ・「チーム内完結 & コスト重視」→ Google Workspace の無料〜低コストが魅力。<br>
+                                   ・最強の答えは「両方の良いとこ取り」。本日の実習でも両方触ります！</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="column-box">
+                        <div class="column-label" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">🎓 補足コラム</div>
+                        <h4 style="color:#115e59;">Webブラウザで Office を無料で使う方法</h4>
+                        <p>動画2で解説されている通り、Microsoft は「Office for the web」として Word / Excel / PowerPoint をブラウザ上で無料提供しています。Microsoftアカウント（無料）さえあれば、インストール不要で利用可能！<br>
+                        <a href="https://www.microsoft.com/ja-jp/microsoft-365/free-office-online-for-the-web" target="_blank" style="color: #0d9488; font-weight: 700;">→ 公式サイトはこちら</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: 無料 Office 365 -->
+            <div class="glass-card" style="border-top: 5px solid #10b981;">
+                <div class="card-header">
+                    <i class="fa-brands fa-youtube" style="color:#10b981; background:#ecfdf5;"></i>
+                    <h2 style="color:#064e3b;">動画2：無料で本家 Office 365 を使う方法</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="w_0h_XWsF-8" style="max-width: 800px; margin: 0 auto;">
+                            <img src="https://img.youtube.com/vi/w_0h_XWsF-8/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/w_0h_XWsF-8/hqdefault.jpg'" alt="Free Office">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <div class="highlight-box" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-color:#86efac; margin-top:0; color: #14532d;">
+                        <h3 style="border-bottom-color:#4ade80;"><i class="fa-solid fa-laptop-code"></i> PC初心者でもすぐに始められる無料Office</h3>
+                        <p style="font-size:1.1rem; line-height:1.8;">
+                            「WordやExcelは高い…」と思っている人にとって朗報です。海賊版や互換ソフトではなく、正規のMicrosoft Officeを完全無料で使えるWeb版の存在と、そのセットアップ手順を丁寧に解説しています。Web版は機能制限はあるものの、文書作成・表計算・プレゼン作成の基本操作は十分にカバーされています。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Resource Cards -->
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-share-nodes" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>受講生共有：AIプロンプト活用テクニック</h2>
+                </div>
+                
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-file-lines"></i> 動画内で紹介されたプロンプトスクリプト集</h4>
+                    <p>動画の中で実際に使用されたAIプロンプトが、受講生の手でまとめられました。領収書からの情報抽出、データ分析の自動化など、即座に実務で使えるテンプレートです。</p>
+                </div>
+
+                <div class="resource-card-grid">
+                    <a href="https://docs.google.com/document/d/15vDpKPy66tOAFd9lJaC5WNpgISzTz078FLZCsX8XQ3o/edit?usp=sharing" target="_blank" class="resource-card">
+                        <h5><i class="fa-solid fa-receipt" style="color:#d81b60;"></i> 領収書情報の抽出</h5>
+                        <p>「こういう情報を抽出して」— 画像やPDFからAIが自動で項目を読み取るテクニック</p>
+                    </a>
+                    <a href="https://docs.google.com/document/d/1jsCL_J9Q8HttqelCOOcAnzzURVoTb9ZwNqxN7UFg6d8/edit?usp=sharing" target="_blank" class="resource-card">
+                        <h5><i class="fa-solid fa-chart-line" style="color:#3b82f6;"></i> データ分析・出力</h5>
+                        <p>「項目ごとにデータを分析して出力して」— 大量データの整理・可視化を自動化</p>
+                    </a>
+                    <a href="https://docs.google.com/document/d/1JRBGUxlK7Xwv-mVTjqIjjwj2z4Yl-KkdCiQOhZK6qRQ/edit?usp=sharing" target="_blank" class="resource-card">
+                        <h5><i class="fa-solid fa-magnifying-glass" style="color:#7c3aed;"></i> 資料からの情報抽出</h5>
+                        <p>「資料から以下の情報を抽出して」— 長文から必要なデータを取り出す</p>
+                    </a>
+                    <a href="https://docs.google.com/document/d/1VNhvldi1tNEmhKZ_R3nhcKOvKez6VvI_aY-JSRgc_i0/edit?usp=sharing" target="_blank" class="resource-card">
+                        <h5><i class="fa-solid fa-check-double" style="color:#10b981;"></i> 内容分析・判定</h5>
+                        <p>「内容を分析して以下を判定して」— 契約書等の内容を自動審査・分類</p>
+                    </a>
+                </div>
+
+                <div class="column-box">
+                    <div class="column-label">💡 受講生からの共有情報</div>
+                    <h4>Claude AIの活用事例</h4>
+                    <p>情報交換の中で共有された、Claude AIを活用した実践事例です。<br>
+                    <a href="https://claude.ai/share/181938de-a2d7-4f55-b2ed-31976b9a242c" target="_blank" style="color: var(--teal); font-weight: 700;">→ Claude AIの共有リンクを見る</a></p>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-goal'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 目標に戻る
+                </button>
+                <button class="btn" onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                    後半：Google最新AI活用へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 3: SECOND HALF (Google AI & Studio)
+        ========================================== -->
+        <div id="tab-second" class="tab-content">
+            
+            <!-- SECTION 4: Google Workspace Update -->
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-brands fa-youtube" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2 style="color:#4c1d95;">動画3：Google Workspace 最新アップデート7選</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="vhWJqODqhIs" style="max-width: 800px; margin: 0 auto;">
+                            <img src="https://img.youtube.com/vi/vhWJqODqhIs/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/vhWJqODqhIs/hqdefault.jpg'" alt="Google Update">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #4c1d95; margin-bottom: 1.5rem;"><i class="fa-solid fa-star"></i> 2026年注目の最新機能</h3>
+                    
+                    <div class="bento-grid">
+                        <div class="bento-item" style="background: linear-gradient(135deg, #fdf4ff, #fae8ff); border: 2px solid #f5d0fe;">
+                            <h4 style="color:#7c3aed;"><i class="fa-solid fa-robot"></i> Gemini が会議をリアルタイム要約</h4>
+                            <p style="color:#4a044e; line-height:1.7;">Google Meet の会議中にGeminiがリアルタイムで内容を要約。議事録作成の手間が劇的に削減されます。「あの会議で何が決まったっけ？」がなくなる革命的機能です。</p>
+                        </div>
+                        <div class="bento-item">
+                            <h4 style="color:#7c3aed;"><i class="fa-solid fa-file-signature"></i> Google フォームの進化</h4>
+                            <p>Gemini AIによるフォーム自動生成や、回答データの自動分析など、アンケートや社内調査の効率が飛躍的に向上。※動画内の表記ミス（スライド→フォーム）にご注意ください。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="background: linear-gradient(135deg, #faf5ff, #f3e8ff); border-color: #e9d5ff; color: #581c87;">
+                        <h3 style="border-bottom-color:#d8b4fe;"><i class="fa-solid fa-key"></i> Googleが目指す「AIファースト」な働き方</h3>
+                        <p style="font-size:1.1rem; line-height:1.8;">「人間がツールを操作する」から「AIがツールを操作し、人間は判断に集中する」への大転換です。Google Workspaceは単なるオフィスツールから「AIアシスタント付きの統合プラットフォーム」へと進化しています。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: Workspace Studio -->
+            <div class="glass-card" style="border-top: 5px solid #0891b2;">
+                <div class="card-header">
+                    <i class="fa-brands fa-youtube" style="color:#0891b2; background:#ecfeff;"></i>
+                    <h2 style="color:#164e63;">動画4：Workspace Studioで定型業務を完全自動化</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="RHmfJXXCpPg" style="max-width: 800px; margin: 0 auto;">
+                            <img src="https://img.youtube.com/vi/RHmfJXXCpPg/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/RHmfJXXCpPg/hqdefault.jpg'" alt="Workspace Studio">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #164e63; margin-bottom: 1.5rem;"><i class="fa-solid fa-link"></i> ノーコードで実現するGoogleツール連携</h3>
+                    
+                    <div class="accordion">
+                        <details open>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-plug" style="color:#0891b2;"></i>
+                                🔗 Workspace Studio とは？
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>旧名称「Google Workspace Flows」が2025年12月に正式公開されたサービスです。Gmail → スプレッドシート → カレンダーなど、複数のGoogleツールをノーコードで連携可能。「メールが来たら自動でシートに記録してカレンダー登録」といった業務フローを構築できます。</p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-bolt-lightning" style="color:#0891b2;"></i>
+                                ⚡ どんな自動化ができる？
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>・特定の件名のメールをスプレッドシートに自動記録<br>
+                                   ・フォーム回答をトリガーにSlack通知 + カレンダー登録<br>
+                                   ・定期レポートの自動作成と送信<br>
+                                   ・承認ワークフロー（申請 → 承認 → 実行）の構築</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="column-box">
+                        <div class="column-label">💡 実務での活用イメージ</div>
+                        <h4 style="color:#164e63;">「月末の経費精算フロー」を自動化する例</h4>
+                        <p>① フォーム申請 → ② 自動でシート記録 → ③ 上長にGmailで承認依頼 → ④ 承認されたらカレンダーに支払い日登録。この一連の流れがすべて自動で回ります。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 6: AI Studio -->
+            <div class="glass-card" style="border-top: 5 solid #ea580c;">
+                <div class="card-header">
+                    <i class="fa-brands fa-youtube" style="color:#ea580c; background:#fff7ed;"></i>
+                    <h2 style="color:#9a3412;">動画5：Google AI Studio で Gemini の全パワーを解放</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="663b3qdIp-o" style="max-width: 800px; margin: 0 auto;">
+                            <img src="https://img.youtube.com/vi/663b3qdIp-o/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/663b3qdIp-o/hqdefault.jpg'" alt="AI Studio">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #9a3412; margin-bottom: 1.5rem;"><i class="fa-solid fa-code"></i> 無料で使える最強のAI開発環境</h3>
+                    
+                    <div class="bento-grid">
+                        <div class="bento-item" style="border-top: 4px solid #ea580c;">
+                            <h4><i class="fa-solid fa-comments"></i> チャット機能</h4>
+                            <p>Web版Geminiよりも高度な調整が可能。温度（Temperature）やトークン数を設定し、精密な応答をコントロールできます。</p>
+                        </div>
+                        <div class="bento-item" style="border-top: 4px solid #ea580c;">
+                            <h4><i class="fa-solid fa-image"></i> 画像生成</h4>
+                            <p>Gemini の画像生成モデルを直接利用。プロンプトから高品質な画像を無料で作成可能です。</p>
+                        </div>
+                        <div class="bento-item" style="border-top: 4px solid #ea580c;">
+                            <h4><i class="fa-solid fa-microphone"></i> 音声生成</h4>
+                            <p>テキストから自然な音声を生成。ナレーション作成などに活用。構造化出力やGemini Liveも体験可能です。</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fa-solid fa-gift"></i> 無料で始められる理由</h4>
+                        <p>Google AI Studio は開発者向けのプラットフォームで、一定量まで無料で利用できます。最新のGeminiモデルにいち早くアクセスできる最強の遊び場です。<br>
+                        <a href="https://aistudio.google.com/" target="_blank" style="color: #ea580c; font-weight: 700;">→ Google AI Studio はこちら</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 前半に戻る
+                </button>
+                <button class="btn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">
+                    まとめ・実習へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 4: SUMMARY & MISSION
+        ========================================== -->
+        <div id="tab-summary" class="tab-content">
+            
+            <div class="hero" style="margin-bottom: 2rem;">
+                <h2 style="font-size:2.4rem; color:#059669; font-family:'Teko', sans-serif;"><i class="fa-solid fa-flag-checkered"></i> TODAY's MISSION</h2>
+                <p>オフィスアプリ × AI の力を理解したところで、実際にプロンプトを使って企画を仕上げましょう。</p>
+            </div>
+
+            <!-- MISSION CHECKLIST AREA -->
+            <div class="mission-area" id="mission-group-4">
+                <div class="wax-seal">CLEAR</div>
+                <div class="mission-header">
+                    <h3><i class="fa-solid fa-flask"></i> 🧪 実習：AIリレーで企画を仕上げよう</h3>
+                    <p style="font-size:1.1rem;">Day3に引き続き、3つのAIを使い分けて企画を練り上げましょう。</p>
+                </div>
+                
+                <ul class="task-list">
+                    <li class="task-item" onclick="toggleTask('t4_1', this)">
+                        <div class="custom-checkbox" id="check_t4_1"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 01: ChatGPTで逆質問させ、企画を深掘りする</h4>
+                            <p>課題テーマ「社員教育」に対して、ChatGPTで自分の考えの曖昧な部分を明確にします。</p>
+                            <div class="prompt-box" onclick="event.stopPropagation();">
+                                <button class="copy-btn" onclick="copyPrompt('prompt-1')"><i class="fa-regular fa-copy"></i> Copy</button>
+                                <span id="prompt-1">私は社員教育を始めたいと思っているんだけど、何をすればいいかわからない。考えを深掘りするために、私に逆質問してください。</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="task-item" onclick="toggleTask('t4_2', this)">
+                        <div class="custom-checkbox" id="check_t4_2"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 02: Claude AIでアイデアを大量に出す</h4>
+                            <p>ChatGPTとの対話で見えた方向性を元に、Claudeに斬新なアイデアを出してもらいます。</p>
+                            <div class="prompt-box" onclick="event.stopPropagation();">
+                                <button class="copy-btn" onclick="copyPrompt('prompt-2')"><i class="fa-regular fa-copy"></i> Copy</button>
+                                <span id="prompt-2">社員教育の企画のアイデアを20個出してください。実現可能性は無視して、とにかく面白さ重視で。</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="task-item" onclick="toggleTask('t4_3', this)">
+                        <div class="custom-checkbox" id="check_t4_3"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 03: Geminiで検証・反論させる</h4>
+                            <p>出たアイデアのTOP候補をGeminiに渡し、厳しい上司の視点で改善点を洗い出します。</p>
+                            <div class="prompt-box" onclick="event.stopPropagation();">
+                                <button class="copy-btn" onclick="copyPrompt('prompt-3')"><i class="fa-regular fa-copy"></i> Copy</button>
+                                <span id="prompt-3">このアイデアに対して、厳しい上司だったら、どんな反論をしてきますか？</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="task-item" onclick="toggleTask('t4_4', this)">
+                        <div class="custom-checkbox" id="check_t4_4"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 04: 企画を具体的にまとめる</h4>
+                            <p>AIたちの意見を参考に、以下の項目をまとめます。
+                                1.解決したい課題 / 2.作るものの種類 / 3.タイトル / 4.対象ユーザー / 5.主な機能
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="text-align:center; padding: 4rem 0;">
+                <button class="btn" style="padding: 1.2rem 4rem; font-size:1.3rem; background:linear-gradient(135deg, var(--accent-light), var(--accent)); border-radius:50px; box-shadow: 0 10px 30px var(--accent-glow);" onclick="window.location.href='index.html'">
+                    <i class="fa-solid fa-house"></i> 学習完了を記録してHomeへ戻る
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ======= YOUTUBE FACADE SCRIPT =======
+        document.querySelectorAll('.video-thumb[data-video-id]').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const videoId = this.dataset.videoId;
+                this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>`;
+                this.style.cursor = 'default';
+            }, { once: true });
+        });
+
+        // ======= TAB NAVIGATION ========
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            let targetBtn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            updateProgress(tabId);
+        }
+
+        // ======= PROGRESS BAR ========
+        function updateProgress(tabId) {
+            const m = { 'tab-goal': 0, 'tab-first': 33, 'tab-second': 66, 'tab-summary': 100 };
+            const p = m[tabId] || 0;
+            const bar = document.getElementById('progress-bar');
+            const txt = document.getElementById('progress-percent');
+            if(bar) bar.style.width = p + '%';
+            if(txt) txt.innerText = p + '%';
+        }
+
+        // ======= MISSION CHECKLIST & WAX SEAL ========
+        const missionState = { 't4_1': false, 't4_2': false, 't4_3': false, 't4_4': false };
+        function toggleTask(taskId, element) {
+            missionState[taskId] = !missionState[taskId];
+            if (missionState[taskId]) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+            checkAllMissions();
+        }
+
+        function checkAllMissions() {
+            const allDone = Object.values(missionState).every(v => v);
+            const missionArea = document.getElementById('mission-group-4');
+            if (allDone) {
+                missionArea.classList.add('completed');
+                setTimeout(() => alert('全ステップ完了おめでとうございます！オフィスアプリとAIを組み合わせて、業務を劇的に効率化しましょう！'), 800);
+            } else {
+                missionArea.classList.remove('completed');
+            }
+        }
+
+        // ======= PROMPT COPY FUNCTION ========
+        function copyPrompt(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector(`button[onclick="copyPrompt('${elementId}')"]`);
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                btn.style.color = '#86efac';
+                btn.style.borderColor = '#86efac';
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.style.color = '#fff';
+                    btn.style.borderColor = 'rgba(255,255,255,0.2)';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
