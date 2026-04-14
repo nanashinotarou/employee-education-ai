@@ -290,3 +290,104 @@ https://youtu.be/663b3qdIp-o?si=Aqnq5ZRS4Xd5mbkf
 4. 対象ユーザー
 5. 主な機能（解決方法）
 　この企画の説明や、画面またはページ構成の説明や、AIをどう活用するか、など。
+
+Day5　
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：オフィスアプリとAIの統合活用②
+研修目的：AI活用で資料を効率的に作成し、定型業務を自動化して、業務全体の生産性を高める方法を学ぶ。
+
+前半
+再生動画
+https://youtu.be/0HVMf7wtPsI?si=lSOPjJlWK51x7Ddj
+https://youtu.be/NOAvewGJNsw?si=fKU6ord0B2mwnylZ
+https://youtu.be/f6fPA0v7VPw?si=9Inqnb17hBHPhZSE
+
+実習：GASでプログラミングを行なってみよう！
+🎯 実習の目的
+・プログラミングの基本を理解する
+
+💡 実習の流れ
+GASでプログラミングを行なってみよう！
+基本の流れ
+【コードを書く】→【実行する】→【ログ確認】
+スプレッドシートとGASを連携させ、セルに自動で文字を入力する簡単なスクリプトを作成してみましょう。
+🎥参考動画
+https://youtu.be/0HVMf7wtPsI?si=i1tuK-GqcZlaTUCG&t=231
+① Googleスプレッドシートを開く。
+空白の新しいスプレッドシートを作成し、ファイル名をつける。
+例）「DX4月9日テスト」
+② メニューバー「拡張機能」→「Apps Script」を選んで、GASを書く場所を開き、プロジェクトに名前をつける。
+例）「DX4月9日テストプロジェクト」
+③ 既に書き込まれているコードを全部消してから、下記のコードを書き込もう。
+ーーー✍️ GAS：「コード.gs」に書き込むコードーーー
+function myFunction() { const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('シート1'); sheet.getRange('A1').setValue('Hello GAS!');}
+ーーーーーーーーーーーーーーーーーーーーーーーーー
+④コードを実行する。
+✅「💾 保存」ボタンを押して保存。
+✅「▶ 実行」ボタンを押してプログラミングを実行してみよう。
+✅ 一番最初だけ承認が必要なため、「権限を確認」ボタンを押して、承認作業を行う。
+↓
+「詳細」のリンクをクリック
+↓
+「無題のプロジェクト（安全ではないページ）に移動」をクリック
+↓
+「続行」ボタンをクリック
+✅「実行ログ」にスクリプトが正常に作動したかどうか記録が残っているので、確認する。
+✅スプレッドシートに戻り、文字が自動入力されているか確認する。
+AIに聞いてみよう！
+⑤＜応用編＞生成AIに依頼して、GASコードを書いてもらおう。
+ーーー✍️ プロンプトーーー
+下記のGASコードを修正してください。
+今日の夕飯はカレーなので、材料の買い物リスト一覧を表示させたいです。
+function myFunction() { const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('シート1'); sheet.getRange('A1').setValue('Hello GAS!');}
+ーーーーーーーーーーーーー
+⑥生成 AIが出してくれたコードをコピーして、先ほどのApps Scriptに貼り付け、保存し、実行してみよう。
+スプレッドシートのテキストが書き変わっていたら成功です。
+
+▼動画内スクリプトのシェア
+売り上げレポートの自動送信
+https://docs.google.com/document/d/1yjbF_aaon5QaPc3Wbwyx4kLb1iC4LyCxiUpHzzjBckg/edit?usp=sharing
+日報・週報の下書き自動生成
+https://docs.google.com/document/d/1zXFeViHx3jLsY99VOmfllDq-k7CUuCWeuSRyKhrlyW4/edit?usp=sharing
+請求書PDFの自動作成＆メール送付
+https://docs.google.com/document/d/1-L2EzzPYVU7TMR9jWnlxMwI5FcuPo0uvRYV99u1OO0w/edit?usp=sharing
+顧客対応の一時応答自動化
+https://docs.google.com/document/d/1B9oSKeClSG0emWWjDHQ5RKXTErVCkVr5viqTXR-Q7UA/edit?usp=sharing
+スプレッドシートの変更通知
+https://docs.google.com/document/d/1Gb9bjBWwTLIFHYit7h1DglLh-6jijb1XF82auNhM7mQ/edit?usp=sharing
+
+後半
+再生動画
+https://youtu.be/RIULsBUilQs?si=IkRw_q5kyOJEw8WW
+https://youtu.be/aOtfa9jRut0?si=C-ZAK0dlxmA8x5zy
+https://youtu.be/pQ8r3P_SCMI?si=OEXmGQuvfo5z0k7M
+
+実習：Google Antigravityを設定しよう。
+🎯 実習の目的
+・AIで設計するための環境をつくる
+💡 実習の流れ
+① Google Antigravityを、PCにインストールする。
+🎥 参考
+https://www.youtube.com/watch?v=RIULsBUilQs
+▼ Google Antigravity
+https://antigravity.google/
+※初期設定はすべてデフォルトでOKです。
+⚠️ Chromebookの方は、Linux版をインストールしてください。
+▼下記参考マニュアル
+https://docs.google.com/document/d/1aK-Thrj3TGsKN43Bl0hQuenPRWojTjEn9btQUAug_aE/edit?tab=t.0
+②日本語の拡張機能を設定してください。
+🎥参考
+https://youtu.be/pQ8r3P_SCMI?si=M7KJlpjQyuwI1p-i&t=504
+③ ２つの画面モードを確認する。
+エージェントマネージャー画面モード
+エディター画面モード
+④ エージェントマネージャー画面モードで、アプリを作ってみる。
+ーーー✍️ プロンプトーーー
+「日記がつけられるアプリを作って
+日付と毎日の日記がテキストで書けるようにUIをきれいに整えて」
+ーーーーーーーーー
+※人によって作成に５分くらいかかりますので、Antigravityが作っているのを、待ってあげてください。
+※「Proseed」「Allow」「Accept」など、ステップの許可を求められたら、ボタンをクリックして、進めてください。
+※ブラウザが、勝手に立ち上がりますので、驚かないでください。Antigravityが作業してますので、そのまま作業させてあげてください。完成したら、さわれます。
+
+Day6
