@@ -70,23 +70,51 @@
         .highlight-box { background: linear-gradient(135deg, #fff1f2, #ffe4e6); border-radius: 16px; padding: 2.5rem; margin: 2rem 0; color: #881337; box-shadow: 0 8px 25px rgba(225, 29, 72, 0.1); border: 1px solid #fecdd3; }
         .highlight-box h3 { font-size: 1.4rem; font-weight: 900; margin-top: 0; border-bottom: 2px dashed #fb7185; padding-bottom: 12px; margin-bottom: 15px; display:flex; align-items:center; gap:8px;}
 
-        /* ======== VIDEO INTEGRATION ======== */
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;}
-        .video-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
-        .video-card:hover { transform: translateY(-5px); }
-        .vc-thumb { width: 100%; aspect-ratio: 16/9; background-color: #000; background-size: cover; background-position: center; position: relative; cursor: pointer; }
-        .vc-thumb::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.1); transition: background 0.3s ease; pointer-events: none; }
-        .vc-thumb:hover::before { background: rgba(0, 0, 0, 0.2); }
-        .vc-thumb-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255, 255, 255, 0.9); text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, color 0.3s ease; pointer-events: none; }
-        .vc-thumb:hover .vc-thumb-play { transform: translate(-50%, -50%) scale(1.1); color: #ff0000; }
-        .vc-info { padding: 1.2rem; }
-        .vc-title { font-weight: 800; font-size: 1rem; color: var(--text-main); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .column-box { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; padding: 2rem 2.5rem; border-radius: 16px; margin: 2.5rem 0; position: relative; box-shadow: 0 8px 25px rgba(13, 148, 136, 0.08); }
+        .column-label { position: absolute; top: -14px; left: 24px; background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; padding: 4px 20px; font-size: 0.95rem; font-weight: 900; border-radius: 20px; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
+        .column-box h4 { margin: 0.5rem 0 1rem; color: #115e59; font-size: 1.3rem; font-weight: 900; border-bottom: 2px dashed #5eead4; padding-bottom: 0.8rem;}
 
-        /* ======== BENTO GRID ======== */
+        /* ======== VIDEO INTEGRATION ======== */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.8rem; margin: 1.5rem 0;}
+        .video-thumb { position: relative; border-radius: 16px; overflow: hidden; display: block; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); background: #000; aspect-ratio: 16/9; cursor: pointer; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.4s, transform 0.6s;}
+        .video-thumb:hover img { opacity: 1; transform: scale(1.05);}
+        .play-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center; transition: all 0.3s; pointer-events: none; }
+        .video-thumb:hover .play-overlay { background: rgba(216, 27, 96, 0.3);}
+        .play-overlay i { color: #fff; font-size: 4rem; text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); transition: transform 0.3s;}
+        .video-thumb:hover .play-overlay i { transform: scale(1.15);}
+        .video-desc-full { margin-top: 1rem; padding-top: 1.5rem; border-top: 2px dashed #fce4ec; }
+
+        /* ======== ACCORDION & BENTO ======== */
+        .accordion { margin: 1.5rem 0; border: 1px solid #fbcfe8; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(216,27,96,0.03); }
+        .accordion details { border-bottom: 1px solid #fce4ec; }
+        .accordion details:last-child { border-bottom: none; }
+        .accordion summary { padding: 1.5rem 2rem; cursor: pointer; display: flex; align-items: center; gap: 1rem; font-weight: 800; font-size: 1.15rem; color: var(--text-main); transition: background 0.2s; background: rgba(255,255,255,0.8); }
+        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion summary::before { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.9rem; color: var(--accent); transition: transform 0.3s; width: 20px; text-align: center; }
+        .accordion details[open] summary::before { transform: rotate(180deg); }
+        .accordion summary:hover { background: var(--accent-bg); }
+        .accordion .acc-body { padding: 0 2rem 2rem 3.8rem; color: var(--text-main); line-height: 1.8; font-size: 1.05rem; animation: fadeIn 0.3s ease; }
+
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2.5rem 0;}
         .bento-item { background: #fff; border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 2px solid transparent; transition: transform 0.3s, box-shadow 0.3s;}
         .bento-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(216,27,96,0.08); border-color: var(--accent-light);}
         .bento-item h4 { margin: 0 0 1rem; font-size: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 0.8rem; font-weight:900;}
+
+        /* ======== DIAGRAM & TABLE ======== */
+        .diagram-box { background: #fff; border: 2px solid #fbcfe8; border-radius: 20px; padding: 2.5rem; margin: 2.5rem 0; text-align: center; box-shadow: 0 10px 30px rgba(216,27,96,0.05); }
+        .diagram-box h4 { margin: 0 0 1.5rem; font-size: 1.35rem; font-weight: 900; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 0.8rem; }
+        
+        .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; border-radius: 16px; overflow: hidden; border: 1px solid #fbcfe8; box-shadow: 0 8px 25px rgba(216,27,96,0.05); }
+        .compare-table th { background: var(--accent-bg); color: var(--accent); font-weight: 900; padding: 1.5rem 1.2rem; text-align: left; font-size: 1.1rem; border-bottom: 2px solid #f8bbd0; }
+        .compare-table td { padding: 1.5rem 1.2rem; border-bottom: 1px solid #fce4ec; color: var(--text-main); line-height: 1.7; background: #fff; }
+        .compare-table tr:hover td { background: #fffbfd; }
+
+        /* ======== STEP BOX ======== */
+        .step-box { background: #fff; border-left: 4px solid var(--accent); padding: 1.5rem 2rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .step-box h4 { margin: 0 0 0.5rem; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;}
+        .step-box ul { margin: 0; padding-left: 1.5rem; }
+        .step-box li { margin-bottom: 0.5rem; line-height: 1.6; }
 
         /* ======== MISSION CHECKLIST ======== */
         .mission-area { margin-top: 3rem; background: #fff; border: 2px dashed #f48fb1; border-radius: 20px; padding: 3rem; position: relative; overflow: hidden; transition: all 0.4s;}
@@ -108,31 +136,38 @@
         .task-content h4 { margin: 0 0 0.8rem; font-size: 1.3rem; color: var(--text-main); font-weight:900; transition:color 0.3s;}
         .task-item.completed .task-content h4 { color: var(--accent); }
         .task-content p { margin: 0; font-size: 1.05rem; line-height: 1.7; }
-
-        .prompt-box { background: #1e293b; color: #f8fafc; padding: 1.5rem 2rem; border-radius: 12px; font-family: 'Consolas', monospace; font-size: 1rem; line-height: 1.7; margin-top: 1rem; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 1px solid #334155; }
-        .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight:bold; transition: all 0.2s; }
+        
+        /* Code / Prompt box inside mission */
+        .prompt-box { background: #1e293b; color: #f8fafc; padding: 1.5rem 2rem; border-radius: 12px; font-size: 1rem; line-height: 1.7; margin-top: 1rem; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 1px solid #334155; }
+        .prompt-box pre { margin: 0; white-space: pre-wrap; font-family: 'Consolas', monospace; }
+        .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight:bold; transition: all 0.2s; z-index: 5;}
         .copy-btn:hover { background: rgba(255,255,255,0.25); }
 
-        /* ======== UTILITIES ======== */
+        .wax-seal { position: absolute; top: -20px; right: -20px; width: 150px; height: 150px; background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f); border-radius: 50%; opacity: 0; transform: scale(3) rotate(-30deg); pointer-events: none; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.95); font-size: 4rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 40px rgba(216,27,96,0.5); border: 5px solid #880e4f; z-index: 10;}
+        .wax-seal::after { content: ''; position: absolute; inset: 12px; border: 3px dotted rgba(255,255,255,0.5); border-radius: 50%; }
+        .mission-area.completed .wax-seal { animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        @keyframes stampIn { 0% { opacity: 0; transform: scale(3) translateY(-50px) rotate(-30deg); } 60% { opacity: 1; transform: scale(0.9) translateY(0) rotate(5deg); } 80% { transform: scale(1.1) rotate(-2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+
+        /* ======== UTILITIES & NAVIGATION ======== */
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-size: 1.15rem; font-weight: 900; transition: all 0.3s; cursor: pointer; box-shadow: 0 8px 20px var(--accent-glow); }
         .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px var(--accent-glow); }
         
         .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; border-top: 2px dashed #fce4ec; padding-top: 2rem; }
 
         .resource-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
-        .resource-card { background: #fff; border: 2px solid #fbcfe8; border-radius: 16px; padding: 1.8rem; transition: all 0.3s; text-decoration: none; color: inherit; display: block; }
+        .resource-card { background: #fff; border: 2px solid #fbcfe8; border-radius: 16px; padding: 1.8rem; transition: all 0.3s; text-decoration: none; color: inherit; display: block; position: relative; overflow: hidden;}
+        .resource-card::before { content: ''; position: absolute; top:0; left:0; width: 4px; height: 100%; background: var(--accent); transition: width 0.3s ease;}
         .resource-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(216,27,96,0.08); border-color: var(--accent-light); }
+        .resource-card:hover::before { width: 8px;}
+        
         .resource-card h5 { margin: 0 0 0.8rem; font-size: 1.1rem; font-weight: 900; display: flex; align-items: center; gap: 0.8rem; color: var(--text-main); }
         .resource-card p { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text-sub); }
-
-        .wax-seal { position: absolute; top: -20px; right: -20px; width: 150px; height: 150px; background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f); border-radius: 50%; opacity: 0; transform: scale(3) rotate(-30deg); pointer-events: none; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.95); font-size: 4rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 40px rgba(216,27,96,0.5); border: 5px solid #880e4f; z-index: 10;}
-        .mission-area.completed .wax-seal { animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes stampIn { 0% { opacity: 0; transform: scale(3) translateY(-50px) rotate(-30deg); } 60% { opacity: 1; transform: scale(0.9) translateY(0) rotate(5deg); } 80% { transform: scale(1.1) rotate(-2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
-
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header class="fixed-header">
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Course Home</a>
         <div class="progress-container">
@@ -143,26 +178,31 @@
     </header>
 
     <div class="container">
+        <!-- Hero Section -->
         <div class="hero">
             <div class="day-badge">DAY 05</div>
             <h1>オフィスアプリとAIの統合活用②</h1>
-            <p>AI活用で資料を効率的に作成し、GASによる定型業務の自動化と、AIエンジニアリングツール「Google Antigravity」による爆速開発を習得します。</p>
+            <p>AI活用で資料を効率的に作成し、定型業務を自動化して、<br>業務全体の生産性を高める方法を学びます。</p>
         </div>
 
+        <!-- Premium Tab Navigation -->
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye"></i> 本日の目標</button>
-            <button class="tab-btn" onclick="switchTab('tab-gas')"><i class="fa-solid fa-code"></i> 前半：GAS ✕ AI</button>
-            <button class="tab-btn" onclick="switchTab('tab-ag')"><i class="fa-solid fa-rocket"></i> 後半：Antigravity</button>
-            <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered"></i> ミッション</button>
+            <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
+            <button class="tab-btn" onclick="switchTab('tab-gas')"><i class="fa-solid fa-code" style="color:#2563eb;"></i> 前半：GAS ✕ AI</button>
+            <button class="tab-btn" onclick="switchTab('tab-ag')"><i class="fa-solid fa-rocket" style="color:#7c3aed;"></i> 後半：Antigravity</button>
+            <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日のまとめ</button>
         </div>
 
-        <!-- TAB: GOAL -->
+        <!-- ==========================================
+             TAB 1: COURSE GOALS
+        ========================================== -->
         <div id="tab-goal" class="tab-content active">
             <div class="glass-card" style="border-top: 5px solid var(--accent);">
                 <div class="card-header">
-                    <i class="fa-solid fa-bullseye"></i>
+                    <i class="fa-solid fa-bullseye" style="color:var(--accent); background:var(--accent-bg);"></i>
                     <h2>本日の研修ねらい</h2>
                 </div>
+                
                 <div class="info-box">
                     <h4><i class="fa-solid fa-bolt"></i> 「作ってもらう」から「一緒に作る」へ</h4>
                     <p>
@@ -170,143 +210,309 @@
                         さらに、Googleが提供する次世代AIエージェント「Antigravity」を導入し、対話だけでアプリケーションが形になっていく驚きの体験をしてもらいます。
                     </p>
                 </div>
-                <div class="bento-grid">
-                    <div class="bento-item" style="border-top: 4px solid var(--blue);">
-                        <h4 style="color:var(--blue);"><i class="fa-solid fa-code"></i> 前半：GASの自動化</h4>
-                        <p>GASの基本操作を学び、Geminiを使って簡単な買い物リスト作成から、業務で使える自動化スクリプトの作成までを体験します。</p>
+                
+                <div class="bento-grid" style="margin-top: 1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #2563eb;">
+                        <h4 style="color:#2563eb;"><i class="fa-solid fa-code"></i> 前半：GASの自動化</h4>
+                        <p>GASの基本操作を学び、Geminiを使って簡単な文字入力の自動化から、業務で使えるスクリプトの作成までを体験します。</p>
                     </div>
-                    <div class="bento-item" style="border-top: 4px solid var(--purple);">
-                        <h4 style="color:var(--purple);"><i class="fa-solid fa-robot"></i> 後半：Antigravity実践</h4>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <h4 style="color:#7c3aed;"><i class="fa-solid fa-robot"></i> 後半：Antigravity実践</h4>
                         <p>Google Antigravityのセットアップを行い、AIエージェントによる自動コーディングとデプロイの流れを習得します。</p>
                     </div>
                 </div>
             </div>
+            
             <div style="text-align:center;">
-                <button class="btn" onclick="switchTab('tab-gas'); window.scrollTo(0,0);">前半：GAS ✕ AI へ進む <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn" onclick="switchTab('tab-gas'); window.scrollTo(0,0);">
+                    前半：GAS ✕ AI へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- TAB: GAS -->
+        <!-- ==========================================
+             TAB 2: FIRST HALF (GAS ✕ AI)
+        ========================================== -->
         <div id="tab-gas" class="tab-content">
-            <div class="glass-card" style="border-top: 5px solid var(--blue);">
+            
+            <div class="glass-card" style="border-top: 5px solid #2563eb;">
                 <div class="card-header">
-                    <i class="fa-solid fa-code" style="color:var(--blue); background:#eff6ff;"></i>
+                    <i class="fa-brands fa-google" style="color:#2563eb; background:#eff6ff;"></i>
                     <h2 style="color:#1e3a8a;">前半：GAS ✕ AI で業務を自動化する</h2>
                 </div>
-                <p>Google Apps Script（GAS）を使えば、スプレッドシートやGmailの機能を拡張し、自分専用の業務ツールを作ることができます。ここでは基礎とAI活用のコツを学びます。</p>
                 
-                <div class="video-grid">
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="0HVMf7wtPsI" style="background-image: url('https://img.youtube.com/vi/0HVMf7wtPsI/maxresdefault.jpg'), url('https://img.youtube.com/vi/0HVMf7wtPsI/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="0HVMf7wtPsI" style="max-width: 800px; margin: 0 auto;">
+                            <!-- フォールバック対応 -->
+                            <img src="https://img.youtube.com/vi/0HVMf7wtPsI/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/0HVMf7wtPsI/hqdefault.jpg'" alt="GASの使い方・基本の流れ">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
                         </div>
-                        <div class="vc-info"><div class="vc-title">GASの使い方・基本の流れ</div></div>
-                    </div>
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="NOAvewGJNsw" style="background-image: url('https://img.youtube.com/vi/NOAvewGJNsw/maxresdefault.jpg'), url('https://img.youtube.com/vi/NOAvewGJNsw/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
-                        </div>
-                        <div class="vc-info"><div class="vc-title">GeminiでGASを自動生成する</div></div>
-                    </div>
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="f6fPA0v7VPw" style="background-image: url('https://img.youtube.com/vi/f6fPA0v7VPw/maxresdefault.jpg'), url('https://img.youtube.com/vi/f6fPA0v7VPw/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
-                        </div>
-                        <div class="vc-info"><div class="vc-title">実例：Gmail✕スプレッドシート連携</div></div>
                     </div>
                 </div>
 
-                <div class="highlight-box">
-                    <h3><i class="fa-solid fa-keyboard"></i> 実習1：GASで「Hello GAS!」</h3>
-                    <p>1. スプレッドシート作成 → 「拡張機能」→「Apps Script」<br>
-                    2. 以下のコードを貼り付けて保存・実行（承認作業を忘れずに）</p>
-                    <div class="prompt-box">
-                        <button class="copy-btn" onclick="copyText('code-hello')"><i class="fa-regular fa-copy"></i> Copy</button>
-                        <code id="code-hello">function myFunction() {
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fa-solid fa-code"></i> GASの基本のキロク</h3>
+                    
+                    <div class="accordion">
+                        <details open>
+                            <summary>
+                                <i class="acc-icon fa-solid fa-play" style="color:#3b82f6;"></i>
+                                GASでプログラミングを行なってみよう！
+                                <span class="lead">▼</span>
+                            </summary>
+                            <div class="acc-body">
+                                <p>プログラミングの基本の流れは <strong>【コードを書く】→【実行する】→【ログ確認】</strong> です。<br>
+                                スプレッドシートとGASを連携させ、セルに自動で文字を入力する簡単なスクリプトを作成してみましょう。<br>
+                                <a href="https://youtu.be/0HVMf7wtPsI?si=i1tuK-GqcZlaTUCG&t=231" target="_blank" style="color:#2563eb; font-weight: bold;"><i class="fa-brands fa-youtube"></i> 参考動画（3:51〜）をチェック</a>
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="highlight-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe; color: #1e40af;">
+                        <h3 style="border-bottom-color:#93c5fd;"><i class="fa-solid fa-keyboard"></i> 実習：GASの基本手順と承認フロー</h3>
+                        
+                        <div class="step-box" style="border-color:#3b82f6;">
+                            <h4>① スプレッドシートの準備</h4>
+                            <p>空白の新しいスプレッドシートを作成し、ファイル名（例：「DX4月9日テスト」）をつけます。</p>
+                        </div>
+                        <div class="step-box" style="border-color:#3b82f6;">
+                            <h4>② Apps Script を開く</h4>
+                            <p>メニューバーの「拡張機能」→「Apps Script」を選んで、GASを書く場所を開きます。プロジェクトに名前（例：「DX4月9日テストプロジェクト」）をつけます。</p>
+                        </div>
+                        <div class="step-box" style="border-color:#3b82f6;">
+                            <h4>③ コードを書き込む</h4>
+                            <p>既に書き込まれているコードを全部消してから、下記のコードをコピーして貼り付けます。</p>
+                            <div class="prompt-box">
+                                <button class="copy-btn" onclick="copyPrompt('code-1')"><i class="fa-regular fa-copy"></i> Copy</button>
+                                <pre id="code-1">function myFunction() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('シート1');
   sheet.getRange('A1').setValue('Hello GAS!');
-}</code>
+}</pre>
+                            </div>
+                        </div>
+                        <div class="step-box" style="border-color:#3b82f6;">
+                            <h4>④ コードを実行する</h4>
+                            <ul>
+                                <li>「💾 保存」ボタンを押して保存します。</li>
+                                <li>「▶ 実行」ボタンを押してプログラムを実行してみましょう。</li>
+                            </ul>
+                        </div>
+                        <div class="step-box" style="background:#fff1f2; border-color:#e11d48; color:#be123c;">
+                            <h4 style="color:#e11d48;"><i class="fa-solid fa-triangle-exclamation"></i> 重要な手順： 初回の「承認」作業</h4>
+                            <p>一番最初だけスクリプトの実行許可が必要です。以下の手順で承認を進めてください：</p>
+                            <ul>
+                                <li>「権限を確認」ボタンを押す</li>
+                                <li><strong>「詳細」</strong> のリンクをクリック</li>
+                                <li>一番下の <strong>「無題のプロジェクト（安全ではないページ）に移動」</strong> をクリック</li>
+                                <li><strong>「続行（または許可）」</strong> ボタンをクリック</li>
+                            </ul>
+                            <p>✅ スプレッドシートに戻り、セルA1に文字が自動入力されているか確認しましょう。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: AI連携 -->
+            <div class="glass-card" style="border-top: 5px solid #0ea5e9;">
+                <div class="card-header">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color:#0ea5e9; background:#e0f2fe;"></i>
+                    <h2 style="color:#0369a1;">動画2：Geminiを使ったGASの自動生成</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="NOAvewGJNsw" style="max-width: 800px; margin: 0 auto;">
+                            <!-- フォールバック対応 -->
+                            <img src="https://img.youtube.com/vi/NOAvewGJNsw/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/NOAvewGJNsw/hqdefault.jpg'" alt="AIを使った自動化">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="info-box">
-                    <h4><i class="fa-solid fa-share-nodes"></i> 実践用スクリプト集</h4>
+                <div class="video-desc-full">
+                    <div class="column-box">
+                        <div class="column-label">AIに聞いてみよう！</div>
+                        <h4 style="color:#115e59;">⑤ ＜応用編＞生成AIに依頼して、GASコードを書いてもらおう</h4>
+                        <p>先ほどの「Hello GAS!」のコードを元に、Geminiに修正を依頼してみましょう。<br>以下のプロンプトをコピーして Gemini（<a href="https://gemini.google.com/" target="_blank" style="color:#0d9488; font-weight:bold;">https://gemini.google.com/</a>）に投げてください。</p>
+                        
+                        <div class="prompt-box">
+                            <button class="copy-btn" onclick="copyPrompt('prompt-ai-1')"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <pre id="prompt-ai-1">下記のGASコードを修正してください。
+今日の夕飯はカレーなので、材料の買い物リスト一覧を表示させたいです。
+
+function myFunction() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('シート1');
+  sheet.getRange('A1').setValue('Hello GAS!');
+}</pre>
+                        </div>
+                        <p style="margin-top: 1rem; font-weight: bold; color: #0d9488;">⑥ 生成 AIが出してくれたコードをコピーして、先ほどのApps Scriptに貼り付け、保存し、実行してみよう。<br>スプレッドシートのテキストがカレーの材料リストに書き変わっていたら成功です。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: 実例とスクリプト集 -->
+            <div class="glass-card" style="border-top: 5px solid #d81b60;">
+                <div class="card-header">
+                    <i class="fa-solid fa-share-nodes" style="color:#d81b60; background:#fce4ec;"></i>
+                    <h2 style="color:#880e4f;">動画3：実例解説と「実践用スクリプト集」</h2>
+                </div>
+                
+                <div class="video-grid" style="grid-template-columns: 1fr;">
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="f6fPA0v7VPw" style="max-width: 800px; margin: 0 auto;">
+                            <!-- フォールバック対応 -->
+                            <img src="https://img.youtube.com/vi/f6fPA0v7VPw/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/f6fPA0v7VPw/hqdefault.jpg'" alt="実践例">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-desc-full">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: #880e4f; margin-bottom: 1.5rem;"><i class="fa-solid fa-gift"></i> そのまま使える！業務効率化スクリプト</h3>
+                    <p>動画内で紹介された、実務ですぐに役立つ自動化スクリプトのGoogleドキュメントへのリンク集です。</p>
+                    
                     <div class="resource-card-grid">
                         <a href="https://docs.google.com/document/d/1yjbF_aaon5QaPc3Wbwyx4kLb1iC4LyCxiUpHzzjBckg/edit?usp=sharing" target="_blank" class="resource-card">
-                            <h5><i class="fa-solid fa-envelope"></i> 売上レポート自動送信</h5>
+                            <h5><i class="fa-solid fa-envelope" style="color:var(--accent);"></i> 売上レポートの自動送信</h5>
                             <p>抽出データを定時にメールで報告する仕組み</p>
                         </a>
-                        <a href="https://docs.google.com/document/d/1zXFeViHx3jLsY99VOmllDq-k7CUuCWeuSRyKhrlyW4/edit?usp=sharing" target="_blank" class="resource-card">
-                            <h5><i class="fa-solid fa-pen-nib"></i> 日報・週報自動作成</h5>
+                        <a href="https://docs.google.com/document/d/1zXFeViHx3jLsY99VOmfllDq-k7CUuCWeuSRyKhrlyW4/edit?usp=sharing" target="_blank" class="resource-card">
+                            <h5><i class="fa-solid fa-pen-nib" style="color:#3b82f6;"></i> 日報・週報の下書き自動生成</h5>
                             <p>カレンダーやタスクから下書きを自動生成</p>
                         </a>
                         <a href="https://docs.google.com/document/d/1-L2EzzPYVU7TMR9jWnlxMwI5FcuPo0uvRYV99u1OO0w/edit?usp=sharing" target="_blank" class="resource-card">
-                            <h5><i class="fa-solid fa-file-pdf"></i> 請求書PDF自動送付</h5>
+                            <h5><i class="fa-solid fa-file-pdf" style="color:#10b981;"></i> 請求書PDFの自動作成＆メール送付</h5>
                             <p>スプレッドシートからPDF化し、宛先へ自動送信</p>
+                        </a>
+                        <a href="https://docs.google.com/document/d/1B9oSKeClSG0emWWjDHQ5RKXTErVCkVr5viqTXR-Q7UA/edit?usp=sharing" target="_blank" class="resource-card">
+                            <h5><i class="fa-solid fa-headset" style="color:#f59e0b;"></i> 顧客対応の一次応答自動化</h5>
+                            <p>問い合わせ内容を解析し、定型文を一次返信</p>
+                        </a>
+                        <a href="https://docs.google.com/document/d/1Gb9bjBWwTLIFHYit7h1DglLh-6jijb1XF82auNhM7mQ/edit?usp=sharing" target="_blank" class="resource-card">
+                            <h5><i class="fa-solid fa-bell" style="color:#8b5cf6;"></i> スプレッドシートの変更通知</h5>
+                            <p>重要データが更新された際にチャット等へ通知</p>
                         </a>
                     </div>
                 </div>
             </div>
+
             <div class="bottom-nav">
-                <button class="btn" style="background:#fff; color:var(--text-main); border:1px solid #ddd;" onclick="switchTab('tab-goal'); window.scrollTo(0,0);"><i class="fa-solid fa-arrow-left"></i> 目標に戻る</button>
-                <button class="btn" onclick="switchTab('tab-ag'); window.scrollTo(0,0);">後半：Antigravityへ進む <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-goal'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 目標に戻る
+                </button>
+                <button class="btn" onclick="switchTab('tab-ag'); window.scrollTo(0,0);">
+                    後半：Antigravityへ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- TAB: AG -->
+        <!-- ==========================================
+             TAB 3: SECOND HALF (Antigravity)
+        ========================================== -->
         <div id="tab-ag" class="tab-content">
-            <div class="glass-card" style="border-top: 5px solid var(--purple);">
+            
+            <!-- SECTION 4: Antigravity -->
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
                 <div class="card-header">
-                    <i class="fa-solid fa-rocket" style="color:var(--purple); background:#f5f3ff;"></i>
-                    <h2 style="color:#4c1d95;">後半：Google Antigravity 入門</h2>
+                    <i class="fa-solid fa-rocket" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2 style="color:#4c1d95;">後半：Google Antigravity を設定しよう</h2>
                 </div>
-                <p>「Google Antigravity」は、あなたの意図を読み取り、代わりに手を動かしてくれる強力なAIコーディングアシスタントです。初期設定から実際のアプリ作成までを一気に進めましょう。</p>
+                
+                <p style="font-size: 1.1rem; line-height: 1.8;">「Google Antigravity」は、あなたの意図を読み取り、代わりに手を動かしてくれる強力なAIコーディングアシスタントです。初期設定から実際のアプリ作成までを一気に進めましょう。</p>
                 
                 <div class="video-grid">
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="RIULsBUilQs" style="background-image: url('https://img.youtube.com/vi/RIULsBUilQs/maxresdefault.jpg'), url('https://img.youtube.com/vi/RIULsBUilQs/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="RIULsBUilQs">
+                            <img src="https://img.youtube.com/vi/RIULsBUilQs/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/RIULsBUilQs/hqdefault.jpg'" alt="導入と基本設定">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
                         </div>
-                        <div class="vc-info"><div class="vc-title">導入と基本設定</div></div>
+                        <div class="video-desc-full" style="padding-top:0.5rem; text-align:center; font-weight:bold; border-top:none;">導入と基本設定</div>
                     </div>
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="aOtfa9jRut0" style="background-image: url('https://img.youtube.com/vi/aOtfa9jRut0/maxresdefault.jpg'), url('https://img.youtube.com/vi/aOtfa9jRut0/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="aOtfa9jRut0">
+                            <img src="https://img.youtube.com/vi/aOtfa9jRut0/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/aOtfa9jRut0/hqdefault.jpg'" alt="Antigravity✕GASデプロイ">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
                         </div>
-                        <div class="vc-info"><div class="vc-title">Antigravity✕GASデプロイ</div></div>
+                        <div class="video-desc-full" style="padding-top:0.5rem; text-align:center; font-weight:bold; border-top:none;">Antigravity✕GASデプロイ</div>
                     </div>
-                    <div class="video-card">
-                        <div class="vc-thumb" data-video-id="pQ8r3P_SCMI" style="background-image: url('https://img.youtube.com/vi/pQ8r3P_SCMI/maxresdefault.jpg'), url('https://img.youtube.com/vi/pQ8r3P_SCMI/hqdefault.jpg');">
-                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    <div class="video-wrapper">
+                        <div class="video-thumb" data-video-id="pQ8r3P_SCMI">
+                            <img src="https://img.youtube.com/vi/pQ8r3P_SCMI/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/pQ8r3P_SCMI/hqdefault.jpg'" alt="便利機能と日本語設定">
+                            <div class="play-overlay"><i class="fa-brands fa-youtube"></i></div>
                         </div>
-                        <div class="vc-info"><div class="vc-title">便利機能と日本語設定</div></div>
+                        <div class="video-desc-full" style="padding-top:0.5rem; text-align:center; font-weight:bold; border-top:none;">便利機能と日本語設定</div>
                     </div>
                 </div>
 
                 <div class="highlight-box" style="background: linear-gradient(135deg, #f5f3ff, #ede9fe); border-color:#ddd6fe; color:#4c1d95;">
-                    <h3><i class="fa-solid fa-screwdriver-wrench"></i> 実習2：Antigravityを動かそう</h3>
-                    <p>1. <a href="https://antigravity.google/" target="_blank" style="color:var(--purple); font-weight:800;">公式サイト</a>からインストール。<br>
-                    2. 「日記アプリを作って」と伝えて、AIがアプリを組み立てる様子を観察しましょう。</p>
-                </div>
-                
-                <div class="column-box" style="background:#fff7ed; border-left: 5px solid #ea580c; padding: 1.5rem; border-radius: 8px;">
-                    <h4 style="color:#9a3412;"><i class="fa-solid fa-circle-exclamation"></i> 注意点</h4>
-                    <p style="margin:0;">Antigravityは作業中に自動でブラウザを立ち上げたり、ファイルの編集を行ったりします。生成中はキーボードから手を離して、AIの活躍を見守りましょう。</p>
+                    <h3 style="border-bottom-color:#c4b5fd;"><i class="fa-solid fa-screwdriver-wrench"></i> 🎯 AIで設計するための環境をつくる</h3>
+                    
+                    <div class="step-box" style="border-color:#7c3aed;">
+                        <h4>① Google Antigravity をインストール</h4>
+                        <p>
+                            <a href="https://antigravity.google/" target="_blank" style="color:#7c3aed; font-weight:bold;">公式サイト</a>からPCにインストールします。初期設定はすべてデフォルトでOKです。<br>
+                            ⚠️ <strong>Chromebookの方へ：</strong> Linux版をインストールしてください。手順は<a href="https://docs.google.com/document/d/1aK-Thrj3TGsKN43Bl0hQuenPRWojTjEn9btQUAug_aE/edit?tab=t.0" target="_blank" style="color:#d81b60; font-weight:bold;">こちらのマニュアル</a>をご参照ください。
+                        </p>
+                    </div>
+                    
+                    <div class="step-box" style="border-color:#7c3aed;">
+                        <h4>② 日本語の拡張機能を設定</h4>
+                        <p>英語UIを日本語化します。（<a href="https://youtu.be/pQ8r3P_SCMI?si=M7KJlpjQyuwI1p-i&t=504" target="_blank" style="color:#7c3aed; font-weight:bold;">参考動画の8:24〜</a>をご覧ください）</p>
+                    </div>
+
+                    <div class="step-box" style="border-color:#7c3aed;">
+                        <h4>③ ２つの画面モードを確認</h4>
+                        <ul>
+                            <li><strong>エージェントマネージャー</strong> モード（AIと対話して指示を出すモード）</li>
+                            <li><strong>エディター</strong> モード（実際のコードを確認・編集するモード）</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box" style="background:#fff7ed; border-color:#ea580c; color:#9a3412;">
+                        <h4 style="color:#ea580c;">④ 【実践】エージェントマネージャモードでアプリを作ってみる</h4>
+                        <p>以下のプロンプトを投げてみましょう。</p>
+                        <div class="prompt-box">
+                            <button class="copy-btn" onclick="copyPrompt('prompt-ag-1')"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <pre id="prompt-ag-1">日記がつけられるアプリを作って
+日付と毎日の日記がテキストで書けるようにUIをきれいに整えて</pre>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; border-top: 2px dashed #fdba74; padding-top: 1rem;">
+                            <strong>⚠️ 操作上の注意事項：</strong>
+                            <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height:1.8;">
+                                <li><strong>作成時間：</strong> 人によって作成に５分くらいかかりますので、Antigravityが作っているのを待ってあげてください。</li>
+                                <li><strong>権限の許可：</strong> 「Proceed」「Allow」「Accept」など、ステップの許可を求められたら、ボタンをクリックして進めてください。</li>
+                                <li><strong>自動ブラウザ起動：</strong> ブラウザが勝手に立ち上がりますが驚かないでください。Antigravityが作業してますので、そのまま作業させてあげてください。完成したらさわれます。</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
             <div class="bottom-nav">
-                <button class="btn" style="background:#fff; color:var(--text-main); border:1px solid #ddd;" onclick="switchTab('tab-gas'); window.scrollTo(0,0);"><i class="fa-solid fa-arrow-left"></i> 前半に戻る</button>
-                <button class="btn" style="background:linear-gradient(135deg, #10b981, #059669);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">ミッションへ進む <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-gas'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 前半に戻る
+                </button>
+                <button class="btn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">
+                    今日のまとめ・ミッションへ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- TAB: MISSION -->
+        <!-- ==========================================
+             TAB 4: SUMMARY & MISSION
+        ========================================== -->
         <div id="tab-summary" class="tab-content">
+            
             <div class="hero" style="margin-bottom: 2rem;">
                 <h2 style="font-size:2.4rem; color:#059669; font-family:'Teko', sans-serif;"><i class="fa-solid fa-flag-checkered"></i> TODAY's MISSION</h2>
                 <p>GASとAntigravityを使って、業務を自動化する第一歩を踏み出しましょう。</p>
             </div>
 
+            <!-- MISSION CHECKLIST AREA -->
             <div class="mission-area" id="mission-group-5">
                 <div class="wax-seal">CLEAR</div>
                 <div class="mission-header">
@@ -315,95 +521,122 @@
                 
                 <ul class="task-list">
                     <li class="task-item" onclick="toggleTask('t5_1', this)">
-                        <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                        <div class="custom-checkbox" id="check_t5_1"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
                             <h4>STEP 01: GASでセルへの書き込みを成功させる</h4>
-                            <p>「Hello GAS!」がスプレッドシートに表示されたらチェック！</p>
+                            <p>「Hello GAS!」がスプレッドシートに表示されたらチェック！<br>
+                                （実行権限の未承認エラーで止まっていないか確認しましょう）</p>
                         </div>
                     </li>
+
                     <li class="task-item" onclick="toggleTask('t5_2', this)">
-                        <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                        <div class="custom-checkbox" id="check_t5_2"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 02: Geminiにプロンプトを投げてコードを修正する</h4>
-                            <p>「買い物リスト（カレーの材料）を表示させて」とAIに依頼し、コードを更新・実行しましょう。</p>
+                            <h4>STEP 02: Geminiにプロンプトを投げてコードを書き換える</h4>
+                            <p>「カレーの材料リスト」にシートが更新されたらチェック！<br>
+                                AIを使ってコードを修正する体験です。</p>
                         </div>
                     </li>
+
                     <li class="task-item" onclick="toggleTask('t5_3', this)">
-                        <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                        <div class="custom-checkbox" id="check_t5_3"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
                             <h4>STEP 03: Antigravity で日記アプリを作成する</h4>
-                            <p>対話だけでUIの整ったアプリが完成したらチェック！</p>
+                            <p>Antigravityをインストールし、対話だけでUIの整ったアプリが起動したらチェック！<br>
+                                （途中、ブラウザが自動で動くのは仕様です）</p>
                         </div>
                     </li>
+
                     <li class="task-item" onclick="toggleTask('t5_4', this)">
-                        <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                        <div class="custom-checkbox" id="check_t5_4"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 04: 本日の成果を自分のフォルダに保存</h4>
-                            <p>作成したスプレッドシートや企画案を整理して完了です。</p>
+                            <h4>STEP 04: 今日の成果を共有・整理する</h4>
+                            <p>できたスプレッドシートや、実践用スクリプト集のリンクを、自分のノートブックにまとめておきましょう。</p>
                         </div>
                     </li>
                 </ul>
             </div>
 
             <div style="text-align:center; padding: 4rem 0;">
-                <button class="btn" style="padding: 1.2rem 4rem; font-size:1.3rem;" onclick="window.location.href='index.html'">
+                <button class="btn" style="padding: 1.2rem 4rem; font-size:1.3rem; background:linear-gradient(135deg, var(--accent-light), var(--accent)); border-radius:50px; box-shadow: 0 10px 30px var(--accent-glow);" onclick="window.location.href='index.html'">
                     <i class="fa-solid fa-house"></i> 学習完了を記録してHomeへ戻る
                 </button>
             </div>
         </div>
+
     </div>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            let btn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
-            if(btn) btn.classList.add('active');
-            updateProgress(tabId);
-        }
-
-        function updateProgress(tabId) {
-            const m = { 'tab-goal': 0, 'tab-gas': 33, 'tab-ag': 66, 'tab-summary': 100 };
-            const p = m[tabId] || 0;
-            document.getElementById('progress-bar').style.width = p + '%';
-            document.getElementById('progress-percent').innerText = p + '%';
-        }
-
-        const missionState = { 't5_1': false, 't5_2': false, 't5_3': false, 't5_4': false };
-        function toggleTask(taskId, el) {
-            missionState[taskId] = !missionState[taskId];
-            el.classList.toggle('completed', missionState[taskId]);
-            checkAll();
-        }
-
-        function checkAll() {
-            if (Object.values(missionState).every(v => v)) {
-                document.getElementById('mission-group-5').classList.add('completed');
-                setTimeout(() => alert('全ミッション完了！お疲れ様でした！'), 500);
-            } else {
-                document.getElementById('mission-group-5').classList.remove('completed');
-            }
-        }
-
-        function copyText(id) {
-            const txt = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(txt).then(() => {
-                let btn = document.querySelector(`button[onclick*="${id}"]`);
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-                setTimeout(() => btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 2000);
-            });
-        }
-
-        // YouTube Facade
-        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(thumb => {
+        // ======= YOUTUBE FACADE SCRIPT =======
+        document.querySelectorAll('.video-thumb[data-video-id]').forEach(thumb => {
             thumb.addEventListener('click', function() {
                 const videoId = this.dataset.videoId;
-                this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
-                this.style.backgroundImage = 'none';
+                this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>`;
                 this.style.cursor = 'default';
             }, { once: true });
         });
+
+        // ======= TAB NAVIGATION ========
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            let targetBtn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            updateProgress(tabId);
+        }
+
+        // ======= PROGRESS BAR ========
+        function updateProgress(tabId) {
+            const m = { 'tab-goal': 0, 'tab-gas': 33, 'tab-ag': 66, 'tab-summary': 100 };
+            const p = m[tabId] || 0;
+            const bar = document.getElementById('progress-bar');
+            const txt = document.getElementById('progress-percent');
+            if(bar) bar.style.width = p + '%';
+            if(txt) txt.innerText = p + '%';
+        }
+
+        // ======= MISSION CHECKLIST & WAX SEAL ========
+        const missionState = { 't5_1': false, 't5_2': false, 't5_3': false, 't5_4': false };
+        function toggleTask(taskId, element) {
+            missionState[taskId] = !missionState[taskId];
+            if (missionState[taskId]) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+            checkAllMissions();
+        }
+
+        function checkAllMissions() {
+            const allDone = Object.values(missionState).every(v => v);
+            const missionArea = document.getElementById('mission-group-5');
+            if (allDone) {
+                missionArea.classList.add('completed');
+                setTimeout(() => alert('全ステップ完了おめでとうございます！次はいよいよDXツールの連携本格化です！'), 800);
+            } else {
+                missionArea.classList.remove('completed');
+            }
+        }
+
+        // ======= PROMPT COPY FUNCTION ========
+        function copyPrompt(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector(`button[onclick="copyPrompt('${elementId}')"]`);
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                btn.style.color = '#86efac';
+                btn.style.borderColor = '#86efac';
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.style.color = '#fff';
+                    btn.style.borderColor = 'rgba(255,255,255,0.2)';
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
