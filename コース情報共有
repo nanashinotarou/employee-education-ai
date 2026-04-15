@@ -449,3 +449,144 @@ https://youtu.be/vUmyppTIyqQ?si=-LHzc-hR7WfR5nFu
 https://youtu.be/D8CKOGhdf5M?si=M3zzr3OVNcksBQSu
 
 実習は完全に前半のものと同じな為転記は割愛。
+
+Day7
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：WEBサイト制作の基礎知識
+研修目的：Webサイトの構造と制作手順を理解し、非エンジニアでも扱える基礎を固め、AI活用による制作準備を整える。
+
+前半
+再生動画
+https://youtu.be/erWUxtH1DmY?si=imgNgiAWgRyZRim4
+https://youtu.be/RQKWZAKCjsE?si=Hcr4qc9gd3R4LW9A
+https://youtu.be/9R86Bn8XTVg?si=8pyCGEuEpDktkfHr
+
+▼4月15日前半の動画情報補足
+動画1：ホームページ制作の知識・スキルの全体像
+https://drive.google.com/file/d/1IvWhKcGRm7W_AgqqXVs3swNbGU2U9ATO/view?usp=sharing
+
+動画2：３つの基本技術
+ーーーーーーーーーー
+HTML：骨組み
+CSS：見た目
+Javascript：動きや反応
+ーーーーーーーーーー
+プラス１技術
+CMS：コンテンツ管理システム
+
+動画3：Webデザイナー向け用語解説15選
+0:32 1.ファーストビュー  
+00:55 2.ワイヤーフレーム  
+01:16 3.デザインカンプ 
+01:43 4.レスポンシブデザイン
+02:26 5.モバイルファースト
+03:07 6.トンマナ 
+03:50 7.CV 
+04:21 8.CVR 
+04:42 9.CTA
+05:11 10.UU / PV
+05:34 11.ドメイン
+05:51 12.サーバー
+06:35 13.FTP
+08:07 14.Googleアナリティクス
+08:59 15.サーチコンソール
+
+🎞️動画おさらいパートナー
+動画URLを送信すると、動画の内容を分かりやすくまとめて、クイズ形式であなたの復習を優しくお手伝いします。
+https://gemini.google.com/gem/1m-KipmGdP-WEu3am8eF20uaxPoFfZyrf?usp=sharing
+※有志が作成したGem。今日の内容は難しかったので、反芻しつつ飲み込む必要が出てくる方もいると思うのでこういったツールを交えて壁打ちしながらの理解も必要になってくるかも。
+
+実習：フラッシュカードアプリを作ってみよう
+
+🎯 実習の目的
+・目標課題達成のための練習
+
+💡 実習の流れ
+
+① 問題を作る
+NotebookLMに、問題の元になる動画を読み込む。
+
+ソース１🔗ホームページ制作の知識・スキルの全体像を図で解説
+https://www.youtube.com/watch?v=erWUxtH1DmY　
+
+ソース２🔗Webサイト制作の基本〜3つの技術と+1のしくみ〜
+https://www.youtube.com/watch?v=RQKWZAKCjsE　
+
+ソース３🔗Webデザイナーなら知っておくべき専門用語15選
+https://www.youtube.com/watch?v=9R86Bn8XTVg　
+
+✍️プロンプト
+フラッシュカードのアプリを作りたいです。
+元になる問題と答えを100問作ってください。
+
+② Geminiでアプリを作る
+「Canvas」ツールを選択。
+
+✍️プロンプト
+フラッシュカードのアプリを作りたいです。
+元になる問題と答えを送ります。
+
+③ アプリを改良する
+
+問題と答えのリストを送る。
+
+④ 完成版を共有する
+
+右上「共有」から、公開リンクを作成。
+https://gemini.google.com/share/6f2a66350089
+
+後半
+再生動画　
+https://youtu.be/BGNvBUYrB_s?si=1-xkJ8xqd3g7KdDh
+https://youtu.be/ijHHHy9GtD0?si=26dSD10kHjCR2mUB
+https://youtu.be/dXMv5jhowyE?si=XYhIwjJIrHwqX3n6
+https://youtu.be/dzoZ6uSd7-c?si=T4ow_Rhn_YZ9hpX4
+
+▼ Readdy
+https://readdy.ai/ja
+
+✍️プロンプト
+AIアートのポートフォリオサイト、作品展示欄と仕事依頼
+(AIアート制作、AI映像制作、MV制作、AI音楽制作) の問い合わせが出来る
+ポップでゆめかわいいデザインで遊び心のあるHPを作って
+
+✍️プロンプト
+添付の画像のカラーを使用しヘッダーとフッターに統一感のある配色を設定し、
+ブランドイメージを強化します。デザイン教室のホームページトップページでは、
+ヒーローセクションにキャッチコピーとCTAボタンを配置し、ユーザー導線を明確にします。
+さらに、スクロールで紹介セクションへ自然に誘導できるビジュアルとテキスト配置を整えます。
+
+▼Coolors - 超高速カラーパレットジェネレーター
+https://coolors.co/
+
+▼ Wix AI
+https://www.wix.com/harmony
+
+▼ 4月15日動画内プロンプト デザイナーにWEBサイト制作を依頼する時に重要な「ワイヤーフレーム」作成しよう
+https://docs.google.com/document/d/1LwuSLGmCGbSBS4OONRr2TXXJQBavTlv9h16zjaJT5vM/edit?usp=sharing
+
+実習：GeminiのCanvas機能で、WEBサイトを作ってみよう
+
+🎯 実習の目的
+・AIでWEBサイトを作る基本を覚える
+
+🎥参考動画
+https://youtu.be/BGNvBUYrB_s?si=nn-Gfuo8ghIOYe4Y&t=210
+
+
+💡 実習の流れ
+
+①Geminiを開く
+
+②ツールからCanvasを選ぶ
+
+③思考モードに設定する
+
+④プロンプトを送る「ビジネス英語が勉強できるwebサイトを作ってください」
+
+⑤プレビューで確認する
+
+⑥改良する
+右下の選択して質問ボタンを押し、任意の場所を選び、修正してみよう
+例）ヘッダーのサイトの名前を選んで、「English Lesson」という名前に変えてみよう
+
