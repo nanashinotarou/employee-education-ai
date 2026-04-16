@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8 | AI活用によるWEBサイト制作①</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fff5f8;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --text-main: #4a4a4a;
+            --text-sub: #71717a;
+            --accent: #d81b60;
+            --accent-light: #f06292;
+            --accent-bg: #fce4ec;
+            --accent-glow: rgba(216, 27, 96, 0.25);
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --blue: #2563eb;
+            --blue-bg: #eff6ff;
+            --purple: #7c3aed;
+            --glass-blur: blur(20px);
+            --radius: 20px;
+            --tier-advanced: #3b82f6;
+            --tier-intermediate: #10b981;
+            --tier-beginner: #f59e0b;
+        }
+
+        body { font-family: "Noto Sans JP", sans-serif; background-color: var(--bg-body); background-image: radial-gradient(at 0% 0%, rgba(252,228,236,0.5) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(255,255,255,0.8) 0px, transparent 50%); background-attachment: fixed; color: var(--text-main); margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+
+        .fixed-header { position: fixed; top: 0; left: 0; right: 0; height: 75px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(240, 98, 146, 0.3); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; transition: 0.3s; padding: 8px 16px; border-radius: 12px; }
+        .back-link:hover { background: var(--accent-bg); color: var(--accent); }
+        .progress-container { width: 350px; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .progress-bar-bg { height: 8px; background: #fee2e2; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #f48fb1, #d81b60); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; }
+
+        .container { max-width: 1000px; margin: 100px auto 60px; padding: 0 20px; }
+
+        .hero { text-align: center; margin-bottom: 3.5rem; padding-top: 2rem; animation: fadeInDown 0.6s ease; }
+        .day-badge { display: inline-block; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; padding: 6px 20px; border-radius: 30px; font-family: 'Teko', sans-serif; font-size: 1.4rem; letter-spacing: 1.5px; margin-bottom: 1rem; box-shadow: 0 8px 20px var(--accent-glow); }
+        .hero h1 { font-size: 2.5rem; font-weight: 900; color: var(--text-main); margin: 0 0 1rem; letter-spacing: -1px; }
+        .hero p { font-size: 1.15rem; color: var(--text-sub); line-height: 1.7; max-width: 750px; margin: 0 auto; }
+
+        .tab-nav { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .tab-btn { background: #fff; border: 1px solid #fbcfe8; padding: 1.2rem 2rem; border-radius: 16px; font-size: 1.05rem; font-weight: 800; color: var(--text-sub); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 10px; }
+        .tab-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.05); color: var(--text-main); border-color: var(--accent-light); }
+        .tab-btn.active { background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; border: none; box-shadow: 0 10px 30px var(--accent-glow); transform: translateY(-5px); }
+        .tab-btn.active i { color: #fff !important; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .glass-card { background: var(--bg-card); backdrop-filter: var(--glass-blur); border: 1px solid rgba(255,255,255,0.7); border-radius: var(--radius); padding: 3rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(216, 27, 96, 0.05); transition: transform 0.3s; display: flex; flex-direction: column; gap: 1.5rem; }
+        .card-header { display: flex; align-items: center; gap: 1rem; border-bottom: 2px solid var(--accent-bg); padding-bottom: 1.2rem; margin-bottom: 1rem; }
+        .card-header i { font-size: 1.6rem; color: var(--accent); background: var(--accent-bg); padding: 1.2rem; border-radius: 14px; }
+        .card-header h2 { margin: 0; font-size: 1.8rem; color: var(--text-main); font-weight:900; letter-spacing: -0.5px;}
+
+        .info-box { background: var(--accent-bg); border-left: 5px solid var(--accent); padding: 2rem; border-radius: 0 16px 16px 0; margin: 1rem 0; }
+        .info-box h4 { margin: 0 0 1rem; color: var(--accent); display: flex; align-items: center; gap: 0.8rem; font-size: 1.25rem; font-weight: 900;}
+        .info-box p { margin: 0; color: var(--text-main); line-height: 1.8; font-size: 1.05rem;}
+
+        .highlight-box { background: linear-gradient(135deg, #fff1f2, #ffe4e6); border-radius: 16px; padding: 2.5rem; margin: 2rem 0; color: #881337; box-shadow: 0 8px 25px rgba(225, 29, 72, 0.1); border: 1px solid #fecdd3; }
+        .highlight-box h3 { font-size: 1.4rem; font-weight: 900; margin-top: 0; border-bottom: 2px dashed #fb7185; padding-bottom: 12px; margin-bottom: 15px; display:flex; align-items:center; gap:8px;}
+
+        .column-box { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; padding: 2rem 2.5rem; border-radius: 16px; margin: 2.5rem 0; position: relative; box-shadow: 0 8px 25px rgba(13, 148, 136, 0.08); }
+        .column-label { position: absolute; top: -14px; left: 24px; background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; padding: 4px 20px; font-size: 0.95rem; font-weight: 900; border-radius: 20px; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); }
+        .column-box h4 { margin: 0.5rem 0 1rem; color: #115e59; font-size: 1.3rem; font-weight: 900; border-bottom: 2px dashed #5eead4; padding-bottom: 0.8rem;}
+
+        /* YouTube Facade（GEMINI.md） */
+        .video-card { background: #fff; border-radius: 16px; overflow: hidden; border: 2px solid #fbcfe8; box-shadow: 0 8px 24px rgba(216,27,96,0.06); }
+        .vc-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .vc-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+            pointer-events: none;
+        }
+        .vc-thumb:hover::before { background: rgba(216, 27, 96, 0.25); }
+        .vc-thumb-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, color 0.3s ease;
+            pointer-events: none;
+        }
+        .vc-thumb:hover .vc-thumb-play { transform: translate(-50%, -50%) scale(1.1); color: #ff0000; }
+        .vc-info { padding: 1rem 1.25rem 1.25rem; border-top: 1px solid #fce4ec; }
+        .vc-title { font-weight: 900; font-size: 1.05rem; color: var(--text-main); line-height: 1.5; }
+        .vc-note { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.35rem; }
+
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; margin: 1.5rem 0;}
+
+        .accordion { margin: 1.5rem 0; border: 1px solid #fbcfe8; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(216,27,96,0.03); }
+        .accordion details { border-bottom: 1px solid #fce4ec; }
+        .accordion details:last-child { border-bottom: none; }
+        .accordion summary { padding: 1.5rem 2rem; cursor: pointer; display: flex; align-items: center; gap: 1rem; font-weight: 800; font-size: 1.15rem; color: var(--text-main); transition: background 0.2s; background: rgba(255,255,255,0.8); }
+        .accordion summary::-webkit-details-marker { display: none; }
+        .accordion summary::before { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.9rem; color: var(--accent); transition: transform 0.3s; width: 20px; text-align: center; }
+        .accordion details[open] summary::before { transform: rotate(180deg); }
+        .accordion summary:hover { background: var(--accent-bg); }
+        .accordion .acc-body { padding: 0 2rem 2rem 3.8rem; color: var(--text-main); line-height: 1.8; font-size: 1.05rem; animation: fadeIn 0.3s ease; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;}
+        .bento-item { background: #fff; border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 2px solid transparent; transition: transform 0.3s, box-shadow 0.3s;}
+        .bento-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(216,27,96,0.08); border-color: var(--accent-light);}
+        .bento-item h4 { margin: 0 0 1rem; font-size: 1.2rem; color: var(--text-main); display: flex; align-items: center; gap: 0.8rem; font-weight:900;}
+        .bento-item p { margin: 0; font-size: 0.98rem; line-height: 1.75; color: var(--text-main); }
+        .bento-tag { display: inline-block; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 8px; background: var(--accent-bg); color: var(--accent); margin-bottom: 0.5rem; }
+
+        .diagram-box { background: #fff; border: 2px solid #fbcfe8; border-radius: 20px; padding: 2rem; margin: 1.5rem 0; text-align: center; box-shadow: 0 10px 30px rgba(216,27,96,0.05); font-size: 1rem; line-height: 1.8; color: var(--text-sub); }
+
+        .step-box { background: #fff; border-left: 4px solid var(--accent); padding: 1.5rem 2rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .step-box h4 { margin: 0 0 0.5rem; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;}
+        .step-box ul { margin: 0; padding-left: 1.5rem; }
+        .step-box li { margin-bottom: 0.5rem; line-height: 1.6; }
+
+        /* 公開レベル別（web-publish-tiers 統合・桜テーマ） */
+        .tier-flow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 0.75rem; margin: 1rem 0 2rem; }
+        .tier-pill { display: inline-flex; align-items: center; padding: 0.45rem 1rem; border-radius: 999px; font-weight: 800; font-size: 0.9rem; border: 2px solid; }
+        .tier-pill--adv { color: var(--tier-advanced); border-color: #93c5fd; background: rgba(59, 130, 246, 0.08); }
+        .tier-pill--mid { color: var(--tier-intermediate); border-color: #6ee7b7; background: rgba(16, 185, 129, 0.08); }
+        .tier-pill--beg { color: var(--tier-beginner); border-color: #fcd34d; background: rgba(245, 158, 11, 0.1); }
+        .tier-arrow { color: var(--text-sub); font-weight: 700; }
+
+        .pub-card { background: #fff; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; border-left: 5px solid; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+        .pub-card--adv { border-left-color: var(--tier-advanced); }
+        .pub-card--mid { border-left-color: var(--tier-intermediate); }
+        .pub-card--beg { border-left-color: var(--tier-beginner); }
+        .pub-badge { font-weight: 900; font-size: 0.95rem; margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .pub-badge--adv { color: var(--tier-advanced); }
+        .pub-badge--mid { color: var(--tier-intermediate); }
+        .pub-badge--beg { color: #b45309; }
+        .pub-title { margin: 0 0 1rem; font-size: 1.35rem; font-weight: 900; color: var(--text-main); line-height: 1.4; }
+        .pub-sub { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-sub); margin: 1.25rem 0 0.4rem; }
+        .pub-list { margin: 0; padding-left: 1.35rem; line-height: 1.75; }
+        .pub-note { font-size: 0.9rem; color: var(--text-sub); display: block; margin-top: 0.35rem; }
+        .workflow-code { font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem; background: #1e293b; color: #e2e8f0; padding: 1.25rem 1.5rem; border-radius: 12px; margin: 0.5rem 0 0; line-height: 1.65; }
+        .workflow-plain { background: var(--accent-bg); padding: 1.25rem 1.5rem; border-radius: 12px; margin: 0.5rem 0 0; border: 1px solid #f8bbd0; }
+        .workflow-plain ol { margin: 0; padding-left: 1.35rem; line-height: 1.85; }
+        .checklist-pub { list-style: none; padding: 0; margin: 0.5rem 0 0; display: grid; gap: 0.45rem; }
+        .checklist-pub li::before { content: "☐ "; color: var(--tier-advanced); font-weight: 900; }
+        .pub-card--mid .checklist-pub li::before { color: var(--tier-intermediate); }
+        .pub-card--beg .checklist-pub li::before { color: var(--tier-beginner); }
+
+        .step-strip-sakura { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .step-strip-sakura li { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; padding: 1rem; font-size: 0.92rem; line-height: 1.55; }
+        .step-strip-sakura strong { display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--tier-beginner); color: #fff; font-size: 0.85rem; margin-right: 0.35rem; vertical-align: middle; }
+
+        .beginner-msg { background: linear-gradient(135deg, #fffbeb, #fef9c3); border: 2px solid #fbbf24; border-radius: 14px; padding: 1.5rem; margin-top: 1.25rem; font-size: 1.02rem; line-height: 1.75; }
+        .beginner-msg p { margin: 0 0 0.6rem; }
+        .beginner-msg p:last-child { margin-bottom: 0; font-weight: 800; color: #92400e; }
+
+        .tier-cta { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px dashed #fbcfe8; }
+        .tier-cta p { margin: 0 0 0.75rem; color: var(--text-sub); font-size: 0.95rem; }
+        .btn-tier { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.35rem; border-radius: 12px; font-weight: 800; text-decoration: none; color: #fff; font-size: 0.95rem; transition: opacity 0.2s, transform 0.2s; border: none; cursor: pointer; }
+        .btn-tier:hover { opacity: 0.92; transform: translateY(-2px); }
+        .btn-tier--mid { background: var(--tier-intermediate); }
+        .btn-tier--beg { background: var(--tier-beginner); color: #1f2937; }
+
+        .mission-area { margin-top: 3rem; background: #fff; border: 2px dashed #f48fb1; border-radius: 20px; padding: 3rem; position: relative; overflow: hidden; transition: all 0.4s;}
+        .mission-area.completed { border-color: var(--accent); border-style: solid; background: var(--accent-bg); box-shadow: 0 10px 40px var(--accent-glow);}
+        .mission-header { text-align: center; margin-bottom: 2.5rem; }
+        .mission-header h3 { font-size: 1.8rem; color: var(--text-main); margin:0 0 0.5rem; font-weight:900; display:flex; justify-content:center; align-items:center; gap:12px;}
+
+        .task-list { list-style: none; padding: 0; margin: 0; display:flex; flex-direction:column; gap:1.2rem;}
+        .task-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 2rem; border-radius: 16px; background: #fafafa; border: 1px solid #e4e4e7; transition: all 0.3s; cursor: pointer; position: relative; z-index: 2;}
+        .task-item:hover { border-color: var(--accent-light); background: #fff; box-shadow: 0 10px 30px rgba(216,27,96,0.06); transform: translateX(5px);}
+        .task-item.completed { background: #fdf2f8; border-color: var(--accent-light); }
+
+        .custom-checkbox { width: 36px; height: 36px; border: 3px solid #d4d4d8; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; background: #fff; }
+        .task-item.completed .custom-checkbox { background: var(--accent); border-color: var(--accent); }
+        .custom-checkbox i { color: #fff; font-size: 18px; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .task-item.completed .custom-checkbox i { opacity: 1; transform: scale(1); }
+
+        .task-content { flex: 1; }
+        .task-content h4 { margin: 0 0 0.8rem; font-size: 1.2rem; color: var(--text-main); font-weight:900; transition:color 0.3s;}
+        .task-item.completed .task-content h4 { color: var(--accent); }
+        .task-content p { margin: 0; font-size: 1.05rem; line-height: 1.7; }
+
+        .wax-seal { position: absolute; top: -20px; right: -20px; width: 150px; height: 150px; background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f); border-radius: 50%; opacity: 0; transform: scale(3) rotate(-30deg); pointer-events: none; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.95); font-size: 4rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 40px rgba(216,27,96,0.5); border: 5px solid #880e4f; z-index: 10;}
+        .wax-seal::after { content: ''; position: absolute; inset: 12px; border: 3px dotted rgba(255,255,255,0.5); border-radius: 50%; }
+        .mission-area.completed .wax-seal { animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        @keyframes stampIn { 0% { opacity: 0; transform: scale(3) translateY(-50px) rotate(-30deg); } 60% { opacity: 1; transform: scale(0.9) translateY(0) rotate(5deg); } 80% { transform: scale(1.1) rotate(-2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-size: 1.15rem; font-weight: 900; transition: all 0.3s; cursor: pointer; box-shadow: 0 8px 20px var(--accent-glow); }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px var(--accent-glow); }
+
+        .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; border-top: 2px dashed #fce4ec; padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+
+        .pub-footer-note { text-align: center; font-size: 0.95rem; color: var(--text-sub); margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.6); border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+    <header class="fixed-header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Course Home</a>
+        <div class="progress-container">
+            <div class="progress-text"><span>Day 8 Progress</span><span id="progress-percent">0%</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
+        </div>
+        <div style="width:100px;"></div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <div class="day-badge">DAY 08</div>
+            <h1>AI活用によるWEBサイト制作①</h1>
+            <p>公開の仕組みと横文字用語をやさしく整理し、自分に合った公開のやり方を選べるようにします。<br>前半は「基礎と公開」、後半は「AIでの制作の発展」です。</p>
+        </div>
+
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-globe" style="color:#2563eb;"></i> 前半：制作と公開の基礎</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed;"></i> 後半：AI制作の発展</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日のまとめ</button>
+        </div>
+
+        <!-- ===== タブ：本日の目標 ===== -->
+        <div id="tab-goal" class="tab-content active">
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-bullseye" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>本日の研修ねらい</h2>
+                </div>
+
+                <div class="column-box">
+                    <div class="column-label">コース目標</div>
+                    <h4>AI活用によるWEBサイト制作またはアプリ開発をする</h4>
+                    <p style="margin:0; line-height:1.85;">Webの公開の流れと用語を理解し、非エンジニアでも「自分の現在地」に合った公開方法を選べる状態を目指します。</p>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-brain"></i> AIを使うからこそ、基礎知識が重要です</h4>
+                    <p>
+                        「AIに任せれば用語はいらない」わけではありません。リポジトリ・ブランチ・デプロイなどの言葉がわかると、<strong>指示の精度が上がり、詰まったときに自分で検索もできます。</strong><br>
+                        今日は横文字を「怖がらずに地図として持つ」ことがゴールです。
+                    </p>
+                </div>
+
+                <div class="bento-grid" style="margin-top: 0;">
+                    <div class="bento-item" style="border-top: 4px solid #2563eb;">
+                        <span class="bento-tag">前半</span>
+                        <h4 style="color:#2563eb;"><i class="fa-solid fa-book-open"></i> 用語と公開の地図</h4>
+                        <p>index.html や階層、ビルド／デプロイをかみ砕き、公開レベル別ガイドで自分のスタート地点を見つけます。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <span class="bento-tag">後半</span>
+                        <h4 style="color:#7c3aed;"><i class="fa-solid fa-wand-magic-sparkles"></i> AIでの制作の発展</h4>
+                        <p>難易度が上がる内容には<strong>逃げ道</strong>を用意しています。分からなければ前半の Canvas / Netlify に戻ってOKです。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <button type="button" class="btn" onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    前半：制作と公開の基礎へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== タブ：前半 ===== -->
+        <div id="tab-first" class="tab-content">
+
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-seedling" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>超かみ砕き！はじめてのWeb用語マップ</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.8;">専門書の1ページ目のように、下のカードを<strong>上から順にざっと読むだけ</strong>で大丈夫です。覚えなくても「なんの話か」がつかめればOKです。</p>
+
+                <div class="bento-grid">
+                    <div class="bento-item" style="border-top: 4px solid #d81b60;">
+                        <span class="bento-tag">表紙の名前</span>
+                        <h4><i class="fa-solid fa-file-code" style="color:#d81b60;"></i> index.html って何？</h4>
+                        <p>サイトの<strong>トップページの定番ファイル名</strong>です。サーバーは「このフォルダの最初に何を見せる？」と聞かれたとき、だいたい <code>index.html</code> を探します。だから「表紙・玄関」のイメージです。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #0ea5e9;">
+                        <span class="bento-tag">フォルダの住所</span>
+                        <h4><i class="fa-solid fa-folder-tree" style="color:#0ea5e9;"></i> 階層（フォルダ構造）</h4>
+                        <p>PCのフォルダのように、<strong>中にフォルダやファイルを入れ子にして整理する仕組み</strong>です。「どのフォルダの、どのファイルか」がパス（住所）になります。画像やCSSのリンク切れは、多くはこの住所の書き間違いです。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #ec4899;">
+                        <span class="bento-tag">画面サイズに合わせる</span>
+                        <h4><i class="fa-solid fa-mobile-screen" style="color:#ec4899;"></i> レスポンシブ対応</h4>
+                        <p>スマホ・タブレット・PCなど、<strong>画面の幅に合わせてレイアウトがきれいに変わる設計</strong>です。今はスマホ閲覧が主流なので、「PCだけきれい」では不十分とされます。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #8b5cf6;">
+                        <span class="bento-tag">Gitの枝</span>
+                        <h4><i class="fa-solid fa-code-branch" style="color:#8b5cf6;"></i> ブランチ（Branch）</h4>
+                        <p>本番のコードを壊さないよう、<strong>コピーを分けて試すための「枝」</strong>です。よく使うのは <code>main</code>（公開の主役）。枝で作業して、問題なければ本流に合流、というイメージです。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #f97316;">
+                        <span class="bento-tag">材料を形にする</span>
+                        <h4><i class="fa-solid fa-gears" style="color:#f97316;"></i> ビルド（Build）</h4>
+                        <p>人が書いたソースを、<strong>サーバーやブラウザが扱いやすい形にまとめ直す作業</strong>です。フレームワークを使うと「ビルドして初めて本番用のファイルができる」ことが多いです。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #059669;">
+                        <span class="bento-tag">みんなに見せる</span>
+                        <h4><i class="fa-solid fa-cloud-arrow-up" style="color:#059669;"></i> デプロイ（Deploy）</h4>
+                        <p>完成したファイルを<strong>インターネット上のサーバーに置いて、URLで誰でも見られる状態にすること</strong>です。「配送・開店」のイメージ。ビルドした結果を載せるのが一般的です。</p>
+                    </div>
+                </div>
+
+                <div class="diagram-box">
+                    <strong style="color:var(--accent); font-size:1.1rem;">一行でいうと</strong><br>
+                    <span style="color:var(--text-main);">「<strong>index.html</strong> が玄関、<strong>フォルダ</strong>が住所、<strong>ブランチ</strong>で安全に試して、<strong>ビルド</strong>してから <strong>デプロイ</strong>して公開」</span>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #2563eb;">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-play" style="color:#2563eb; background:#dbeafe;"></i>
+                    <h2>動画（前半）— 3本</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub);">サムネイルをクリックすると、このページ内で再生が始まります（Facadeパターン）。</p>
+
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="ucsz2VmgV6g" style="background-image: url('https://img.youtube.com/vi/ucsz2VmgV6g/maxresdefault.jpg'), url('https://img.youtube.com/vi/ucsz2VmgV6g/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">① Day 8 前半・再生動画（1/3）</div>
+                            <div class="vc-note">コース情報共有 Day 8 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="zczsB-pYDjw" style="background-image: url('https://img.youtube.com/vi/zczsB-pYDjw/maxresdefault.jpg'), url('https://img.youtube.com/vi/zczsB-pYDjw/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">② Day 8 前半・再生動画（2/3）</div>
+                            <div class="vc-note">コース情報共有 Day 8 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="6s5wz9YxiqM" data-start="523" style="background-image: url('https://img.youtube.com/vi/6s5wz9YxiqM/maxresdefault.jpg'), url('https://img.youtube.com/vi/6s5wz9YxiqM/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">③ Day 8 前半・再生動画（3/3）</div>
+                            <div class="vc-note">実習「GitHub で公開」の参考動画は 8:43〜（再生は 523 秒から開始）</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #f59e0b;">
+                <div class="card-header">
+                    <i class="fa-solid fa-layer-group" style="color:#f59e0b; background:#fffbeb;"></i>
+                    <h2>あなたに合った公開方法（レベル別ガイド）</h2>
+                </div>
+                <p style="margin:0; line-height:1.8; color:var(--text-sub);"><strong style="color:var(--text-main);">上から読んで、わからなくなったところで止まってOK。</strong>下の段ほど手軽です。デザインは桜テーマに合わせて再構成しています（元資料：web-publish-tiers）。</p>
+
+                <div class="tier-flow" aria-label="読み順">
+                    <span class="tier-pill tier-pill--adv">🚀 上級者</span>
+                    <span class="tier-arrow">→</span>
+                    <span class="tier-pill tier-pill--mid">⚡ 中級者</span>
+                    <span class="tier-arrow">→</span>
+                    <span class="tier-pill tier-pill--beg">🔰 初心者</span>
+                </div>
+
+                <div id="pub-advanced" class="pub-card pub-card--adv">
+                    <p class="pub-badge pub-badge--adv">🚀 上級者</p>
+                    <h3 class="pub-title">IDEとGitHubとCloudflareで一気通貫デプロイ</h3>
+                    <p class="pub-sub">対象</p>
+                    <ul class="pub-list">
+                        <li>Webエンジニアとして生業にしていきたい方向け</li>
+                        <li>ツールの連携を自分で組める、またはそれを学びたい方</li>
+                    </ul>
+                    <p class="pub-sub">使うもの</p>
+                    <ul class="pub-list">
+                        <li>AI IDE（Antigravity / Cursor / Windsurf 等）<span class="pub-note">※ AntigravityはGoogleのVSC系AI IDE。UIはCursorに近いです</span></li>
+                        <li>GitHub（リモートリポジトリ）</li>
+                        <li>Cloudflare Pages（自動デプロイ）</li>
+                    </ul>
+                    <p class="pub-sub">ワークフロー（専門用語のまま）</p>
+                    <pre class="workflow-code" style="white-space:pre-wrap; margin:0;">1. IDEでコーディング
+2. Gitでローカルにコミット（変更履歴を記録）
+3. GitHubのリモートリポジトリにpush
+4. CloudflareがGitHubと連携し、pushをトリガーに自動ビルド＆デプロイ
+5. カスタムドメインをCloudflare DNSで設定（オプション）</pre>
+                    <p class="pub-sub">知っておくべき用語（すべてわかる方向け）</p>
+                    <ul class="checklist-pub">
+                        <li>リポジトリとブランチの違い</li>
+                        <li>コミットとpushの違い</li>
+                        <li>CIとCDの意味</li>
+                        <li>ビルドとデプロイの違い</li>
+                        <li>DNS / CNAMEレコードとは何か</li>
+                    </ul>
+                    <div class="tier-cta">
+                        <p>「これはちょっと難しそう…」と感じた方は、次のレベルへどうぞ。</p>
+                        <a href="#pub-intermediate" class="btn-tier btn-tier--mid">⚡ 中級者向けを見る</a>
+                    </div>
+                </div>
+
+                <div id="pub-intermediate" class="pub-card pub-card--mid">
+                    <p class="pub-badge pub-badge--mid">⚡ 中級者</p>
+                    <h3 class="pub-title">HTMLファイルをドラッグ＆ドロップで公開 ― Netlify</h3>
+                    <p class="pub-sub">対象</p>
+                    <ul class="pub-list">
+                        <li>ある程度ツールは使えるが、GitやCLIは知らない方</li>
+                        <li>HTMLファイルを作れれば十分、難しい連携はいらない方</li>
+                    </ul>
+                    <p class="pub-sub">使うもの</p>
+                    <ul class="pub-list">
+                        <li>テキストエディタ（VSCode、メモ帳など）</li>
+                        <li>Netlify（無料）</li>
+                        <li>ブラウザだけでOK</li>
+                    </ul>
+                    <p class="pub-sub">ワークフロー（やさしい言葉で）</p>
+                    <div class="workflow-plain">
+                        <ol>
+                            <li>HTMLファイル（index.html）を手元で作る</li>
+                            <li>Netlify（netlify.com）にアカウント登録</li>
+                            <li>「Sites」画面にHTMLファイルをドラッグ＆ドロップ</li>
+                            <li>数秒でURLが発行される → 公開完了</li>
+                        </ol>
+                    </div>
+                    <p class="pub-sub">必要な前提知識</p>
+                    <ul class="pub-list">
+                        <li>HTMLファイルとは何かを知っている</li>
+                        <li>ブラウザで検索・アカウント登録ができる（それだけでOK）</li>
+                    </ul>
+                    <div class="tier-cta">
+                        <p>「HTMLって何？」という方は、次へどうぞ。</p>
+                        <a href="#pub-beginner" class="btn-tier btn-tier--beg">🔰 初心者向けを見る</a>
+                    </div>
+                </div>
+
+                <div id="pub-beginner" class="pub-card pub-card--beg">
+                    <p class="pub-badge pub-badge--beg">🔰 初心者（ここがあなたのスタートラインです）</p>
+                    <h3 class="pub-title">AIに作ってもらって、ボタン一つで共有 ― Gemini Canvas</h3>
+                    <p class="pub-sub">対象</p>
+                    <ul class="pub-list">
+                        <li>ツールやコードには触れたくない方</li>
+                        <li>とにかく公開（共有）さえできればそれでいい方</li>
+                    </ul>
+                    <p class="pub-sub">使うもの</p>
+                    <ul class="pub-list">
+                        <li>Gemini（gemini.google.com のCanvas機能）</li>
+                        <li>Googleアカウント（持っていればOK）</li>
+                    </ul>
+                    <p class="pub-sub">ワークフロー</p>
+                    <ol class="step-strip-sakura">
+                        <li><strong>1</strong> Geminiを開く</li>
+                        <li><strong>2</strong> Canvasでページの内容を伝える</li>
+                        <li><strong>3</strong> AIがHTMLを生成</li>
+                        <li><strong>4</strong> 右上「共有」→ メニューから「共有」</li>
+                        <li><strong>5</strong> URLが発行 → 共有完了</li>
+                    </ol>
+                    <p class="pub-sub">難しい知識は不要</p>
+                    <ul class="pub-list">
+                        <li>GitHubは使いません</li>
+                        <li>コードを書く必要はありません</li>
+                        <li>デプロイという概念も不要です</li>
+                    </ul>
+                    <div class="beginner-msg">
+                        <p>ここまで読んでくれてありがとうございます。</p>
+                        <p>「上2つは難しかった」という感覚を持てたなら、それ自体があなたの現在地を正確に教えてくれています。</p>
+                        <p>まずはここから始めましょう。</p>
+                    </div>
+                </div>
+
+                <p class="pub-footer-note">どのレベルも、続けていれば上のレベルに自然に移行できます。</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #0d9488;">
+                <div class="card-header">
+                    <i class="fa-brands fa-github" style="color:#0d9488; background:var(--teal-bg);"></i>
+                    <h2>実習のヒント：GitHub を使った公開の流れ（イメージ）</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.8;">動画の内容に沿って、<strong>リポジトリにコードを置き、ホスティング側と連携してデプロイする</strong>流れを掴みましょう。細かい操作は動画を正としてください。</p>
+
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-1"></i> リポジトリを用意する</h4>
+                    <p style="margin:0;">GitHub 上にプロジェクトの「箱」（リポジトリ）を作り、手元のファイルを push して同期します。</p>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-2"></i> ブランチで試す（必要なら）</h4>
+                    <p style="margin:0;">本番に影響させたくない変更は、別ブランチで作業してから取り込む、という考え方があります。</p>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-3"></i> ホスティングと連携する</h4>
+                    <p style="margin:0;">Cloudflare Pages などが GitHub と連携し、更新のたびにビルド・デプロイが走る設定をします。</p>
+                </div>
+                <div class="accordion">
+                    <details>
+                        <summary>用語がまだしんどいときは</summary>
+                        <div class="acc-body">
+                            <p>この実習は<strong>上級者ルート</strong>のイメージです。無理にここまでやらず、<strong>中級者（Netlify）・初心者（Gemini Canvas）</strong>だけでも「公開できた」は大きな一歩です。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button type="button" class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-goal'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 目標に戻る
+                </button>
+                <button type="button" class="btn" onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                    後半：AI制作の発展へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== タブ：後半 ===== -->
+        <div id="tab-second" class="tab-content">
+
+            <div class="highlight-box">
+                <h3><i class="fa-solid fa-life-ring" style="color:#e11d48;"></i> まず安心して：難しければ前半で十分です</h3>
+                <p style="margin:0; line-height:1.85;">
+                    ここから先は難易度が上がります。<strong>分からない場合は、前半で紹介した Gemini Canvas や Netlify を使った公開方法に戻って進めても十分です。</strong><br>
+                    すべてをこなす必要はありません。「自分の現在地」に合ったルートを選んでください。
+                </p>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-film" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>動画（後半）— 2本</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub);">AIを使った制作の発展編。サムネイルをクリックで再生します。</p>
+
+                <div class="video-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="Qok0py0M4zk" style="background-image: url('https://img.youtube.com/vi/Qok0py0M4zk/maxresdefault.jpg'), url('https://img.youtube.com/vi/Qok0py0M4zk/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">① Day 8 後半・再生動画（1/2）</div>
+                            <div class="vc-note">コース情報共有 Day 8 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="catLAKy33Wc" style="background-image: url('https://img.youtube.com/vi/catLAKy33Wc/maxresdefault.jpg'), url('https://img.youtube.com/vi/catLAKy33Wc/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">② Day 8 後半・再生動画（2/2）</div>
+                            <div class="vc-note">実習の流れは前半と同じ内容のため、教材の案内どおり補足のみ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-compass" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>後半の進め方</h2>
+                </div>
+                <div class="info-box" style="margin:0;">
+                    <h4><i class="fa-solid fa-check-double"></i> 実習内容は前半とつながっています</h4>
+                    <p>
+                        後半は「AIでどう作るか」にフォーカスします。公開の土台は、前半の<strong>レベル別ガイド</strong>で選んだ方法（Canvas / Netlify / GitHub連携など）と組み合わせてください。<br>
+                        手が止まったら、<button type="button" class="btn" style="margin-top:0.75rem; padding:0.6rem 1.2rem; font-size:1rem;" onclick="switchTab('tab-first'); window.scrollTo(0,0);">前半タブに戻る</button>
+                    </p>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button type="button" class="btn" style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;" onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 前半に戻る
+                </button>
+                <button type="button" class="btn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">
+                    今日のまとめへ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== タブ：まとめ ===== -->
+        <div id="tab-summary" class="tab-content">
+
+            <div class="hero" style="margin-bottom: 2rem;">
+                <h2 style="font-size:2.2rem; color:#059669; font-family:'Teko', sans-serif;"><i class="fa-solid fa-flag-checkered"></i> TODAY's MISSION</h2>
+                <p>用語の地図を持ち、自分に合った公開のやり方を選べたかを振り返りましょう。</p>
+            </div>
+
+            <div class="mission-area" id="mission-group-8">
+                <div class="wax-seal">CLEAR</div>
+                <div class="mission-header">
+                    <h3><i class="fa-solid fa-clipboard-check"></i> 今日のチェックリスト</h3>
+                </div>
+
+                <ul class="task-list">
+                    <li class="task-item" onclick="toggleTask('t8_1', this)">
+                        <div class="custom-checkbox" id="check_t8_1"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 01: 用語マップを読んだ</h4>
+                            <p>index.html・階層・レスポンシブ・ブランチ・ビルド・デプロイのうち、<strong>「なんの話か」</strong>が説明できればチェック。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t8_2', this)">
+                        <div class="custom-checkbox" id="check_t8_2"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 02: 公開レベル別ガイドで現在地を決めた</h4>
+                            <p>上級 / 中級 / 初心者のどれを第一候補にするか、心の中で決めたらチェック。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t8_3', this)">
+                        <div class="custom-checkbox" id="check_t8_3"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 03: 動画を1本以上観た（または実習を試した）</h4>
+                            <p>前半・後半どちらでもOK。止まったら前半の Canvas / Netlify に戻ってよし。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t8_4', this)">
+                        <div class="custom-checkbox" id="check_t8_4"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4>STEP 04: 次にやることを1行メモした</h4>
+                            <p>例：「まず Gemini Canvas で共有URLを作る」「Netlify に index を載せてみる」など。</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-box" style="margin-top:2rem;">
+                <h4><i class="fa-solid fa-forward"></i> 次のステップ（Day 9）</h4>
+                <p style="margin:0;">引き続きコースのカレンダーから次の教材に進み、制作と公開の経験を重ねていきましょう。</p>
+            </div>
+
+            <div style="text-align:center; padding: 3rem 0 2rem;">
+                <button type="button" class="btn" style="padding: 1.2rem 4rem; font-size:1.25rem; background:linear-gradient(135deg, var(--accent-light), var(--accent)); border-radius:50px; box-shadow: 0 10px 30px var(--accent-glow);" onclick="window.location.href='index.html'">
+                    <i class="fa-solid fa-house"></i> 学習記録をつけて Home へ戻る
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* YouTube Facade（GEMINI.md） */
+        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(function (thumb) {
+            thumb.addEventListener('click', function () {
+                var videoId = this.dataset.videoId;
+                var start = this.dataset.start;
+                var src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+                if (start) src += '&start=' + encodeURIComponent(start);
+                this.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>';
+                this.style.backgroundImage = 'none';
+                this.style.cursor = 'default';
+            }, { once: true });
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+            var el = document.getElementById(tabId);
+            if (el) el.classList.add('active');
+            var targetBtn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+            if (targetBtn) targetBtn.classList.add('active');
+            updateProgress(tabId);
+        }
+
+        function updateProgress(tabId) {
+            var m = { 'tab-goal': 0, 'tab-first': 33, 'tab-second': 66, 'tab-summary': 100 };
+            var p = m[tabId] != null ? m[tabId] : 0;
+            var bar = document.getElementById('progress-bar');
+            var txt = document.getElementById('progress-percent');
+            if (bar) bar.style.width = p + '%';
+            if (txt) txt.innerText = p + '%';
+        }
+
+        var missionState = { t8_1: false, t8_2: false, t8_3: false, t8_4: false };
+        function toggleTask(taskId, element) {
+            missionState[taskId] = !missionState[taskId];
+            if (missionState[taskId]) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+            checkAllMissions();
+        }
+
+        function checkAllMissions() {
+            var allDone = Object.keys(missionState).every(function (k) { return missionState[k]; });
+            var missionArea = document.getElementById('mission-group-8');
+            if (!missionArea) return;
+            if (allDone) {
+                missionArea.classList.add('completed');
+                setTimeout(function () {
+                    alert('全ステップ完了おめでとうございます！Day 8 のミッションをクリアしました。');
+                }, 800);
+            } else {
+                missionArea.classList.remove('completed');
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+            anchor.addEventListener('click', function (e) {
+                var id = this.getAttribute('href');
+                if (!id || id === '#') return;
+                var target = document.querySelector(id);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

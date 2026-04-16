@@ -590,3 +590,58 @@ https://youtu.be/BGNvBUYrB_s?si=nn-Gfuo8ghIOYe4Y&t=210
 右下の選択して質問ボタンを押し、任意の場所を選び、修正してみよう
 例）ヘッダーのサイトの名前を選んで、「English Lesson」という名前に変えてみよう
 
+Day8
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：AI活用によるWEBサイト制作①
+研修目的：AIでWEBサイトの雛形・デザインを生成し、効率的な制作フローの基礎を習得する。
+
+前半　
+再生動画　
+https://youtu.be/ucsz2VmgV6g?si=-XjbM-s9ypO5N-uP
+https://youtu.be/zczsB-pYDjw?si=76gXtvNRqQM2DQ-O
+https://youtu.be/6s5wz9YxiqM?si=EAsbi4EwCJRXjB9d
+
+実習：Githubを使ってWEBサイトを公開してみよう
+
+🎯 実習の目的
+・Githubの使い方を覚える
+
+🎥 参考動画
+https://youtu.be/6s5wz9YxiqM?si=AkmWXDkFIlQghINU&t=523
+
+💡 実習の流れ
+① Githubのアカウントを作ろう
+▼ Github
+https://github.co.jp/
+② Githubで公開する
+事前準備
+ 公開したいWebサイトのHTMLコードをすべてコピーしておく。
+1. GitHubへログイン
+2. リポジトリ（保存場所）の作成
+ 画面右上の「＋」ボタンから「新しいリポジトリ(New repository)」を選択する。
+ リポジトリの名前を入力する（例：myportfolio）。
+ 表示設定を「Public（公共）」にする。
+ 「READMEを追加」のチェックをオンにする。
+ 「リポジトリを作成する」ボタンを押す。
+3. ファイルの作成と保存
+ 「ファイルを追加する」から「新しいファイルを作成」を選択する。
+ 広い入力欄に、コピーしておいたコードを貼り付ける。
+ ファイル名の入力欄には、必ず「index.html」と入力する。
+ 画面右側の「変更をコミットする(Commit changes)」ボタンを押し、そのまま再度ボタンを押して保存を完了する。
+4. 公開設定（GitHub Pages）
+ 画面上部の「設定（Settings）」タブを開く。
+ 左側のメニューから「ページ（Pages）」を選択する。
+ Source（ソース）が「ブランチからデプロイする」になっているか確認する。
+ Branch（ブランチ）の項目で「main（主要）」を選択し、「保存」をクリックする。
+5. 公開の確認
+ 設定後、3〜4分ほど待つ。
+ 「行動アクション（Actions）」タブを開き、黄色のくるくるマークが緑色のチェックマークに変われば公開処理が完了。
+「ページのビルドと展開」をクリックして、表示されているWebサイトのURLをクリックして、サイトが見れるか確認する。
+※ 時間が余った人は、制作を行おう。
+
+後半　
+再生動画　
+https://youtu.be/Qok0py0M4zk?si=Y4w3dZOr7loll129
+https://youtu.be/catLAKy33Wc?si=emjmrsHUe9nfWrUz
+
+実習内容は前半と同様なので割愛

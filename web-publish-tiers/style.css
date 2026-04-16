@@ -1,0 +1,400 @@
+/* カスタムプロパティ */
+:root {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f1f5f9;
+  --color-muted: #94a3b8;
+
+  --color-advanced: #3b82f6;
+  --color-intermediate: #10b981;
+  --color-beginner: #f59e0b;
+
+  --space-section: clamp(4rem, 8vw, 8rem);
+  --radius-card: 1rem;
+  --max-width: 800px;
+}
+
+/* レイアウト */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    YuGothic,
+    sans-serif;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Hero */
+.hero {
+  min-height: min(92vh, 900px);
+  display: grid;
+  place-items: center;
+  padding: clamp(2.5rem, 6vw, 4rem) 1.5rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -20%, color-mix(in srgb, var(--color-advanced) 28%, transparent), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, color-mix(in srgb, var(--color-beginner) 12%, transparent), transparent),
+    var(--color-bg);
+}
+
+.hero__inner {
+  width: min(100%, var(--max-width));
+  text-align: center;
+}
+
+.hero__title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 4vw + 0.5rem, 2.25rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+.hero__lead {
+  margin: 0 auto 2rem;
+  max-width: 36em;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+}
+
+.hero__steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.hero__badge--advanced {
+  color: var(--color-advanced);
+  background: color-mix(in srgb, var(--color-advanced) 14%, transparent);
+}
+
+.hero__badge--intermediate {
+  color: var(--color-intermediate);
+  background: color-mix(in srgb, var(--color-intermediate) 14%, transparent);
+}
+
+.hero__badge--beginner {
+  color: var(--color-beginner);
+  background: color-mix(in srgb, var(--color-beginner) 14%, transparent);
+}
+
+.hero__arrow {
+  color: var(--color-muted);
+  font-size: 1rem;
+  user-select: none;
+}
+
+.hero__cta-wrap {
+  margin: 0;
+}
+
+.hero .cta-button {
+  --accent: var(--color-advanced);
+}
+
+/* Tier sections — Container Queries */
+.tier {
+  container-type: inline-size;
+  container-name: tier;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-block: var(--space-section);
+  padding-inline: 1.5rem;
+}
+
+.tier--advanced {
+  --accent: var(--color-advanced);
+}
+
+.tier--intermediate {
+  --accent: var(--color-intermediate);
+}
+
+.tier--beginner {
+  --accent: var(--color-beginner);
+}
+
+.tier__card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  border-left: 4px solid var(--accent);
+  padding: clamp(1.75rem, 5cqw, 2.5rem);
+  min-height: min(78vh, 720px);
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.25),
+    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+@container tier (min-width: 560px) {
+  .tier__card {
+    padding: 2.5rem;
+  }
+}
+
+.tier__badge {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tier__badge--emphasis {
+  font-size: clamp(0.9rem, 2.5cqw, 1rem);
+  line-height: 1.5;
+}
+
+.tier__heading {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.25rem, 3cqw + 0.75rem, 1.65rem);
+  font-weight: 700;
+  line-height:1.45;
+}
+
+.tier__subhead {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.tier__subhead:first-of-type {
+  margin-top: 0;
+}
+
+.tier__list {
+  margin: 0;
+  padding-left: 1.35rem;
+}
+
+.tier__list li {
+  margin-bottom: 0.35rem;
+}
+
+.tier__list--compact li {
+  margin-bottom: 0.25rem;
+}
+
+.tier__note {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.9em;
+  color: var(--color-muted);
+}
+
+.tier__workflow-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.tier__check-intro {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+/* チェックリスト */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.checklist li {
+  padding-left: 0.15rem;
+}
+
+.checklist li::before {
+  content: "☐ ";
+  color: var(--accent);
+  font-size: 1.1em;
+}
+
+/* ワークフロー */
+.workflow {
+  margin: 0;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--color-bg) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.workflow li {
+  margin-bottom: 0.5rem;
+}
+
+.workflow li:last-child {
+  margin-bottom: 0;
+}
+
+.workflow--code {
+  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.workflow--plain {
+  font-size: 0.98rem;
+}
+
+/* CTA */
+.cta-button {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.cta-button:hover {
+  opacity: 0.9;
+}
+
+.cta-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.cta-button--hero {
+  margin-top: 0;
+  padding: 0.85rem 1.75rem;
+  font-size: 1.05rem;
+}
+
+.tier__cta-block {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-muted) 35%, transparent);
+}
+
+.tier__cta-text {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.98rem;
+}
+
+.tier__cta-block .cta-button {
+  margin-top: 1rem;
+}
+
+/* 初心者：ステップの視覚化（画像なしでも読める） */
+.step-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@container tier (min-width: 480px) {
+  .step-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container tier (min-width: 640px) {
+  .step-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.step-strip__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.step-strip__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.step-strip__label {
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* 初心者カードのまとめメッセージ */
+.beginner-message {
+  background: color-mix(in srgb, var(--color-beginner) 15%, transparent);
+  border: 1px solid var(--color-beginner);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  font-size: 1.05rem;
+}
+
+.beginner-message p {
+  margin: 0 0 0.75rem;
+}
+
+.beginner-message p:last-child {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+/* フッター */
+.site-footer {
+  padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+  text-align: center;
+  border-top: 1px solid color-mix(in srgb, var(--color-muted) 25%, transparent);
+}
+
+.site-footer__message {
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.site-footer__credit {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}

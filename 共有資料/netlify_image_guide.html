@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web公開・画像埋め込みガイド</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #2d6a4f;
+  --green-light: #52b788;
+  --green-pale: #d8f3dc;
+  --green-bg: #f0faf3;
+  --green-mid: #40916c;
+  --text: #1b1b1b;
+  --text-sub: #555;
+  --border: #b7e4c7;
+  --white: #ffffff;
+  --gray-bg: #f7f7f7;
+  --code-bg: #eef9f2;
+}
+
+body {
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: var(--gray-bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ===== ナビ ===== */
+nav {
+  background: var(--green);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+nav ul li a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: background 0.2s;
+}
+nav ul li a:hover { background: var(--green-mid); }
+
+/* ===== ヒーロー ===== */
+.hero {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  color: #fff;
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 14px;
+  opacity: 0.85;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ===== メインレイアウト ===== */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+/* ===== セクション共通 ===== */
+section {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.section-header {
+  background: var(--green);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-header .num {
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.section-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.section-body {
+  padding: 24px;
+}
+
+/* ===== 概要カード ===== */
+.overview-card {
+  background: var(--green-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* ===== ステップ ===== */
+.steps { display: flex; flex-direction: column; gap: 0; }
+
+.step {
+  display: flex;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid #eee;
+}
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-content h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--green);
+}
+.step-content p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.7;
+}
+
+/* ===== コードブロック ===== */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  font-family: 'Menlo', 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--green);
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+/* ===== 注意・ポイントボックス ===== */
+.note-box {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.note-box.caution {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  color: #7a5c00;
+}
+.note-box.tip {
+  background: var(--green-bg);
+  border: 1px solid var(--border);
+  color: var(--green);
+}
+.note-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* ===== 比較テーブル ===== */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.compare-table th {
+  background: var(--green);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+}
+.compare-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  line-height: 1.6;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: var(--green-bg); }
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tag.ok { background: var(--green-pale); color: var(--green); }
+.tag.ng { background: #fde8e8; color: #c0392b; }
+.tag.rec { background: #fff3cd; color: #856404; }
+
+/* ===== 図解ボックス ===== */
+.diagram {
+  background: var(--gray-bg);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  text-align: center;
+}
+.diagram .flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+}
+.diagram .box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+}
+.diagram .box.highlight {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+.diagram .arrow {
+  color: var(--green-light);
+  font-size: 18px;
+}
+.diagram .label {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 10px;
+}
+
+/* ===== 画像方式カード ===== */
+.method-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+@media (max-width: 600px) {
+  .method-cards { grid-template-columns: 1fr; }
+}
+
+.method-card {
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.method-card .card-head {
+  background: var(--green);
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.method-card.alt .card-head {
+  background: var(--green-mid);
+}
+.method-card .card-body {
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+.method-card .card-body strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.method-card .merit { color: var(--green); margin-top: 8px; font-weight: 600; font-size: 13px; }
+.method-card .demerit { color: #c0392b; font-weight: 600; font-size: 13px; }
+
+/* ===== まとめバナー ===== */
+.summary-banner {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  color: #fff;
+  border-radius: 12px;
+  padding: 28px 28px;
+  margin-top: 8px;
+}
+.summary-banner h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0.03em;
+}
+.summary-banner .flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+.summary-banner .sbox {
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.summary-banner .arrow { opacity: 0.7; font-size: 18px; }
+.summary-banner .note {
+  margin-top: 14px;
+  font-size: 13px;
+  opacity: 0.85;
+  line-height: 1.7;
+}
+
+footer {
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 12px;
+  padding: 24px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#netlify">① Netlify Drop 公開方法</a></li>
+    <li><a href="#image">② 画像の組み込み方法</a></li>
+    <li><a href="#summary">まとめ</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>Web公開 &amp; 画像埋め込みガイド</h1>
+  <p>DXコース受講者向け：HTMLファイルを公開する方法と、好きな画像をアプリに組み込む方法をまとめました</p>
+</div>
+
+<main>
+
+<!-- ===== セクション1: Netlify Drop ===== -->
+<section id="netlify">
+  <div class="section-header">
+    <div class="num">1</div>
+    <h2>Netlify Drop でHTMLファイルをWeb公開する方法</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="overview-card">
+      ドラッグ＆ドロップするだけで、HTMLファイルをWeb公開できる無料サービスです。アカウントなしでも使えますが、<strong>URLを永続化するには無料アカウントの登録が必要</strong>です。
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>無料アカウントを作成する</h3>
+          <p><a href="https://app.netlify.com/signup" style="color:var(--green)">app.netlify.com/signup</a> にアクセスし、メールアドレスで登録します。アカウントなしでも公開できますが、URLの有効期限が1時間になってしまうため、先に登録しておくことをおすすめします。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Netlify Drop のページを開く</h3>
+          <p><a href="https://app.netlify.com/drop" style="color:var(--green)">app.netlify.com/drop</a> にアクセスします。画面の中央に大きなドロップエリアが表示されます。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>HTMLファイルをドラッグ＆ドロップする</h3>
+          <p>手元の <code style="background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:monospace;color:var(--green)">index.html</code> をドロップエリアに直接ドラッグします。</p>
+          <div class="note-box caution">
+            <span class="icon">⚠️</span>
+            <div>ファイル名は <strong>index.html</strong> にしてください。別の名前（例：myapp.html）だと正常に公開されない場合があります。Claudeで作ってもらうときに「ファイル名はindex.htmlにして」と一言添えておきましょう。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>URLが発行される</h3>
+          <p>数秒でアップロードが完了し、自動でURLが発行されます。このURLを講師に提出するか、スマホで開いて動作確認しましょう。</p>
+          <div class="code-block">例: https://random-name-123.netlify.app</div>
+          <div class="note-box tip">
+            <span class="icon">💡</span>
+            <div>URLはランダムな英単語の組み合わせで自動生成されます。ダッシュボードから変更することも可能です。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>更新したいときは再アップロード</h3>
+          <p>HTMLを修正したあとは、同じサイトのページで「Deploys」タブを開き、新しいファイルをドロップすると上書き更新できます。URLはそのまま変わりません。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="note-box caution" style="margin-top:16px">
+      <span class="icon">⚠️</span>
+      <div><strong>Google Sitesとの違い：</strong>Google SitesはJavaScriptが動かないため、ボタンを押すと動くアプリ系のHTMLには不向きです。インタラクティブなアプリはNetlify Dropで公開しましょう。</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== セクション2: 画像の組み込み ===== -->
+<section id="image">
+  <div class="section-header">
+    <div class="num">2</div>
+    <h2>Webサイト・アプリに好きな画像を組み込む方法</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="overview-card">
+      HTMLに画像を組み込む方法は主に2種類あります。DXコースの課題提出用途では<strong>Base64埋め込み方式</strong>がおすすめです。
+    </div>
+
+    <div class="method-cards">
+      <div class="method-card">
+        <div class="card-head">① Base64埋め込み方式（おすすめ）</div>
+        <div class="card-body">
+          <strong>画像データをHTMLファイルの中に丸ごと埋め込む方法</strong>
+          画像が文字列データに変換され、HTMLの中に直接書き込まれます。ファイルが1つで完結するため、管理がとても楽です。
+          <div class="merit">✅ HTMLファイル1つで完結</div>
+          <div class="merit">✅ Netlify Dropに1ファイルだけ上げればOK</div>
+          <div class="merit">✅ ファイルの管理・受け渡しが簡単</div>
+          <div class="demerit">❌ 画像が大きいとHTMLファイルも重くなる</div>
+        </div>
+      </div>
+      <div class="method-card alt">
+        <div class="card-head">② 外部参照方式</div>
+        <div class="card-body">
+          <strong>HTMLと画像ファイルを別々に置いて参照する方法</strong>
+          HTMLの中に画像ファイルのパスを書いて参照します。HTMLと画像を一緒に管理する必要があります。
+          <div class="merit">✅ 画像の差し替えがしやすい</div>
+          <div class="merit">✅ 大量の画像がある場合に向いている</div>
+          <div class="demerit">❌ Netlify Dropはフォルダごと上げる必要あり</div>
+          <div class="demerit">❌ HTMLだけ取り出すと画像が表示されない</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;color:var(--green)">① Base64方式のイメージ</h3>
+    <div class="diagram">
+      <div class="flow">
+        <div class="box">画像ファイル（.png / .jpg）</div>
+        <div class="arrow">→</div>
+        <div class="box highlight">Base64変換</div>
+        <div class="arrow">→</div>
+        <div class="box">index.html の中に埋め込まれる</div>
+      </div>
+      <div class="label">弁当箱に全部詰め込んだ状態 → 1ファイルで完結</div>
+    </div>
+
+    <div class="code-block">&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANS..." /&gt;
+※ 「data:image/...」から始まる長い文字列が画像データ本体</div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;color:var(--green)">② 外部参照方式のイメージ</h3>
+    <div class="diagram">
+      <div class="flow">
+        <div class="box highlight">my-app/（フォルダ）</div>
+      </div>
+      <div style="margin-top:12px;text-align:left;display:inline-block;font-size:13px;font-family:monospace;line-height:2;background:var(--white);border:1px solid var(--border);border-radius:6px;padding:12px 20px;">
+        📁 my-app/<br>
+        &nbsp;&nbsp;├── index.html<br>
+        &nbsp;&nbsp;└── images/<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── cat.png
+      </div>
+      <div class="label">本体とサイドメニューが別皿 → セットで持ち歩く必要あり</div>
+    </div>
+
+    <div class="code-block">&lt;img src="images/cat.png" /&gt;
+※ HTMLからの相対パスで画像を参照している</div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;color:var(--green)">Claudeへの指示方法</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>使いたい画像をClaudeのチャットに添付する</h3>
+          <p>チャット入力欄の📎ボタン（またはドラッグ＆ドロップ）で画像ファイルを添付します。JPG・PNG・GIF・WebPなどに対応しています。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>「Base64に変換して埋め込んで」と明示する</h3>
+          <p>Claudeに指示するときは「この画像をBase64に変換してHTMLに埋め込んで使ってください」と具体的に伝えましょう。指示が曖昧だと外部URL参照で書かれてしまう場合があります。</p>
+          <div class="code-block">指示例：
+「添付した画像をBase64に変換して、
+背景画像としてHTMLに埋め込んでください。
+ファイル名はindex.htmlにしてください。」</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>生成されたindex.htmlをそのままNetlify Dropへ</h3>
+          <p>Claudeが画像込みの1ファイルHTMLを生成してくれるので、そのままNetlify Dropにドラッグ＆ドロップするだけで公開完了です。</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;color:var(--green)">方式の使い分けまとめ</h3>
+    <table class="compare-table">
+      <tr>
+        <th>状況</th>
+        <th>おすすめの方式</th>
+        <th>理由</th>
+      </tr>
+      <tr>
+        <td>画像1〜3枚程度のアプリ</td>
+        <td><span class="tag ok">Base64</span></td>
+        <td>1ファイルで完結、提出が楽</td>
+      </tr>
+      <tr>
+        <td>画像が多い・重い</td>
+        <td><span class="tag rec">外部参照</span></td>
+        <td>Base64だとHTMLが巨大になりすぎる</td>
+      </tr>
+      <tr>
+        <td>HTMLファイルをもらった（フォルダ付き）</td>
+        <td><span class="tag rec">外部参照</span></td>
+        <td>フォルダの構造を崩さずそのままDropする</td>
+      </tr>
+      <tr>
+        <td>Geminiで作ったHTMLの画像が表示されない</td>
+        <td><span class="tag ok">Base64</span></td>
+        <td>Geminiは自動でBase64変換しないことがある。Claudeに「Base64で埋め込み直して」と依頼する</td>
+      </tr>
+    </table>
+
+    <div class="note-box caution">
+      <span class="icon">⚠️</span>
+      <div>フォルダ付きのHTMLをNetlify Dropで公開する場合は、フォルダのトップに <strong>index.html</strong> が存在することを確認してください。index.htmlがないとエラーになります。</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== まとめ ===== -->
+<section id="summary">
+  <div class="section-header">
+    <div class="num">✓</div>
+    <h2>まとめ：DXコース課題のベストな流れ</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="summary-banner">
+      <h3>画像ありアプリを作って提出する流れ</h3>
+      <div class="flow">
+        <div class="sbox">📎 画像をClaudeに添付</div>
+        <div class="arrow">→</div>
+        <div class="sbox">「Base64で埋め込んで」と指示</div>
+        <div class="arrow">→</div>
+        <div class="sbox">index.html を受け取る</div>
+        <div class="arrow">→</div>
+        <div class="sbox">Netlify Dropにドロップ</div>
+        <div class="arrow">→</div>
+        <div class="sbox">URLを提出 🎉</div>
+      </div>
+      <div class="note">
+        ファイルが1つで完結するので、素材の管理・受け渡しを考える必要がありません。初心者にとってもっともつまずきの少ない方法です。
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>DXコース 受講者向けガイド</footer>
+
+</body>
+</html>
