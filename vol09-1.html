@@ -560,9 +560,11 @@
                     <ul style="margin:0.5rem 0 1rem; padding-left:1.5rem; line-height:1.85; color:#881337;">
                         <li>欲張って大量の機能を一度に詰め込む</li>
                         <li>「なんか違う」「もっといい感じに」という曖昧な指示で延々と修正を繰り返す</li>
-                        <li>壁打ち・実装・デバッグを全部1つのチャットで完結させようとする</li>
+                        <li>壁打ち・設計・実装・デバッグを1つのAIツールで全部やろうとする</li>
                     </ul>
-                    <p><strong>💡 対策</strong>：①構成を決める会話、②実装をする会話、③デバッグする会話、と<strong>目的ごとにスレッドを分ける</strong>。指示は具体的に、1回で決める。</p>
+                    <p><strong>💡 対策</strong>：目的ごとに<strong>使うAIツール（エージェント）を使い分ける</strong>のがコツです。<br>
+                    ① <strong>壁打ちや設計</strong>は ChatGPT や Gemini で済ませる。（※ コーディングに Claude Code や Cursor(Claudeモデル) を使う場合、Web版のClaudeとトークン消費枠が共通になるため、Web版Claudeで壁打ちをすると節約にならない点に注意！）<br>
+                    ② <strong>実装のみ</strong>を、無料から使える Antigravity や、有料の Claude Code、Cursor などのコーディング特化エージェントに任せる。</p>
                 </div>
 
                 <div class="alert-warn alert-warn--amber">
