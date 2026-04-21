@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web制作 難易度チャート（松竹梅）</title>
+  <style>
+    :root {
+      --ume-accent:   #639922;
+      --ume-fill:     #EAF3DE;
+      --ume-text:     #27500A;
+
+      --take-accent:  #378ADD;
+      --take-fill:    #E6F1FB;
+      --take-text:    #0C447C;
+
+      --matsu-accent: #BA7517;
+      --matsu-fill:   #FAEEDA;
+      --matsu-text:   #633806;
+
+      --surface:      #ffffff;
+      --bg:           #f5f5f4;
+      --border:       rgba(0,0,0,0.1);
+      --text:         #1c1c1e;
+      --text-muted:   #636366;
+      --r-md: 8px;
+      --r-lg: 14px;
+      --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ume-fill:    #173404;
+        --ume-text:    #C0DD97;
+        --take-fill:   #042C53;
+        --take-text:   #B5D4F4;
+        --matsu-fill:  #412402;
+        --matsu-text:  #FAC775;
+        --surface:     #2c2c2e;
+        --bg:          #1c1c1e;
+        --border:      rgba(255,255,255,0.1);
+        --text:        #f2f2f7;
+        --text-muted:  #8e8e93;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: clamp(1rem, 4vw, 2rem);
+      max-width: 960px;
+      margin-inline: auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .chart {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 560px) {
+      .chart {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tier {
+      border: 0.5px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transition: opacity 0.25s, border-color 0.2s, transform 0.2s;
+      opacity: 1;
+      background: var(--surface);
+    }
+
+    .tier--active {
+      border: 2px solid var(--tier-accent);
+      opacity: 1;
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--tier-accent) 25%, transparent);
+    }
+
+    .tier--dimmed {
+      opacity: 0.3;
+    }
+
+    .tier-head {
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--tier-head-color);
+      background: var(--tier-head-bg);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .tier-body {
+      padding: 1rem 1.1rem 1.15rem;
+      font-size: 0.875rem;
+      color: var(--tier-body-text);
+      line-height: 1.65;
+    }
+
+    .tier-body ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .tier-body li { margin-bottom: 0.35rem; }
+
+    #tier-ume  { --tier-head-bg: var(--ume-fill);   --tier-head-color: var(--ume-text);   --tier-body-text: var(--text); }
+    #tier-take { --tier-head-bg: var(--take-fill);  --tier-head-color: var(--take-text);  --tier-body-text: var(--text); }
+    #tier-matsu { --tier-head-bg: var(--matsu-fill); --tier-head-color: var(--matsu-text); --tier-body-text: var(--text); }
+
+    .checklist-lead {
+      font-weight: 600;
+      margin: 0 0 1rem;
+      font-size: 1rem;
+    }
+
+    .feature-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .group-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+
+    .feature-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.45rem 0;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      border-radius: var(--r-md);
+    }
+
+    .feature-group label:hover {
+      background: color-mix(in srgb, var(--text) 4%, transparent);
+    }
+
+    .feature-group input {
+      margin-top: 0.2rem;
+      flex-shrink: 0;
+      accent-color: var(--take-accent);
+    }
+
+    .verdict {
+      border: 2px solid var(--verdict-color, #ccc);
+      background: var(--verdict-fill, transparent);
+      border-radius: var(--r-lg);
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.3s, background 0.3s;
+      margin-top: 1.5rem;
+    }
+
+    .verdict-tier {
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--verdict-color);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .verdict-msg {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .warnings {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0.75rem 0 0;
+      padding: 0;
+    }
+
+    .warnings li {
+      font-size: 0.8125rem;
+      color: var(--matsu-text);
+      background: var(--matsu-fill);
+      border: 0.5px solid var(--matsu-accent);
+      border-radius: var(--r-md);
+      padding: 8px 12px;
+      line-height: 1.5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .warnings li {
+        color: var(--matsu-text);
+      }
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Web制作 難易度チャート（松竹梅）</h1>
+    <p>作りたい機能を選ぶと、だいたいの難易度と想定コストの目安がわかります（目安です。案件により変動します）。</p>
+  </header>
+
+  <section class="chart" aria-label="難易度3段階">
+    <div class="tier" id="tier-ume" style="--tier-accent: var(--ume-accent)">
+      <div class="tier-head">梅 — 手軽</div>
+      <div class="tier-body">
+        静的ページ、プロフィール紹介、簡単なランディングなど。ノーコードやテンプレートで<strong>無料〜低コスト</strong>から始めやすいゾーンです。
+        <ul>
+          <li>テキスト中心・画像少なめ</li>
+          <li>更新は年に数回でよい</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier" id="tier-take" style="--tier-accent: var(--take-accent)">
+      <div class="tier-head">竹 — ひと工夫</div>
+      <div class="tier-body">
+        フォームや定期更新、埋め込みなど。<strong>レンタルサーバーやSaaSの月額</strong>を見込むことが多いです。
+        <ul>
+          <li>軽い動的処理・外部埋め込み</li>
+          <li>デザイン・アニメの調整</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier" id="tier-matsu" style="--tier-accent: var(--matsu-accent)">
+      <div class="tier-head">松 — 本格</div>
+      <div class="tier-body">
+        ログイン・決済・リアルタイム連携など。<strong>開発者の工数か、継続的なインフラ・API費用</strong>が前提になりやすいです。
+        <ul>
+          <li>データベース・認証</li>
+          <li>外部サービス連携・AI API</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="checklist" aria-labelledby="checklist-heading">
+    <h2 class="section-title" id="checklist-heading">機能チェック</h2>
+    <p class="checklist-lead">作りたい機能を選んでみてください</p>
+    <div id="feature-list"></div>
+  </section>
+
+  <div class="verdict" id="verdict" hidden>
+    <p class="verdict-tier" id="verdict-tier"></p>
+    <p class="verdict-msg" id="verdict-msg"></p>
+    <ul class="warnings" id="warnings"></ul>
+  </div>
+
+  <script>
+    const FEATURES = [
+      { id: 'form',      label: '問い合わせフォームがほしい',               tier: 2, category: 'ユーザー機能' },
+      { id: 'update',    label: '記事や情報を定期的に更新したい',           tier: 2, category: 'コンテンツ' },
+      { id: 'embed',     label: '地図・カレンダーなど外部ツールを埋め込みたい', tier: 2, category: '外部連携' },
+      { id: 'media',     label: '写真や動画を大量に使いたい',               tier: 2, category: '素材・デザイン' },
+      { id: 'design',    label: 'アニメーションや凝ったデザインにしたい',   tier: 2, category: '素材・デザイン' },
+      { id: 'login',     label: 'ログイン・会員機能がほしい',               tier: 3, category: 'ユーザー機能',
+        warning: 'ユーザー認証にはDBとサーバーが必要。月額コストが発生する。' },
+      { id: 'ugc',       label: 'ユーザーが投稿・コメントできる',           tier: 3, category: 'ユーザー機能',
+        warning: '全ユーザーのデータ保存・管理でDB費用が増加する。' },
+      { id: 'payment',   label: '商品やサービスを販売・決済したい',         tier: 3, category: '決済',
+        warning: '決済サービスは月額費用＋売上手数料3〜5%が毎回かかる。' },
+      { id: 'realtime',  label: 'チャットや通知など即時更新がほしい',       tier: 3, category: 'リアルタイム',
+        warning: 'WebSocketサーバーが必要。常時稼働のインフラコストが発生する。' },
+      { id: 'ai',        label: 'AIに質問・文章生成などをさせたい',         tier: 3, category: 'AI機能',
+        warning: 'AI APIは使った分だけ課金。利用量によって月額が青天井になる。' },
+      { id: 'ext_api',   label: '在庫・CRMなど外部サービスとデータ連携したい', tier: 3, category: '外部連携',
+        warning: '外部APIの多くは無料枠が限られており、早期に有料プランへ移行が必要になる。' },
+      { id: 'video_pro', label: 'プロのカメラマンや動画撮影が必要',         tier: 3, category: '素材・デザイン',
+        warning: '素材の制作・調達コストはWeb制作費とは別に発生する。' },
+    ];
+
+    const TIER_INFO = {
+      1: { name: '梅', msg: '無料で始められます',         color: 'var(--ume-accent)',   fill: 'var(--ume-fill)' },
+      2: { name: '竹', msg: '少しのコストで実現できます', color: 'var(--take-accent)',  fill: 'var(--take-fill)' },
+      3: { name: '松', msg: '開発者か予算が必要です',     color: 'var(--matsu-accent)', fill: 'var(--matsu-fill)' },
+    };
+
+    const TIER_IDS = { 1: 'ume', 2: 'take', 3: 'matsu' };
+
+    const selected = new Set();
+
+    function getCurrentTier() {
+      if (selected.size === 0) return 0;
+      return Math.max.apply(null, Array.from(selected, function (id) {
+        var f = FEATURES.find(function (x) { return x.id === id; });
+        return f ? f.tier : 0;
+      }));
+    }
+
+    function update() {
+      var tier = getCurrentTier();
+
+      Object.keys(TIER_IDS).forEach(function (k) {
+        var t = Number(k);
+        var name = TIER_IDS[t];
+        var el = document.getElementById('tier-' + name);
+        if (!el) return;
+        el.classList.remove('tier--active', 'tier--dimmed');
+        if (tier === 0) return;
+        if (t === tier) {
+          el.classList.add('tier--active');
+        } else {
+          el.classList.add('tier--dimmed');
+        }
+      });
+
+      var verdict = document.getElementById('verdict');
+      if (tier === 0) {
+        verdict.hidden = true;
+        document.getElementById('warnings').innerHTML = '';
+        return;
+      }
+
+      verdict.hidden = false;
+      var info = TIER_INFO[tier];
+      verdict.style.setProperty('--verdict-color', info.color);
+      verdict.style.setProperty('--verdict-fill', info.fill);
+      document.getElementById('verdict-tier').textContent = info.name;
+      document.getElementById('verdict-msg').textContent =
+        'このアイデアは【' + info.name + '】レベルです — ' + info.msg;
+
+      var warns = Array.from(selected)
+        .map(function (id) { return FEATURES.find(function (f) { return f.id === id; }); })
+        .filter(function (f) { return f && f.warning; });
+      var warnsEl = document.getElementById('warnings');
+      warnsEl.innerHTML = warns.map(function (f) {
+        return '<li>▲ ' + f.warning + '</li>';
+      }).join('');
+    }
+
+    function buildChecklist() {
+      var container = document.getElementById('feature-list');
+      var categories = Array.from(new Set(FEATURES.map(function (f) { return f.category; })));
+
+      categories.forEach(function (cat) {
+        var group = document.createElement('div');
+        group.className = 'feature-group';
+        group.setAttribute('data-category', cat);
+
+        var label = document.createElement('p');
+        label.className = 'group-label';
+        label.textContent = cat;
+        group.appendChild(label);
+
+        FEATURES.filter(function (f) { return f.category === cat; }).forEach(function (f) {
+          var lbl = document.createElement('label');
+          var input = document.createElement('input');
+          input.type = 'checkbox';
+          input.dataset.id = f.id;
+          lbl.appendChild(input);
+          lbl.appendChild(document.createTextNode(f.label));
+          group.appendChild(lbl);
+        });
+
+        container.appendChild(group);
+      });
+
+      container.addEventListener('change', function (e) {
+        if (e.target.type !== 'checkbox') return;
+        var id = e.target.dataset.id;
+        if (e.target.checked) {
+          selected.add(id);
+        } else {
+          selected.delete(id);
+        }
+        update();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      buildChecklist();
+      update();
+    });
+  </script>
+</body>
+</html>

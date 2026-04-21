@@ -645,3 +645,115 @@ https://youtu.be/Qok0py0M4zk?si=Y4w3dZOr7loll129
 https://youtu.be/catLAKy33Wc?si=emjmrsHUe9nfWrUz
 
 実習内容は前半と同様なので割愛
+
+Day9
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：AI活用によるWEBサイト制作②
+研修目的：AI活用による機能実装を通じ、運用可能なWEBサイトを構築する実践力を身につける。
+
+前半　
+再生動画　
+https://youtu.be/UekmdN6UQTc?si=UlgKwTRsQm-Ziu0r
+https://youtu.be/Qp5uO4eGMwg?si=FBI4k9oUsVVBt0Im
+https://youtu.be/XefEEbKT1Sk?si=6yEadqKmsToxqXLi
+
+共有された自律型AIエージェント
+①Manus：タスクの自律的な実行（毎日クレジット付与）
+②Claude Co-Work：対話を軸にした協働支援（有料のみ）
+③Google Stitch：デザイン支援（試験使用中の為無料公開中）
+④Claude Code：コーディング支援（有料のみ）
+
+⭕自律型AIエージェント
+①Manus：タスクの自律的な実行（毎日クレジット付与）
+　https://manus.im/
+②Claude Co-Work：対話を軸にした協働支援（有料のみ）
+　https://support.claude.com/ja/articles/13345190-claude-cowork%E3%82%92%E5%A7%8B%E3%82%81%E3%82%8B
+③Google Stitch：デザイン支援（試験使用中の為無料公開中）
+　https://stitch.withgoogle.com/
+④Claude Code：コーディング支援（有料のみ）
+　https://code.claude.com/docs/ja/quickstart
+
+⭕WEB公開
+① Netlify
+　https://www.netlify.com/
+② Github保管庫
+
+▼Manus招待リンク500クレジット付与
+https://manus.im/invitation/PV1EDNPVRBRUAQ?utm_source=invitation&utm_medium=social&utm_campaign=copy_link
+
+▼リサーチ＆構成：NotebookLM
+✍️プロンプト：WEBサイトの設計図を作る
+【絶景カフェ開業・アイデアメモ（個人用）】のソースを基盤として、その他のソースを分析し、競合他社と差別化できて人気店になれる、沖縄の海沿いカフェのWebサイト構成案を作成してください。各セクションのコピーライティング、配置する画像の指示も含めて、詳細な設計図を出力してください。
+
+▼WEBサイト構築→公開：Manus
+✍️プロンプト
+以下の構成案に基づいて、Webサイトを作成してください。必要な画像は作成して、テキストのボリュームを増やす必要がある場合は設計図に基づき作成してください。
+
+▼微調整：Manusの編集ボタン
+編集したい部分を選択してプロンプトで指示を出す
+
+▼公開：Manus公開ボタン
+
+WEBサイト作成：Google Stitch（UIデザインやフロントエンドコードに強い）
+　↓
+ファイル構造効率化：Claude Cowork（有料のみ）
+　↓
+WEB公開：Netlify　https://www.netlify.com/
+
+✍️プロンプト（役割・ターゲット・コンセプト・雰囲気・世界観）
+プロのWebデザインの専門家として 20代〜30代の女性をターゲットにした、隠れ家カフェの洗練された温かみのあるサイトをデザインしてください。メインカラーは落ち着いたアースカラーで、ナチュラルな雰囲気を強調してください
+
+
+MCP 連携(Model Context Protocol)
+Stich公式提供　拡張機能をAntigravityに追加
+Gthubの保管庫にあります
+https://github.com/google-labs-code/stitch-skills
+└react-components
+└Stitch-loop
+
+
+
+✍️プロンプト（）
+UIデザイン（Webサイト）を実装するための詳細な計画を作成したいです。
+デザインはStitchで生成されており、プロジェクト名は「Hideaway Cafe Home Page Variant 1 (projects/12580356842386839562)」
+です。
+以下の点に注意してください。
+このプロジェクトはレスポンシブ対応なので、各画面サイズに対応してください。
+デザイン内のコンポーネントを、Tailwindを使ったReactコンポーネントおよび shadcn コンポーネントに変換してください。
+「react-components」と「stitch-loop」のスキルを使用してください。
+不明点や不足があれば、確認してください。
+
+実習：制約条件付きでWEBサイトを作ってみよう
+
+🎯 実習の目的
+・きちんと動くWEBさいとを作る
+・公開環境に合わせた制約条件プロンプトを覚える
+・目標達成のための制作時間にする
+
+
+💡 実習の流れ
+WEBサイトは、静的HTMLか動的HTMLか、区別をつけながら開発する必要があります。
+
+GitHub Pages は HTML・CSS・JavaScript を公開する静的サイト向けの仕組みです。
+そのため、見た目の動きは作れても、サーバー処理が必要な機能はそのままでは動きません。
+AIに依頼するときは「静的サイト前提」「サーバー禁止」「外部API依存を避ける」と最初に明示をする必要があります。
+
+「動きがある見た目」はOK。
+「裏でサーバーが必要な動的処理」はNG。
+
+① AIに、ネガティブプロンプトを加えて、Gemini (Canvas)で、指示を出してみよう。
+
+✍️ プロンプト
+https://docs.google.com/document/d/1yfRr0kKgoanGN5o6jH0-F_8oHWP-gK_ya9e2L46Z6NE/edit?usp=sharing
+
+
+② 完成したHTMLを、Githubで、公開する。
+
+③ 挙動がおかしい場合は、AIで再度デバックしよう。
+不具合の部分を、AIに聞いて修正して、再度、公開しよう。
+
+後半
+再生動画
+https://youtu.be/X32pPFe5EIU?si=PGR3zaS9UiHgoVvG
+
+実習内容は前半と同じ
