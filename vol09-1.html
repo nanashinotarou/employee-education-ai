@@ -824,18 +824,18 @@
                     </p>
                 </div>
 
-                <!-- 4-1. Cursor との違い -->
-                <h3 style="margin:2rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-code-compare" style="color:#7c3aed;"></i> Cursor との決定的な違い</h3>
+                <!-- 4-1. Antigravity vs Claude Code -->
+                <h3 style="margin:2rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-code-compare" style="color:#7c3aed;"></i> Antigravity vs Claude Code の違い</h3>
                 <div class="bento-grid" style="margin-top:0;">
                     <div class="bento-item" style="border-top: 4px solid #14b8a6;">
-                        <span class="bento-tag" style="background:#ccfbf1; color:#115e59;">エディタ型</span>
-                        <h4><i class="fa-solid fa-pen-to-square" style="color:#0d9488;"></i> Cursor</h4>
-                        <p><strong>エディタ（IDE）そのもの</strong>。人間がコードを開きながら、AIにチャットや補完で指示を出す「<strong>AIペアプログラマー</strong>」。月額定額なのでコスト感が読みやすい。</p>
+                        <span class="bento-tag" style="background:#ccfbf1; color:#115e59;">ブラウザ完結型</span>
+                        <h4><i class="fa-solid fa-bolt" style="color:#0d9488;"></i> Antigravity</h4>
+                        <p>このコースでも使っているAIコーディングエージェント。<strong>インストール不要でブラウザから使える</strong>のが最大の強み。無料プランあり、有料プランは月額サブスク。Google連携（ドライブ・スプレッドシート等）も得意。</p>
                     </div>
                     <div class="bento-item" style="border-top: 4px solid #7c3aed;">
-                        <span class="bento-tag" style="background:#ede9fe; color:#5b21b6;">エージェント型</span>
+                        <span class="bento-tag" style="background:#ede9fe; color:#5b21b6;">CLIエージェント型</span>
                         <h4><i class="fa-solid fa-robot" style="color:#7c3aed;"></i> Claude Code</h4>
-                        <p>ターミナルで動く<strong>自律型AIエージェント</strong>。エディタに依存せず、<strong>ディレクトリ全体を読み、自らファイルを作成・修正し、テスト実行・エラー修正まで自動</strong>で進める。API従量課金。</p>
+                        <p>ターミナルで動く<strong>自律型AIエージェント</strong>。エディタに依存せず、<strong>ディレクトリ全体を読み、自らファイルを作成・修正し、テスト実行・エラー修正まで自動</strong>で進める。月額サブスクまたは従量課金で利用可能。</p>
                     </div>
                 </div>
 
@@ -863,7 +863,7 @@
 
                 <!-- 4-3. 必須スラッシュコマンド -->
                 <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-keyboard" style="color:#7c3aed;"></i> 覚えるべき4つのスラッシュコマンド</h3>
-                <p style="margin:0 0 0.5rem; color:var(--text-sub); line-height:1.75;">Claude Code のセッション中に <code class="cmd-chip">/</code> から始めて打つ内部コマンドです。特に <code class="cmd-chip">/compact</code> は<strong>知らないとあっという間に課金が爆発</strong>するので必ず覚えてください。</p>
+                <p style="margin:0 0 0.5rem; color:var(--text-sub); line-height:1.75;">Claude Code のセッション中に <code class="cmd-chip">/</code> から始めて打つ内部コマンドです。特に <code class="cmd-chip">/compact</code> は<strong>コンテキスト節約に直結する最重要コマンド</strong>なので必ず覚えてください。</p>
                 <div class="slash-grid">
                     <div class="slash-card">
                         <span class="slash-tag slash-tag--must">★最重要</span>
@@ -890,8 +890,8 @@
                 <!-- 4-4. トークン節約ベストプラクティス（アラート） -->
                 <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-piggy-bank" style="color:#e11d48;"></i> 課金爆発を防ぐ「トークン節約術」</h3>
                 <div class="alert-warn">
-                    <h4>Claude Code は「優秀すぎる」からこそ、油断すると財布に痛い</h4>
-                    <p>Claude Code は賢い反面、会話が長引くと<strong>「過去のやり取り全部」を毎回APIに送り直す</strong>ため、数十ドル分の利用枠があっという間に消えます。以下の4つを必ず守ってください。</p>
+                    <h4>Claude Code はコンテキスト管理がカギ</h4>
+                    <p>サブスクでも従量課金でも、会話が長引くと<strong>「過去のやり取り全部」を毎回送り直す</strong>ため、レート制限や利用枠をあっという間に消費します。以下の4つを守るだけで快適さが段違いになります。</p>
                 </div>
 
                 <div class="bento-grid" style="margin-top:1rem;">
@@ -912,21 +912,24 @@
                     </div>
                     <div class="bento-item" style="border-top: 4px solid #10b981;">
                         <span class="bento-tag">④ 役割分担</span>
-                        <h4><i class="fa-solid fa-people-arrows" style="color:#10b981;"></i> 設計は「定額制」で済ませる</h4>
-                        <p>いきなり Claude Code に設計からやらせると高額に。<strong>設計書は Web版 Claude / Gemini（定額）で作り、Claude Code には「この指示書通りに実装して」と渡す</strong>（AIディレクターの立ち回り）。</p>
+                        <h4><i class="fa-solid fa-people-arrows" style="color:#10b981;"></i> ツールの役割を分けて使う</h4>
+                        <p>Claude Codeに設計から丸投げするのは非効率。<strong>壁打ち・設計はGemini（またはClaude Web）で済ませ、Claude Codeには「この指示書通りに実装して」と渡す</strong>のがAIディレクターの立ち回り。</p>
                     </div>
                 </div>
 
                 <!-- 4-5. 推奨ワークフロー -->
                 <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-diagram-project" style="color:#7c3aed;"></i> ガチ勢の「究極のワークフロー」</h3>
-                <p style="margin:0 0 0.75rem; color:var(--text-sub); line-height:1.75;">役割分担の実例です。定額のWebチャットで設計、従量課金のClaude Codeで実装、Cursorで最終調整。<strong>トークン消費を最小にしつつ開発速度を最大化</strong>できます。</p>
+                <p style="margin:0 0 0.75rem; color:var(--text-sub); line-height:1.75;">AIツールの役割を分けることで、<strong>それぞれの強みを最大限に活かして開発速度を最大化</strong>できます。Cursor・Antigravity・Claude Codeは、どれも月額サブスク型で利用できます。</p>
                 <div class="workflow-chain">
-                    <div class="wf-node"><strong>Gemini / Web版Claude</strong><span>要件定義・設計書（Plan.md）作成（定額枠）</span></div>
+                    <div class="wf-node"><strong>Gemini（トークン余裕があればClaude）</strong><span>壁打ち・要件定義・設計書（Plan.md）作成</span></div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong>Claude Code</strong><span>「Plan.md に従って実装して」と一言（自律実装）</span></div>
+                    <div class="wf-node"><strong>Antigravity</strong><span>Google連携（スプレッドシート・Drive等）が必要な場合、またはブラウザ完結で実装</span></div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong>Cursor</strong><span>コードを目視確認しつつ最終デバッグ・微調整</span></div>
+                    <div class="wf-node"><strong>Claude Code</strong><span>「Plan.md に従って実装して」と一言で自律実装（実装計画担当）</span></div>
+                    <span class="wf-arrow">→</span>
+                    <div class="wf-node"><strong>Cursor</strong><span>低速無制限プランを活用しながら最終デバッグ・微調整</span></div>
                 </div>
+                <p style="margin:1rem 0 0; font-size:0.92rem; color:var(--text-sub); line-height:1.75;"><i class="fa-solid fa-circle-info" style="color:#7c3aed;"></i> <strong>レビュー・デプロイ</strong>は、そのときトークンに余裕のあるAIエージェントを任意に使い分けてOK。特定のツールに縛る必要はありません。</p>
             </div>
             <!-- ===== /Claude Code マスタークラス ここまで ===== -->
 
