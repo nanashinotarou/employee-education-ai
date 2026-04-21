@@ -341,6 +341,100 @@
         .compare-card--ok h5 { color: #166534; }
         .compare-card--ng h5 { color: #991b1b; }
         .compare-card ul { margin: 0; padding-left: 1.25rem; line-height: 1.75; font-size: 0.95rem; }
+
+        /* === Day 9 tab-second NEW: Claude Code マスタークラス用（ライト・非ターミナル） === */
+
+        /* インラインコマンドチップ（例: `/compact` などを文中に埋めるとき用） */
+        .cmd-chip {
+            display: inline-block;
+            background: #f5f3ff;
+            color: #5b21b6;
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 0.92em;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd6fe;
+            line-height: 1.6;
+            vertical-align: baseline;
+        }
+
+        /* インストールコマンド1行ブロック（黒背景ではなく薄紫のライトトーン） */
+        .cmd-line {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-left: 4px solid #a78bfa;
+            border-radius: 10px;
+            padding: 0.85rem 1.1rem;
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 0.95rem;
+            color: #4c1d95;
+            margin: 0.6rem 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .cmd-line::before {
+            content: '$';
+            color: #a78bfa;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+        .cmd-line--no-prompt::before { content: ''; display: none; }
+
+        /* スラッシュコマンド紹介カード */
+        .slash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0 0.5rem; }
+        .slash-card {
+            background: #fff;
+            border: 2px solid #ede9fe;
+            border-radius: 14px;
+            padding: 1.2rem 1.25rem;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            position: relative;
+        }
+        .slash-card:hover { transform: translateY(-4px); border-color: #a78bfa; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12); }
+        .slash-card .slash-name {
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #7c3aed;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0;
+        }
+        .slash-card .slash-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 6px;
+            width: fit-content;
+            letter-spacing: 0.03em;
+        }
+        .slash-card .slash-tag--must { background: #fce7f3; color: #9d174d; }
+        .slash-card .slash-tag--tip  { background: #ede9fe; color: #5b21b6; }
+        .slash-card p { margin: 0; font-size: 0.93rem; line-height: 1.7; color: var(--text-main); }
+
+        /* 「ガチ勢向け」であることを示すサブヘッダバッジ */
+        .masterclass-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            color: #5b21b6;
+            font-size: 0.78rem;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -686,6 +780,128 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ===== Claude Code マスタークラス（ガチ勢向け・任意） ===== -->
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-graduation-cap" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>📘 ガチ勢向け：Claude Code マスタークラス</h2>
+                </div>
+
+                <!-- 4-0. 冒頭のエクスキューズ（必ず飛ばしてOKと明言） -->
+                <div class="info-box" style="background:#f5f3ff; border-left-color:#7c3aed;">
+                    <h4 style="color:#5b21b6;"><i class="fa-solid fa-circle-info"></i> このセクションは「使い込みたい人向け」です（任意）</h4>
+                    <p>
+                        動画でも触れられていたとおり、<strong>最初はとっつきやすさ優先</strong>。Gemini Canvas や Manus といったブラウザで完結するツールから始めるのが正解です。<br>
+                        「もっと本格的に使い込みたい」「ターミナルも触ってみたい」という人向けの<strong>オプション</strong>パートなので、<strong>遠慮なく飛ばしてOK</strong>です。
+                    </p>
+                </div>
+
+                <!-- 4-1. Cursor との違い -->
+                <h3 style="margin:2rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-code-compare" style="color:#7c3aed;"></i> Cursor との決定的な違い</h3>
+                <div class="bento-grid" style="margin-top:0;">
+                    <div class="bento-item" style="border-top: 4px solid #14b8a6;">
+                        <span class="bento-tag" style="background:#ccfbf1; color:#115e59;">エディタ型</span>
+                        <h4><i class="fa-solid fa-pen-to-square" style="color:#0d9488;"></i> Cursor</h4>
+                        <p><strong>エディタ（IDE）そのもの</strong>。人間がコードを開きながら、AIにチャットや補完で指示を出す「<strong>AIペアプログラマー</strong>」。月額定額なのでコスト感が読みやすい。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <span class="bento-tag" style="background:#ede9fe; color:#5b21b6;">エージェント型</span>
+                        <h4><i class="fa-solid fa-robot" style="color:#7c3aed;"></i> Claude Code</h4>
+                        <p>ターミナルで動く<strong>自律型AIエージェント</strong>。エディタに依存せず、<strong>ディレクトリ全体を読み、自らファイルを作成・修正し、テスト実行・エラー修正まで自動</strong>で進める。API従量課金。</p>
+                    </div>
+                </div>
+
+                <!-- 4-2. 導入手順 -->
+                <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-download" style="color:#7c3aed;"></i> 導入手順（4ステップ）</h3>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-1"></i> Node.js をインストール（前提条件）</h4>
+                    <p style="margin:0;">公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener" style="color:#7c3aed; font-weight:800;">nodejs.org</a>）から LTS 版をダウンロード＆インストール。既に入っている人はスキップでOK。</p>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-2"></i> ターミナルで Claude Code をグローバルインストール</h4>
+                    <div class="cmd-line">npm install -g @anthropic-ai/claude-code</div>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-3"></i> 認証（Anthropic アカウントの Billing 設定が必須）</h4>
+                    <div class="cmd-line">claude auth</div>
+                    <p style="margin:0.6rem 0 0; font-size:0.95rem;">ブラウザが開くので、Anthropic アカウントでログイン。<strong>事前に Billing（クレジットカード）登録を済ませておく</strong>こと。</p>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-4"></i> 作業ディレクトリに移動して起動</h4>
+                    <div class="cmd-line">cd my-project</div>
+                    <div class="cmd-line">claude</div>
+                    <p style="margin:0.6rem 0 0; font-size:0.95rem;">これで Claude Code が起動します。あとは対話で指示を出すだけ。</p>
+                </div>
+
+                <!-- 4-3. 必須スラッシュコマンド -->
+                <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-keyboard" style="color:#7c3aed;"></i> 覚えるべき4つのスラッシュコマンド</h3>
+                <p style="margin:0 0 0.5rem; color:var(--text-sub); line-height:1.75;">Claude Code のセッション中に <code class="cmd-chip">/</code> から始めて打つ内部コマンドです。特に <code class="cmd-chip">/compact</code> は<strong>知らないとあっという間に課金が爆発</strong>するので必ず覚えてください。</p>
+                <div class="slash-grid">
+                    <div class="slash-card">
+                        <span class="slash-tag slash-tag--must">★最重要</span>
+                        <p class="slash-name"><i class="fa-solid fa-compress"></i> /compact</p>
+                        <p>長くなった対話履歴を<strong>自動で圧縮・要約</strong>し、トークン消費を劇的に抑えます。作業が一区切りついたら必ず打つクセを。</p>
+                    </div>
+                    <div class="slash-card">
+                        <span class="slash-tag slash-tag--must">必須</span>
+                        <p class="slash-name"><i class="fa-solid fa-broom"></i> /clear</p>
+                        <p>現在のセッションの会話履歴を<strong>完全に消去</strong>し、真っ新な状態に戻します。別の作業に移るときに使用。</p>
+                    </div>
+                    <div class="slash-card">
+                        <span class="slash-tag slash-tag--tip">Tip</span>
+                        <p class="slash-name"><i class="fa-solid fa-yen-sign"></i> /cost</p>
+                        <p>現在のセッションで消費した<strong>API利用料金（推定）</strong>を確認。精神安定剤としてこまめに打ちましょう。</p>
+                    </div>
+                    <div class="slash-card">
+                        <span class="slash-tag slash-tag--tip">Tip</span>
+                        <p class="slash-name"><i class="fa-solid fa-circle-question"></i> /help</p>
+                        <p>使えるコマンドの一覧を表示。最初に1回打っておくと、この4つ以外にも便利なコマンドがあることに気づけます。</p>
+                    </div>
+                </div>
+
+                <!-- 4-4. トークン節約ベストプラクティス（アラート） -->
+                <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-piggy-bank" style="color:#e11d48;"></i> 課金爆発を防ぐ「トークン節約術」</h3>
+                <div class="alert-warn">
+                    <h4>Claude Code は「優秀すぎる」からこそ、油断すると財布に痛い</h4>
+                    <p>Claude Code は賢い反面、会話が長引くと<strong>「過去のやり取り全部」を毎回APIに送り直す</strong>ため、数十ドル分の利用枠があっという間に消えます。以下の4つを必ず守ってください。</p>
+                </div>
+
+                <div class="bento-grid" style="margin-top:1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #ec4899;">
+                        <span class="bento-tag">① スコープを絞る</span>
+                        <h4><i class="fa-solid fa-folder-tree" style="color:#ec4899;"></i> 小さなディレクトリで起動</h4>
+                        <p>プロジェクトの<strong>ルートで起動しない</strong>。修正したい機能があるサブディレクトリに <code class="cmd-chip">cd</code> してから <code class="cmd-chip">claude</code> を打つ。無駄なファイル読み込みを防げます。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #f97316;">
+                        <span class="bento-tag">② 読ませない</span>
+                        <h4><i class="fa-solid fa-ban" style="color:#f97316;"></i> .claudeignore で除外</h4>
+                        <p>画像・ビルド成果物・ログファイルなど、AIに読ませる必要がないものは <code class="cmd-chip">.claudeignore</code> に記載して除外。 <code class="cmd-chip">.gitignore</code> と同じ書き方でOK。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <span class="bento-tag">③ こまめに圧縮</span>
+                        <h4><i class="fa-solid fa-compress" style="color:#7c3aed;"></i> /compact と /clear を打つ</h4>
+                        <p>対話が一区切りついたら <code class="cmd-chip">/compact</code>。別作業に移るなら <code class="cmd-chip">/clear</code>。このひと手間で<strong>1日の利用料金が数倍変わります</strong>。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #10b981;">
+                        <span class="bento-tag">④ 役割分担</span>
+                        <h4><i class="fa-solid fa-people-arrows" style="color:#10b981;"></i> 設計は「定額制」で済ませる</h4>
+                        <p>いきなり Claude Code に設計からやらせると高額に。<strong>設計書は Web版 Claude / Gemini（定額）で作り、Claude Code には「この指示書通りに実装して」と渡す</strong>（AIディレクターの立ち回り）。</p>
+                    </div>
+                </div>
+
+                <!-- 4-5. 推奨ワークフロー -->
+                <h3 style="margin:2.5rem 0 1rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-diagram-project" style="color:#7c3aed;"></i> ガチ勢の「究極のワークフロー」</h3>
+                <p style="margin:0 0 0.75rem; color:var(--text-sub); line-height:1.75;">役割分担の実例です。定額のWebチャットで設計、従量課金のClaude Codeで実装、Cursorで最終調整。<strong>トークン消費を最小にしつつ開発速度を最大化</strong>できます。</p>
+                <div class="workflow-chain">
+                    <div class="wf-node"><strong>Gemini / Web版Claude</strong><span>要件定義・設計書（Plan.md）作成（定額枠）</span></div>
+                    <span class="wf-arrow">→</span>
+                    <div class="wf-node"><strong>Claude Code</strong><span>「Plan.md に従って実装して」と一言（自律実装）</span></div>
+                    <span class="wf-arrow">→</span>
+                    <div class="wf-node"><strong>Cursor</strong><span>コードを目視確認しつつ最終デバッグ・微調整</span></div>
+                </div>
+            </div>
+            <!-- ===== /Claude Code マスタークラス ここまで ===== -->
 
             <div class="glass-card" style="border-top: 5px solid #7c3aed;">
                 <div class="card-header">
