@@ -660,7 +660,7 @@
                     <span class="wf-arrow" style="color:#10b981;">→</span>
                     <div class="wf-node" style="border-color:#6ee7b7;"><strong style="color:#059669;">Claude Cowork</strong><span>ファイル構造最適化</span></div>
                     <span class="wf-arrow" style="color:#10b981;">→</span>
-                    <div class="wf-node" style="border-color:#6ee7b7;"><strong style="color:#059669;">Netlify</strong><span>WEB公開</span></div>
+                    <div class="wf-node" style="border-color:#6ee7b7;"><strong style="color:#059669; display:flex; align-items:center; justify-content:center; gap:0.4rem;"><img src="./素材/Netlifyアイコン画像.png" alt="" style="width:20px; height:20px; object-fit:contain;"> Netlify</strong><span>WEB公開</span></div>
                 </div>
 
                 <div class="prompt-box">NotebookLM プロンプト例（ルートA・1ステップ目）<br>
@@ -702,8 +702,8 @@
                 </div>
 
                 <div class="alert-warn alert-warn--amber">
-                    <h4>③ 静的サイトの制約 ― GitHub Pages では「動く機能」は動かない</h4>
-                    <p>GitHub Pages や Netlify の無料枠は<strong>「静的サイト」専用</strong>です。HTML・CSS・JavaScript（画面の見た目）は動きますが、<strong>サーバー側の処理が必要なもの（ログイン・DB保存・決済・外部API連携など）はそのままでは動きません。</strong></p>
+                    <h4>③ 静的サイトの制約 ― <img src="./素材/GitHubPagesアイコン画像.png" alt="" style="width:24px; height:24px; object-fit:contain; vertical-align:middle; margin: -4px 4px 0 0;"> GitHub Pages では「動く機能」は動かない</h4>
+                    <p><img src="./素材/GitHubPagesアイコン画像.png" alt="" style="width:18px; height:18px; vertical-align:middle; margin-top:-2px;"> GitHub Pages や <img src="./素材/Netlifyアイコン画像.png" alt="" style="width:18px; height:18px; vertical-align:middle; margin-top:-2px;"> Netlify の無料枠は<strong>「静的サイト」専用</strong>です。HTML・CSS・JavaScript（画面の見た目）は動きますが、<strong>サーバー側の処理が必要なもの（ログイン・DB保存・決済・外部API連携など）はそのままでは動きません。</strong></p>
                     <p>AIに「問い合わせフォームを作って」と頼むと、メール送信サーバーを前提にしたコードを返してくるため、そのままデプロイしても<strong>ボタンを押しても何も起きない</strong>という事故が起こります。</p>
                     <p style="margin-top:1rem;"><strong>💡 対策</strong>：AIへの指示の最初に<strong>「ネガティブプロンプト（制約条件）」を明示する</strong>こと。具体例は下の実習セクションを参照。</p>
                 </div>
