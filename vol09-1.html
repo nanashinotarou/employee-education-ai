@@ -1225,7 +1225,7 @@
         .workflow-chain {
             display: flex;
             flex-wrap: wrap;
-            align-items: stretch;
+            align-items: center;
             gap: 0.75rem;
             margin: 1.5rem 0;
             justify-content: center;
@@ -1234,26 +1234,54 @@
         .workflow-chain .wf-node {
             background: #fff;
             border: 2px solid #ddd6fe;
-            border-radius: 14px;
-            padding: 1rem 1.25rem;
-            min-width: 150px;
+            border-radius: 16px;
+            padding: 1.1rem 1.25rem 0.9rem;
+            min-width: 130px;
+            max-width: 170px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.09);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 4px;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .workflow-chain .wf-node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.15);
+        }
+
+        .workflow-chain .wf-node .wf-icon {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f5f3ff;
+            padding: 5px;
+            margin-bottom: 2px;
+        }
+
+        .workflow-chain .wf-node .wf-step {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #a78bfa;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: -2px;
         }
 
         .workflow-chain .wf-node strong {
             color: #7c3aed;
             font-weight: 900;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
+            line-height: 1.3;
         }
 
         .workflow-chain .wf-node span {
-            font-size: 0.78rem;
+            font-size: 0.74rem;
             color: var(--text-sub);
+            line-height: 1.4;
         }
 
         .workflow-chain .wf-arrow {
@@ -1261,14 +1289,52 @@
             color: #a78bfa;
             font-weight: 900;
             font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ルートB（緑系）専用 */
+        .workflow-chain .wf-node.wf-green {
+            border-color: #6ee7b7;
+        }
+        .workflow-chain .wf-node.wf-green strong {
+            color: #059669;
+        }
+        .workflow-chain .wf-node.wf-green .wf-icon {
+            background: #ecfdf5;
+        }
+        .workflow-chain .wf-node.wf-green .wf-step {
+            color: #34d399;
+        }
+
+        /* 究極のワークフロー（グラデ紫〜テキスト）*/
+        .workflow-chain .wf-node.wf-ultimate {
+            min-width: 150px;
+            max-width: 200px;
         }
 
         @media (max-width: 640px) {
             .workflow-chain {
                 flex-direction: column;
+                align-items: stretch;
             }
-
+            .workflow-chain .wf-node {
+                max-width: 100%;
+                flex-direction: row;
+                text-align: left;
+                gap: 12px;
+                padding: 0.85rem 1rem;
+            }
+            .workflow-chain .wf-node .wf-icon {
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+            .workflow-chain .wf-node > div {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
             .workflow-chain .wf-arrow {
+                text-align: center;
                 transform: rotate(90deg);
             }
         }
@@ -1842,24 +1908,56 @@
                 <h4 style="margin:1.5rem 0 0.5rem; color:#2563eb;"><i class="fa-solid fa-1"></i> ルートA：ノンコード一気通貫（初心者向け）
                 </h4>
                 <div class="workflow-chain">
-                    <div class="wf-node"><strong><img src="./素材/NotebookLMアイコン画像.png" alt="" class="inline-icon"> NotebookLM</strong><span>リサーチ・設計図</span></div>
+                    <div class="wf-node">
+                        <img src="./素材/NotebookLMアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 1</span>
+                        <strong>NotebookLM</strong>
+                        <span>リサーチ・設計図</span>
+                    </div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong><img src="./素材/Manusアイコン画像.png" alt="" class="inline-icon"> Manus</strong><span>サイト構築・画像生成</span></div>
+                    <div class="wf-node">
+                        <img src="./素材/Manusアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 2</span>
+                        <strong>Manus</strong>
+                        <span>サイト構築・画像生成</span>
+                    </div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong><img src="./素材/Manusアイコン画像.png" alt="" class="inline-icon"> Manus 編集ボタン</strong><span>微調整</span></div>
+                    <div class="wf-node">
+                        <img src="./素材/Manusアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 3</span>
+                        <strong>Manus 編集</strong>
+                        <span>微調整</span>
+                    </div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong><img src="./素材/Manusアイコン画像.png" alt="" class="inline-icon"> Manus 公開ボタン</strong><span>URL発行</span></div>
+                    <div class="wf-node">
+                        <img src="./素材/Manusアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 4</span>
+                        <strong>Manus 公開</strong>
+                        <span>URL発行</span>
+                    </div>
                 </div>
 
                 <h4 style="margin:2rem 0 0.5rem; color:#10b981;"><i class="fa-solid fa-2"></i> ルートB：UI特化・開発者寄り</h4>
                 <div class="workflow-chain">
-                    <div class="wf-node" style="border-color:#6ee7b7;"><strong style="color:#059669;"><img src="./素材/Stitchアイコン画像.png" alt="" class="inline-icon"> Google Stitch</strong><span>UIデザイン</span></div>
+                    <div class="wf-node wf-green">
+                        <img src="./素材/Stitchアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 1</span>
+                        <strong>Google Stitch</strong>
+                        <span>UIデザイン</span>
+                    </div>
                     <span class="wf-arrow" style="color:#10b981;">→</span>
-                    <div class="wf-node" style="border-color:#6ee7b7;"><strong style="color:#059669;"><img src="./素材/Claudeアイコン画像.png" alt="" class="inline-icon"> Claude Cowork</strong><span>ファイル構造最適化</span></div>
+                    <div class="wf-node wf-green">
+                        <img src="./素材/Claude Coworkアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 2</span>
+                        <strong>Claude Cowork</strong>
+                        <span>ファイル構造最適化</span>
+                    </div>
                     <span class="wf-arrow" style="color:#10b981;">→</span>
-                    <div class="wf-node" style="border-color:#6ee7b7;"><strong
-                            style="color:#059669; display:flex; align-items:center; justify-content:center; gap:0.4rem;"><img
-                                src="./素材/Netlifyアイコン画像.png" alt="" class="inline-icon"> Netlify</strong><span>WEB公開</span>
+                    <div class="wf-node wf-green">
+                        <img src="./素材/Netlifyアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 3</span>
+                        <strong>Netlify</strong>
+                        <span>WEB公開</span>
                     </div>
                 </div>
 
@@ -2172,16 +2270,33 @@
                     AIツールの役割を分けることで、<strong>それぞれの強みを最大限に活かして開発速度を最大化</strong>できます。Cursor・Antigravity・Claude
                     Codeは、どれも月額サブスク型で利用できます。</p>
                 <div class="workflow-chain">
-                    <div class="wf-node"><strong><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"><img src="./素材/Claudeアイコン画像.png" alt="" class="inline-icon"> Gemini（余裕があればClaude）</strong><span>壁打ち・要件定義・設計書（Plan.md）作成</span>
+                    <div class="wf-node wf-ultimate">
+                        <img src="./素材/Geminiアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 1</span>
+                        <strong>Gemini / Claude</strong>
+                        <span>壁打ち・要件定義<br>設計書（Plan.md）</span>
                     </div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node">
-                        <strong><img src="./素材/Antigravityアイコン画像.png" alt="" class="inline-icon"> Antigravity</strong><span>Google連携（スプレッドシート・Drive等）が必要な場合や、リサーチ・デプロイ等</span></div>
-                    <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong><img src="./素材/ClaudeCodeアイコン画像.png" alt="" class="inline-icon"> Claude Code</strong><span>Plan.md を読んで詳細な実装計画を作成（計画担当のみ・実装はしない）</span>
+                    <div class="wf-node wf-ultimate">
+                        <img src="./素材/Antigravityアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 2</span>
+                        <strong>Antigravity</strong>
+                        <span>Google連携・<br>リサーチ・デプロイ</span>
                     </div>
                     <span class="wf-arrow">→</span>
-                    <div class="wf-node"><strong><img src="./素材/Cursorアイコン画像.png" alt="" class="inline-icon"> Cursor</strong><span>低速無制限プランで実装を全部こなす（実装担当・デバッグまで）</span></div>
+                    <div class="wf-node wf-ultimate">
+                        <img src="./素材/ClaudeCodeアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 3</span>
+                        <strong>Claude Code</strong>
+                        <span>実装計画作成<br>（計画担当のみ）</span>
+                    </div>
+                    <span class="wf-arrow">→</span>
+                    <div class="wf-node wf-ultimate">
+                        <img src="./素材/Cursorアイコン画像.png" alt="" class="wf-icon">
+                        <span class="wf-step">Step 4</span>
+                        <strong>Cursor</strong>
+                        <span>実装・デバッグ<br>（低速無制限）</span>
+                    </div>
                 </div>
                 <p style="margin:1rem 0 0; font-size:0.92rem; color:var(--text-sub); line-height:1.75;"><i
                         class="fa-solid fa-circle-info" style="color:#7c3aed;"></i>
