@@ -78,8 +78,8 @@
 
         /* メインコンテナ (Glassmorphism) */
         .container {
-            width: 96%;
-            max-width: none;
+            width: 100%;
+            max-width: 900px;
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -592,6 +592,7 @@
             .container {
                 width: 100%;
                 border-radius: var(--radius-medium);
+                margin: 0 auto;
             }
 
             .header {
@@ -1199,8 +1200,11 @@
         function openTab(tabId) {
             // 全タブボタンの非アクティブ化
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            // 押されたボタンのアクティブ化
-            event.currentTarget.classList.add('active');
+            // 対応するタブボタンを探してアクティブ化（ナビボタン経由でも正しく動作）
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
 
             // 全コンテンツの非表示化
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -1209,7 +1213,7 @@
             // 対象コンテンツの表示
             document.getElementById(tabId).classList.add('active');
 
-            // 少しだけ上部にスクロール
+            // 上部にスクロール
             window.scrollTo({
                 top: document.querySelector('.tabs').offsetTop - 20,
                 behavior: 'smooth'
