@@ -281,6 +281,26 @@
             padding: 3px;
             border: 1px solid #ddd;
         }
+    
+        /* === 動画の追従（Sticky）対応 === */
+        .video-grid {
+            position: sticky !important;
+            top: 75px;
+            z-index: 50;
+            background: var(--bg-card, #ffffff);
+            padding: 15px;
+            margin-left: -15px;
+            margin-right: -15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .lc-video {
+            position: sticky !important;
+            top: 75px;
+            z-index: 50;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
     </style>
 </head>
 <body>
