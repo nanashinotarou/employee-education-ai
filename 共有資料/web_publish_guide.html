@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webサイト・アプリの公開方法まとめ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --green-dark: #1a6b3a;
+    --green-mid: #2d9b56;
+    --green-light: #4fc97c;
+    --green-pale: #e8f7ee;
+    --green-accent: #00c853;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --text: #1a2e23;
+    --text-muted: #5a7a65;
+    --border: #b7dfc5;
+    --bg: #f4fbf7;
+    --white: #ffffff;
+    --card-shadow: 0 2px 12px rgba(26,107,58,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+    color: white;
+    padding: 40px 24px 32px;
+    text-align: center;
+  }
+  header .label {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  header p {
+    font-size: 14px;
+    opacity: 0.85;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ── Nav ── */
+  nav {
+    background: var(--white);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 16px;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0;
+    max-width: 860px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+  nav ul li a {
+    display: block;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  nav ul li a:hover { color: var(--green-dark); border-bottom-color: var(--green-light); }
+
+  /* ── Main ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  h2.block-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* ── Comparison table ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .compare-card {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    box-shadow: var(--card-shadow);
+  }
+  .compare-card.recommended {
+    border-color: var(--green-light);
+    background: linear-gradient(160deg, #f0fff6 0%, var(--white) 100%);
+  }
+  .compare-card .badge {
+    position: absolute;
+    top: -1px; right: 12px;
+    background: var(--green-accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 0 0 8px 8px;
+    letter-spacing: 0.06em;
+  }
+  .compare-card .method-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .compare-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+  .compare-card .difficulty {
+    display: inline-flex;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+  .compare-card .difficulty span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .compare-card .difficulty span.filled { background: var(--amber); }
+  .compare-card p {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── Why section ── */
+  .why-box {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-left: 4px solid var(--green-mid);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+    box-shadow: var(--card-shadow);
+  }
+  .why-box h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 600px) { .why-grid { grid-template-columns: 1fr; } }
+  .why-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--green-pale);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .why-item .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .why-item p { font-size: 12.5px; color: var(--text); line-height: 1.55; }
+  .why-item strong { display: block; font-size: 13px; color: var(--green-dark); margin-bottom: 2px; }
+
+  /* ── Method sections ── */
+  .method-section {
+    margin-bottom: 56px;
+  }
+  .method-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 18px 24px;
+  }
+  .method-header .num {
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .method-header h2 { font-size: 17px; font-weight: 700; }
+  .method-header .tag {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .method-body {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 28px 24px;
+    box-shadow: var(--card-shadow);
+  }
+
+  /* Steps */
+  .steps { margin: 0; padding: 0; list-style: none; }
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 40px;
+    width: 2px; bottom: -8px;
+    background: var(--border);
+  }
+  .step-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    border: 2px solid var(--green-light);
+    color: var(--green-dark);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; padding-top: 6px; }
+  .step-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  .step-content p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .step-content .code-inline {
+    font-family: 'DM Mono', monospace;
+    background: #f0f4f0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 12px;
+    color: var(--green-dark);
+  }
+
+  /* Screen mockup */
+  .screen-mock {
+    background: #1e2a22;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #7ee8a2;
+    line-height: 1.8;
+  }
+  .screen-mock .dim { color: #4a6355; }
+  .screen-mock .bright { color: #a0f0c0; font-weight: 500; }
+  .screen-mock .url { color: #64c8e8; }
+
+  /* Tip box */
+  .tip {
+    background: linear-gradient(135deg, #fff8e6, #fffdf5);
+    border: 1px solid #f0d080;
+    border-left: 4px solid var(--amber);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #5a4a10;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip .tip-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* No-steps GitHub section */
+  .github-simple {
+    background: var(--green-pale);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-size: 13.5px;
+    color: var(--text);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .github-simple .gi { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">DXコース ／ AI活用 Web公開ガイド</div>
+  <h1>🌐 Webサイト・アプリの公開方法まとめ</h1>
+  <p>AIで作ったWebサイトやアプリを、実際にインターネットで公開してみよう。<br>自分のレベルや目的に合った方法を選んでください。</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#overview">📊 方法の比較</a></li>
+    <li><a href="#why">💡 なぜHTMLを自分で公開？</a></li>
+    <li><a href="#canvas">① Canvas共有リンク</a></li>
+    <li><a href="#netlify">② Netlify</a></li>
+    <li><a href="#github">③ GitHub Pages</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ── 比較 ── -->
+  <section id="overview" style="margin-bottom:48px;">
+    <div class="section-title">Method Overview</div>
+    <h2 class="block-heading">📊 3つの公開方法を比べてみよう</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <div class="badge">いちばん簡単</div>
+        <div class="method-icon">✨</div>
+        <h3>① Canvas 共有リンク</h3>
+        <div class="difficulty">
+          <span class="filled"></span><span></span><span></span>
+        </div>
+        <p>GeminiなどのAIで作ったコードを、そのまま共有リンクで公開。ファイルのダウンロード不要。</p>
+      </div>
+      <div class="compare-card">
+        <div class="method-icon">🚀</div>
+        <h3>② Netlify Drop</h3>
+        <div class="difficulty">
+          <span class="filled"></span><span class="filled"></span><span></span>
+        </div>
+        <p>HTMLファイルをドラッグ＆ドロップするだけで本格的なURLを取得できる。</p>
+      </div>
+      <div class="compare-card">
+        <div class="method-icon">🐙</div>
+        <h3>③ GitHub Pages</h3>
+        <div class="difficulty">
+          <span class="filled"></span><span class="filled"></span><span class="filled"></span>
+        </div>
+        <p>カリキュラムで学んだGitHubを使って公開。エンジニアの現場でも使われる本格的な方法。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── なぜHTMLを自分で公開？ ── -->
+  <section id="why" style="margin-bottom:56px;">
+    <div class="section-title">Why publish HTML yourself?</div>
+    <h2 class="block-heading">💡 Canvasリンクだけじゃダメなの？</h2>
+
+    <div class="why-box">
+      <h3>🤔 Canvas共有リンクで十分なケースも多い。でも…</h3>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="icon">🔗</div>
+          <p><strong>URLを自分でコントロールできる</strong>Netlifyなら独自ドメインの設定も可能。Canvasリンクはいつ消えるか分からない。</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">💼</div>
+          <p><strong>実務で通用するスキルになる</strong>「Web公開した経験」としてポートフォリオに残せる。</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">📁</div>
+          <p><strong>ファイルが手元に残る</strong>Canvas上のコードだけに依存しない。ローカルにも保存できる。</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">🌍</div>
+          <p><strong>"本物のWebサイト"体験</strong>「コード共有」ではなく「Webサービスを公開した」という実感が得られる。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">💬</span>
+      <span><strong>GitHub Pagesを使う理由は？</strong><br>カリキュラムで学んだことを実際に活かしてみること自体が目的。「動いた！」という経験がいちばんの学習になります。</span>
+    </div>
+  </section>
+
+  <!-- ── METHOD 1: Canvas ── -->
+  <section id="canvas" class="method-section">
+    <div class="method-header">
+      <div class="num">1</div>
+      <div>
+        <h2>Gemini Canvas 共有リンクで公開</h2>
+        <p style="font-size:12px;opacity:0.8;margin-top:2px;">AIで作ったコードをそのままWeb公開する最短ルート</p>
+      </div>
+      <div class="tag">⭐ いちばん簡単</div>
+    </div>
+    <div class="method-body">
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>GeminiでCanvasモードを開く</h4>
+            <p><a href="https://gemini.google.com" target="_blank" style="color:var(--green-mid)">gemini.google.com</a> にアクセスし、Googleアカウントでログイン。チャット入力欄の右にある <span class="code-inline">Canvas</span> ボタンをクリックしてCanvasモードに切り替える。</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>AIにWebサイト・アプリを作ってもらう</h4>
+            <p>Canvasモードのチャットに作りたいものを指示する。例：</p>
+            <div class="screen-mock">
+              <span class="dim">あなた ＞ </span><span class="bright">シンプルな自己紹介ページをHTMLで作ってください。<br>　名前、自己紹介文、趣味を載せてください。</span>
+            </div>
+            <p>Canvasエリアにコードとプレビューが表示される。満足いくまで修正を繰り返してOK。</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>「共有」ボタンから公開リンクを発行する</h4>
+            <p>Canvasの右上にある <span class="code-inline">共有</span> アイコン（または <span class="code-inline">︙</span> メニュー）をクリック。</p>
+            <div class="screen-mock">
+              <span class="dim">共有設定</span><br>
+              <span class="bright">🔗 リンクを知っている全員が閲覧可能</span><br>
+              <span class="dim">　→「リンクをコピー」ボタンをクリック</span>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>リンクをコピーして提出・共有する</h4>
+            <p>発行されたURLをコピーして、課題提出フォームや共有したい相手に送ればOK。</p>
+            <div class="screen-mock">
+              <span class="dim">例：</span><br>
+              <span class="url">https://gemini.google.com/share/xxxxxxxxxxxxxxxx</span>
+            </div>
+          </div>
+        </li>
+      </ol>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <span>共有リンクを「オフ」に戻すとURLにアクセスできなくなります。提出後は設定を変えないよう注意しましょう。ChatGPT・Claude・Copilotなど他のAIのCanvas相当機能でも同様に共有リンクを発行できる場合があります。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── METHOD 2: Netlify ── -->
+  <section id="netlify" class="method-section">
+    <div class="method-header">
+      <div class="num">2</div>
+      <div>
+        <h2>Netlify Drop でHTMLを公開</h2>
+        <p style="font-size:12px;opacity:0.8;margin-top:2px;">ドラッグ＆ドロップだけで本格的なURLを取得</p>
+      </div>
+      <div class="tag">🚀 D&Dで完結</div>
+    </div>
+    <div class="method-body">
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>HTMLファイルを用意する</h4>
+            <p>AIに作ってもらったHTMLコードをテキストエディタ（メモ帳でもOK）に貼り付けて、<span class="code-inline">index.html</span> という名前で保存する。</p>
+            <div class="tip" style="margin-top:10px;">
+              <span class="tip-icon">📌</span>
+              <span><strong>Gemini CanvasのコードをHTMLファイルにする方法</strong><br><br>
+              Canvasの右上 <span class="code-inline">共有</span> → <span class="code-inline">内容をコピー</span> でコード全体をコピーする。<br><br>
+              <strong>🪟 Windows（メモ帳）</strong><br>
+              ① スタートメニューから「メモ帳」を開く<br>
+              ② コピーしたコードを貼り付け（Ctrl＋V）<br>
+              ③ 「ファイル」→「名前を付けて保存」<br>
+              ④ ファイル名を <span class="code-inline">index.html</span> と入力し、ファイルの種類を <span class="code-inline">すべてのファイル</span> に変更して保存<br><br>
+              <strong>🍎 Mac（テキストエディット）</strong><br>
+              ① テキストエディットを開き、メニュー「フォーマット」→「標準テキストにする」でプレーンテキストモードにする<br>
+              ② コピーしたコードを貼り付け（⌘＋V）<br>
+              ③ 「ファイル」→「保存」でファイル名を <span class="code-inline">index.html</span> にして保存（「.html」拡張子を使用のまま保存）
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Netlify Drop にアクセスする</h4>
+            <p><a href="https://app.netlify.com/drop" target="_blank" style="color:var(--green-mid)">app.netlify.com/drop</a> をブラウザで開く。まず右上の <span class="code-inline">Sign up</span> から<strong>無料アカウントを作成</strong>しておこう（メールアドレスまたはGoogleアカウントで登録可）。</p>
+            <div class="tip" style="margin-top:10px;">
+              <span class="tip-icon">⚠️</span>
+              <span>アカウントなしでもDropは使えますが、<strong>24時間後にサイトが自動削除</strong>されます。課題提出URLが消えてしまうので、必ず先に登録しておきましょう。</span>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>HTMLファイルをドロップする</h4>
+            <p>画面中央の点線エリアに <span class="code-inline">index.html</span> をドラッグ＆ドロップするだけ。複数ファイルがある場合はフォルダごとドロップする。</p>
+            <div class="screen-mock">
+              <span class="dim">┌─────────────────────────────┐</span><br>
+              <span class="dim">│</span>  <span class="bright">Want to deploy a new site</span>      <span class="dim">│</span><br>
+              <span class="dim">│</span>  <span class="bright">without connecting to Git?</span>     <span class="dim">│</span><br>
+              <span class="dim">│</span>                               <span class="dim">│</span><br>
+              <span class="dim">│</span>  📂 <span class="bright">Drag and drop your site</span>    <span class="dim">│</span><br>
+              <span class="dim">│</span>     <span class="bright">output folder here</span>         <span class="dim">│</span><br>
+              <span class="dim">└─────────────────────────────┘</span>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>自動生成されたURLをコピーして共有</h4>
+            <p>数秒でデプロイ完了。ランダムなURLが発行される。</p>
+            <div class="screen-mock">
+              <span class="dim">🎉 Your site is live!</span><br>
+              <span class="url">https://jolly-sundae-a1b2c3.netlify.app</span><br>
+              <span class="dim">　→ このURLをコピーして共有！</span>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>ログイン済みの状態でDropすると、マイページからサイトの管理・削除・URL名の変更ができます。無料プランでも複数サイトを公開できます。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── METHOD 3: GitHub ── -->
+  <section id="github" class="method-section">
+    <div class="method-header">
+      <div class="num">3</div>
+      <div>
+        <h2>GitHub Pages で公開</h2>
+        <p style="font-size:12px;opacity:0.8;margin-top:2px;">カリキュラムで学んだGitHubを実践で活用</p>
+      </div>
+      <div class="tag">🐙 実践スキル</div>
+    </div>
+    <div class="method-body">
+      <div class="github-simple">
+        <div class="gi">📚</div>
+        <div>
+          <p style="font-weight:700;color:var(--green-dark);margin-bottom:8px;">手順はカリキュラムで学習済みです</p>
+          <p style="font-size:13px;color:var(--text-muted);">授業でGitHub Pagesの使い方を学びましたね。復習しながら、今回作ったWebサイト・アプリを実際にGitHub Pagesで公開してみましょう。<br><br>
+          GitHubを使う一番の理由は「<strong>学んだことを実践してみること</strong>」。操作を繰り返すことで、エンジニアの現場で使われるワークフローが自然と身につきます。公開URLをポートフォリオとして残せるのも大きなメリットです。</p>
+
+          <div class="tip" style="margin-top:16px;">
+            <span class="tip-icon">🎯</span>
+            <span>発行されるURLの形式：<br><span class="code-inline" style="font-family:'DM Mono',monospace;">https://ユーザー名.github.io/リポジトリ名/</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  DXコース資料 ／ AI活用によるWeb公開ガイド　|　ご不明な点は講師までお気軽にどうぞ
+</footer>
+
+</body>
+</html>

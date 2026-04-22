@@ -703,15 +703,12 @@ WEB公開：Netlify　https://www.netlify.com/
 ✍️プロンプト（役割・ターゲット・コンセプト・雰囲気・世界観）
 プロのWebデザインの専門家として 20代〜30代の女性をターゲットにした、隠れ家カフェの洗練された温かみのあるサイトをデザインしてください。メインカラーは落ち着いたアースカラーで、ナチュラルな雰囲気を強調してください
 
-
 MCP 連携(Model Context Protocol)
 Stich公式提供　拡張機能をAntigravityに追加
 Gthubの保管庫にあります
 https://github.com/google-labs-code/stitch-skills
 └react-components
 └Stitch-loop
-
-
 
 ✍️プロンプト（）
 UIデザイン（Webサイト）を実装するための詳細な計画を作成したいです。
@@ -726,10 +723,9 @@ UIデザイン（Webサイト）を実装するための詳細な計画を作成
 実習：制約条件付きでWEBサイトを作ってみよう
 
 🎯 実習の目的
-・きちんと動くWEBさいとを作る
+・きちんと動くWEBサイトを作る
 ・公開環境に合わせた制約条件プロンプトを覚える
 ・目標達成のための制作時間にする
-
 
 💡 実習の流れ
 WEBサイトは、静的HTMLか動的HTMLか、区別をつけながら開発する必要があります。
@@ -757,3 +753,33 @@ https://docs.google.com/document/d/1yfRr0kKgoanGN5o6jH0-F_8oHWP-gK_ya9e2L46Z6NE/
 https://youtu.be/X32pPFe5EIU?si=PGR3zaS9UiHgoVvG
 
 実習内容は前半と同じ
+
+Day10
+コース目標：Ai活用によるWEBサイト制作またはアプリ開発をする
+研修内容：アプリケーション開発の基礎知識
+研修目的：アプリの基本構成を理解し、業務改善に活かす開発思考を養う。
+
+前半
+再生動画
+https://youtu.be/l34c7kUq8ig?si=YYc2SzDONuxvOPgu
+https://youtu.be/ZPSQJSkomuY?si=h3OoO96ZqpsBu_nZ
+https://youtu.be/viw0rCkMCX0?si=4bcJgd-3PGarlAcm
+
+▼Github Copilot
+https://github.com/features/copilot?locale=ja
+プログラマ用
+
+▼Bolt.new AI
+https://bolt.new/
+AIコーディングツール
+
+実習：課題を制作しよう。
+🎯 実習の目的
+・成果発表の準備をする。
+・コース目標を達成する。
+💡 実習の流れ
+① Padletの新規アカウント登録をしよう。
+② 今まで紹介したツールの中から、アプリ、またはウェブサイトを作成しよう。
+
+後半
+再生動画

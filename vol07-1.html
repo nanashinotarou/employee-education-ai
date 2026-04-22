@@ -256,6 +256,31 @@
             .wax-seal { width: 100px; height: 100px; font-size: 2.5rem; right: -10px; top: -10px; border-width: 3px; }
             .wax-seal::after { border-width: 2px; inset: 8px; }
         }
+
+        /* ツールアイコン表示用共通クラス */
+        .inline-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+            background: #fff;
+            border-radius: 4px;
+            padding: 2px;
+            border: 1px solid #eee;
+        }
+
+        .heading-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 10px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 3px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -279,7 +304,7 @@
         <div class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
             <button class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-code" style="color:#2563eb;"></i> 前半：Web制作基礎</button>
-            <button class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed;"></i> 後半：AIでサイト制作</button>
+            <button class="tab-btn" onclick="switchTab('tab-second')"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> 後半：AIでサイト制作</button>
             <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日のまとめ</button>
         </div>
 
@@ -560,7 +585,7 @@
 
             <div class="glass-card" style="border-top: 5px solid #7c3aed;">
                 <div class="card-header">
-                    <i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <img src="./素材/Geminiアイコン画像.png" alt="" class="heading-icon">
                     <h2>動画4：Gemini CanvasでWebサイトを作る</h2>
                 </div>
                 <div class="video-grid" style="grid-template-columns: 1fr;">
@@ -763,7 +788,7 @@
                     <li class="task-item" onclick="toggleTask('t7_3', this)">
                         <div class="custom-checkbox" id="check_t7_3"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 03: Gemini Canvasでサイトを生成する</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> STEP 03: Gemini Canvasでサイトを生成する</h4>
                             <p>プロンプトを投げてWebサイトのプレビューが表示されたらチェック！</p>
                         </div>
                     </li>

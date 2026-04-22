@@ -169,6 +169,31 @@
             .wax-seal { width: 100px; height: 100px; font-size: 2.5rem; right: -10px; top: -10px; border-width: 3px; }
             .wax-seal::after { border-width: 2px; inset: 8px; }
         }
+
+        /* ツールアイコン表示用共通クラス */
+        .inline-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+            background: #fff;
+            border-radius: 4px;
+            padding: 2px;
+            border: 1px solid #eee;
+        }
+
+        .heading-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 10px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 3px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -194,8 +219,8 @@
         <!-- Premium Tab Navigation -->
         <div class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
-            <button class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-lightbulb" style="color:#3b82f6;"></i> 前半：神機能とマインド編</button>
-            <button class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-bolt" style="color:#7c3aed;"></i> 後半：Claude特化とGemini</button>
+            <button class="tab-btn" onclick="switchTab('tab-first')"><img src="./素材/ChatGPTアイコン画像.png" alt="" class="inline-icon"> 前半：ChatGPT神機能編</button>
+            <button class="tab-btn" onclick="switchTab('tab-second')"><img src="./素材/Claudeアイコン画像.png" alt="" class="inline-icon"> 後半：Claude & Gemini編</button>
             <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日の実習・まとめ</button>
         </div>
 
@@ -220,11 +245,11 @@
                 
                 <div class="bento-grid" style="margin-top: 1rem;">
                     <div class="bento-item" style="border-top: 4px solid #3b82f6;">
-                        <h4 style="color:#2563eb;"><i class="fa-solid fa-magnifying-glass-chart"></i> 前半の学び</h4>
+                        <h4 style="color:#2563eb; display:flex; align-items:center;"><img src="./素材/ChatGPTアイコン画像.png" alt="" class="heading-icon"> 前半の学び</h4>
                         <p>ChatGPTを中心とした、内部ツールの理解、カスタム指示（自動ルール設定）、そして究極の自動化である独自AI「MyGPTs」の作り方と、小さな業務から始めるAI思考法について学びます。</p>
                     </div>
                     <div class="bento-item" style="border-top: 4px solid #7c3aed;">
-                        <h4 style="color:#6d28d9;"><i class="fa-solid fa-layer-group"></i> 後半の学び</h4>
+                        <h4 style="color:#6d28d9; display:flex; align-items:center;"><img src="./素材/Claudeアイコン画像.png" alt="" class="heading-icon"> 後半の学び</h4>
                         <p>他を圧倒するプレビュー機能「Artifacts」を持つClaudeの衝撃と、GmailやYouTubeを一瞬で処理するGeminiの@連携機能を比較し、あなたの中での最強の布陣を作ります。</p>
                     </div>
                 </div>
@@ -317,7 +342,7 @@
 
                     <div class="column-box" style="margin-top: 2rem;">
                         <div class="column-label" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">比較コラム / Geminiならこう使う！</div>
-                        <h4 style="color:#1e3a8a;"><i class="fa-solid fa-gem"></i> ChatGPTのテクニックをGeminiで再現するには？</h4>
+                        <h4 style="color:#1e3a8a;"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> ChatGPTのテクニックをGeminiで再現するには？</h4>
                         <p>実は動画で紹介されているChatGPTの高度な機能の多くは、Geminiでも再現・あるいはそれ以上に快適に実行できます。</p>
                         <ul style="line-height:2; margin-top:1rem; font-weight:500;">
                             <li><strong>ツールの自動切り替え：</strong> Geminiは拡張機能（Extensions）という形でGoogleエコシステムのツールをオンオフします。特に「最新情報のWeb検索スピード」はGeminiの圧勝です。</li>
@@ -476,17 +501,17 @@
                             <tbody>
                                 <tr>
                                     <td style="font-weight:900; background:#fdf4ff; color:#86198f;">自然な文章作成・UI開発</td>
-                                    <td><strong style="color:#701a75; font-size:1.2rem;">Claude 3.5 Sonnet</strong></td>
+                                    <td><strong style="color:#701a75; font-size:1.2rem; display:flex; align-items:center; gap:8px;"><img src="./素材/Claudeアイコン画像.png" alt="" class="inline-icon"> Claude 3.5 Sonnet</strong></td>
                                     <td>「Artifacts機能」による右画面プレビューとリアルタイム修正のしやすさ。人間が書いたとしか思えない自然な文章構成力と推敲能力。</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:900; background:#f0fdfa; color:#0f766e;">情報検索・Google連携・要約</td>
-                                    <td><strong style="color:#115e59; font-size:1.2rem;">Gemini</strong></td>
+                                    <td><strong style="color:#115e59; font-size:1.2rem; display:flex; align-items:center; gap:8px;"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> Gemini</strong></td>
                                     <td>@拡張機能によるGmailやGoogleDriveファイルへの即座のアクセス力。最新Web検索スピードと、YouTube動画の爆速要約。</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:900; background:#eff6ff; color:#1d4ed8;">何でもできる究極の万能・自動化</td>
-                                    <td><strong style="color:#1e3a8a; font-size:1.2rem;">ChatGPT</strong></td>
+                                    <td><strong style="color:#1e3a8a; font-size:1.2rem; display:flex; align-items:center; gap:8px;"><img src="./素材/ChatGPTアイコン画像.png" alt="" class="inline-icon"> ChatGPT</strong></td>
                                     <td>MyGPTsによる独自業務特化ボット作成から、高度なデータ分析・画像生成まで何でもこなせる死角のなさ。有料版の恩恵が手堅い王者。</td>
                                 </tr>
                             </tbody>
@@ -528,7 +553,7 @@
                     <li class="task-item" onclick="toggleTask('t3_1', this)">
                         <div class="custom-checkbox" id="check_t3_1"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 01: ChatGPTで「逆質問」させ、考えを深掘りする</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/ChatGPTアイコン画像.png" alt="" class="inline-icon"> STEP 01: ChatGPTで「逆質問」させ、考えを深掘りする</h4>
                             <p>まず自分の考えが曖昧な部分を、万能なChatGPTにあぶり出してもらいます。以下のプロンプトをコピペして使ってください。</p>
                             
                             <div class="prompt-box" onclick="event.stopPropagation();">
@@ -542,7 +567,7 @@
                     <li class="task-item" onclick="toggleTask('t3_2', this)">
                         <div class="custom-checkbox" id="check_t3_2"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 02: Claudeで「アイデア」を大量に出す</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/Claudeアイコン画像.png" alt="" class="inline-icon"> STEP 02: Claudeで「アイデア」を大量に出す</h4>
                             <p>ChatGPTとの対話で整理された方向性を元に、文章表現と発想力に優れたClaudeにアイデア出しを任せます。</p>
                             
                             <div class="prompt-box" onclick="event.stopPropagation();">
@@ -556,7 +581,7 @@
                     <li class="task-item" onclick="toggleTask('t3_3', this)">
                         <div class="custom-checkbox" id="check_t3_3"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 03: Geminiで「検証・反論」させる</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> STEP 03: Geminiで「検証・反論」させる</h4>
                             <p>出たアイデアのTOP3をGeminiに渡し、厳しい上司の視点で客観的な改善点（ツッコミ）を洗い出してもらいます。</p>
                             
                             <div class="prompt-box" onclick="event.stopPropagation();">

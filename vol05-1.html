@@ -184,6 +184,31 @@
             .wax-seal { width: 100px; height: 100px; font-size: 2.5rem; right: -10px; top: -10px; border-width: 3px; }
             .wax-seal::after { border-width: 2px; inset: 8px; }
         }
+
+        /* ツールアイコン表示用共通クラス */
+        .inline-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+            background: #fff;
+            border-radius: 4px;
+            padding: 2px;
+            border: 1px solid #eee;
+        }
+
+        .heading-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 10px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 3px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -209,8 +234,8 @@
         <!-- Premium Tab Navigation -->
         <div class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
-            <button class="tab-btn" onclick="switchTab('tab-gas')"><i class="fa-solid fa-code" style="color:#2563eb;"></i> 前半：GAS ✕ AI</button>
-            <button class="tab-btn" onclick="switchTab('tab-ag')"><i class="fa-solid fa-rocket" style="color:#7c3aed;"></i> 後半：Antigravity</button>
+            <button class="tab-btn" onclick="switchTab('tab-gas')"><img src="./素材/GoogleWorkspaceアイコン画像.png" alt="" class="inline-icon"> 前半：GAS ✕ AI</button>
+            <button class="tab-btn" onclick="switchTab('tab-ag')"><img src="./素材/Antigravityアイコン画像.png" alt="" class="inline-icon"> 後半：Antigravity</button>
             <button class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 今日のまとめ</button>
         </div>
 
@@ -234,11 +259,11 @@
                 
                 <div class="bento-grid" style="margin-top: 1rem;">
                     <div class="bento-item" style="border-top: 4px solid #2563eb;">
-                        <h4 style="color:#2563eb;"><i class="fa-solid fa-code"></i> 前半：GASの自動化</h4>
+                        <h4 style="color:#2563eb; display:flex; align-items:center;"><img src="./素材/GoogleWorkspaceアイコン画像.png" alt="" class="heading-icon"> 前半：GASの自動化</h4>
                         <p>GASの基本操作を学び、Geminiを使って簡単な文字入力の自動化から、業務で使えるスクリプトの作成までを体験します。</p>
                     </div>
                     <div class="bento-item" style="border-top: 4px solid #7c3aed;">
-                        <h4 style="color:#7c3aed;"><i class="fa-solid fa-robot"></i> 後半：Antigravity実践</h4>
+                        <h4 style="color:#7c3aed; display:flex; align-items:center;"><img src="./素材/Antigravityアイコン画像.png" alt="" class="heading-icon"> 後半：Antigravity実践</h4>
                         <p>Google Antigravityのセットアップを行い、AIエージェントによる自動コーディングとデプロイの流れを習得します。</p>
                     </div>
                 </div>
@@ -258,7 +283,7 @@
             
             <div class="glass-card" style="border-top: 5px solid #2563eb;">
                 <div class="card-header">
-                    <i class="fa-brands fa-google" style="color:#2563eb; background:#eff6ff;"></i>
+                    <img src="./素材/GoogleWorkspaceアイコン画像.png" alt="" class="heading-icon">
                     <h2 style="color:#1e3a8a;">前半：GAS ✕ AI で業務を自動化する</h2>
                 </div>
                 
@@ -437,7 +462,7 @@ function myFunction() {
             <!-- SECTION 4: Antigravity 導入 -->
             <div class="glass-card" style="border-top: 5px solid #7c3aed;">
                 <div class="card-header">
-                    <i class="fa-solid fa-rocket" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <img src="./素材/Antigravityアイコン画像.png" alt="" class="heading-icon">
                     <h2 style="color:#4c1d95;">動画4：Google Antigravity の導入と基本</h2>
                 </div>
                 
@@ -611,7 +636,7 @@ function myFunction() {
                     <li class="task-item" onclick="toggleTask('t5_2', this)">
                         <div class="custom-checkbox" id="check_t5_2"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 02: Geminiにプロンプトを投げてコードを書き換える</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/Geminiアイコン画像.png" alt="" class="inline-icon"> STEP 02: Geminiにプロンプトを投げてコードを書き換える</h4>
                             <p>「カレーの材料リスト」にシートが更新されたらチェック！<br>
                                 AIを使ってコードを修正する体験です。</p>
                         </div>
@@ -620,7 +645,7 @@ function myFunction() {
                     <li class="task-item" onclick="toggleTask('t5_3', this)">
                         <div class="custom-checkbox" id="check_t5_3"><i class="fa-solid fa-check"></i></div>
                         <div class="task-content">
-                            <h4>STEP 03: Antigravity で日記アプリを作成する</h4>
+                            <h4 style="display:flex; align-items:center;"><img src="./素材/Antigravityアイコン画像.png" alt="" class="inline-icon"> STEP 03: Antigravity で日記アプリを作成する</h4>
                             <p>Antigravityをインストールし、対話だけでUIの整ったアプリが起動したらチェック！<br>
                                 （途中、ブラウザが自動で動くのは仕様です）</p>
                         </div>
