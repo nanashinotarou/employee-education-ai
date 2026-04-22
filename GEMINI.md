@@ -92,3 +92,35 @@ document.querySelectorAll('.vc-thumb[data-video-id]').forEach(thumb => {
     }, { once: true });
 });
 ```
+
+## 2. モバイルレイアウトの最適化（レスポンシブ対応）
+
+各Dayのページ（`volXX-1.html` 等）を作成・修正する際は、スマートフォン閲覧時のテキスト表示領域やコンテナ幅が適切になるよう、**必ず以下のモバイル向けメディアクエリ（CSS）を `<style>` タグの末尾に含めてください**。
+
+### 実装の必須要件
+- `.container` 等の左右の余白（`padding`, `margin`）を削減し、スマートフォン画面の幅を有効活用すること。
+- 画像要素は必ず画面幅に収まるよう `max-width: 100%; height: auto;` 等を適用すること。
+
+### 実装コードのテンプレート (CSS末尾用)
+```css
+/* === レスポンシブ対応（モバイル最適化） === */
+@media (max-width: 768px) {
+    .container { padding: 0 10px; margin-top: 80px; }
+    .hero { margin-bottom: 2rem; padding-top: 1rem; }
+    .hero h1 { font-size: 2rem; }
+    .glass-card { padding: 1.5rem; margin-bottom: 2rem; gap: 1rem; }
+    .info-box, .highlight-box, .column-box { padding: 1.25rem; margin: 1.25rem 0; }
+    .tab-btn { padding: 0.8rem 1rem; font-size: 0.95rem; flex: 1 1 100%; justify-content: center; }
+    .mission-area { padding: 1.5rem; margin-top: 2rem; }
+    .task-item { padding: 1.25rem; gap: 1rem; flex-direction: column; }
+    .pub-card { padding: 1.5rem; }
+    .bento-item { padding: 1.5rem; }
+    .step-box { padding: 1.25rem 1.5rem; }
+    .accordion summary { padding: 1.25rem 1.5rem; font-size: 1.05rem; }
+    .accordion .acc-body { padding: 0 1.5rem 1.5rem 3rem; }
+    .fixed-header { padding: 0 20px; }
+    .progress-container { width: 130px; }
+    .wax-seal { width: 100px; height: 100px; font-size: 2.5rem; right: -10px; top: -10px; border-width: 3px; }
+    .wax-seal::after { border-width: 2px; inset: 8px; }
+}
+```
