@@ -1952,18 +1952,28 @@
 
                 <div class="accordion" style="margin-top:0.5rem;">
                     <details open>
-                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画①の見どころ</summary>
+                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画①の見どころ（AIの「脳」を借りる鍵）</summary>
                         <div class="acc-body">
-                            ただAIとチャットするだけでなく、<strong>AIの"脳みそ（API）"を自分のアプリに組み込む仕組み</strong> を理解します。APIキーの概念を掴むことで、「なぜアプリがAIとして機能するのか」という裏側が見えてきます。
+                            <p style="margin-top:0;">普段使っている ChatGPT や Gemini といった画面の裏側で、システムがどうやってAIの「脳みそ」を呼び出しているのか？ その答えが <strong>Google AI Studio</strong> と <strong>APIキー</strong> です。</p>
+                            <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem; color: #555;">
+                                <li><strong>APIキーとは？</strong>：あなたが作った空っぽのアプリに、Googleの超優秀なAI頭脳を接続するための「鍵（パスワード）」のようなもの。</li>
+                                <li><strong>AI Studioの役割</strong>：この「鍵」を無料で発行でき、さらにAIの振る舞いを細かくテストできる開発者向けのコントロールパネルです。</li>
+                            </ul>
+                            <p style="margin: 0.5rem 0 0;">動画を見れば、<strong>「なるほど、アプリ自体が賢いんじゃなくて、裏でAPIキーを使ってAIに質問を投げていたのか！」</strong>と、システム側の視点が直感的に理解できるようになります。</p>
                         </div>
                     </details>
                 </div>
 
                 <div class="accordion" style="margin-top:0.5rem;">
                     <details open>
-                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画②の見どころ</summary>
+                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画②の見どころ（プロンプトだけで即アプリ化）</summary>
                         <div class="acc-body">
-                            プロンプト（指示）を入れるだけで、すぐに動く <strong>Webアプリを生成できる「Build」機能</strong> の紹介。環境構築ゼロで、アプリの基本構造とUIが一瞬で立ち上がる体験を得られます。
+                            <p style="margin-top:0;">AI Studio にひっそりと実装された神機能「<strong>Build（ビルド）</strong>」の実演です。コードの知識は一切不要！</p>
+                            <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem; color: #555;">
+                                <li><strong>チャット感覚でアプリが完成</strong>：「こんな業務効率化アプリを作って」と日本語で指示するだけで、画面の右側に"実際に動くUI"がリアルタイムで生成されます。</li>
+                                <li><strong>ランキング形式の具体例</strong>：動画内では「実用的な業務効率化アプリ トップ5」として、具体的なプロンプトからアプリが組み上がっていく過程をノーカットで見ることができます。</li>
+                            </ul>
+                            <p style="margin: 0.5rem 0 0;">これを観るだけで、「アプリ開発＝難しいプログラミング言語を覚えること」という常識が完全に崩れ去るはずです。</p>
                         </div>
                     </details>
                 </div>
@@ -2069,7 +2079,9 @@
                             <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon" style="width:24px; height:24px; vertical-align:middle; margin-right:6px;">
                             Stitch — UIをコンポーネント化して、そのままアプリに
                         </h4>
-                        <p>アイデアをUIデザイン（画面部品＝コンポーネント）に落とし込み、<strong>それをアプリとして動作する状態まで持っていける</strong> Google の AIデザインツール。Day 9 でも触れた Stitch が、Day 11 では"動くアプリ"を作るための土台として再登場します。</p>
+                        <p style="margin-top:0.5rem; line-height:1.7;">頭の中にあるアイデアを、いきなりアプリにするのは大変です。そこで活躍するのが <strong>Stitch</strong>。あなたが「こんな画面が欲しい」とテキストで指示するだけで、AIが綺麗なUIデザイン（ボタンや入力欄などの部品＝コンポーネント）を生成してくれます。<br><br>
+                        <strong>なぜ画期的なのか？</strong><br>
+                        ただの「画像」ではなく、そのままプログラマーが使える「コード（Reactなど）」としてデザインを出力してくれる点です。これにより、デザインからアプリ開発へ進む際の"面倒な翻訳作業"がゼロになります。</p>
                     </div>
                 </div>
 
@@ -2077,7 +2089,9 @@
                     <div class="bento-item" style="border-top: 4px solid #a855f7;">
                         <span class="bento-tag" style="background:#faf5ff; color:#7e22ce;">GenSpark</span>
                         <h4 style="color:#7e22ce;"><i class="fa-solid fa-wand-magic-sparkles" style="color:#a855f7; margin-right:6px;"></i> GenSpark — 話すだけで iOS / Android アプリをリリース</h4>
-                        <p>自然言語で話しかけるだけで、<strong>スマホアプリ（iOS / Android）としてリリースできるレベルまで開発が進む</strong> 衝撃のツール。プログラミングの知識がゼロでも、「こういうアプリが欲しい」を言葉で伝えるだけでストア公開まで辿り着ける時代の象徴です。</p>
+                        <p style="margin-top:0.5rem; line-height:1.7;">Webアプリだけでなく、ついに<strong>スマホアプリ（iOS / Android）</strong>までもがAIとのチャットだけで作れるようになりました。それが <strong>GenSpark（AIデベロッパー 2.0）</strong> です。<br><br>
+                        <strong>動画の必見ポイント</strong><br>
+                        動画内では「スワイプで消せる英単語帳（正答率トラッキング付き）」という本格的なスマホアプリを、会話だけで実際に構築していきます。もはや「プログラミングができないからアプリは作れない」という言い訳が通用しない、まさに革命的な時代を実感できる内容です。</p>
                     </div>
                 </div>
             </div>
