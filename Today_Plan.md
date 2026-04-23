@@ -1,276 +1,313 @@
-# 実装計画: Day 11「AI活用によるアプリケーション開発実践①」構築
+# Day 11 構造改善計画（Cursor実装用）
 
-## 1. 概要
-本タスクは、`Today_Research.md` および「コース情報共有」Day 11 の内容に基づき、初心者向けに最適化されたチュートリアルページ **`vol11-1.html`** を新規作成するものです。
-Day 10 の「アプリ開発**基礎知識**」からテーマを「アプリ開発**実践**」に進める回であり、**「AIにコードを書かせてただの『画面』を作る段階から卒業し、API（AIの脳みそ）と通信して動く『アプリケーション』を生成・公開する」**体験を提供します。受講生が抱える「**これまでのWeb制作と何が違うのか分からない**」というモヤモヤを冒頭で徹底的に解消する構成にします。あわせて `index.html` の Day11 カードの遷移先も更新します。
-
-## 2. ユーザーレビュー事項
-> [!IMPORTANT]
-> - 本計画は実装を **Cursor** など他のエディタ／AI に引き継ぐ前提。コピペ可能な本文原稿・使用クラス名・動画ID・外部リンクを明示しています。
-> - リサーチメモに登場した **`.compare-table` は現プロジェクトの既定義CSSに存在しません**。本計画では既存の **`.column-box`**（vol10-1.html:319 に定義あり）で縦積み2カラム比較として実装する方針に統一しました。もし表形式を強く推したい場合は新規CSSクラス追加のご判断をください。
-> - 素材フォルダに **Google AI Studio / Stitch / GenSpark / Google Cloud Run のアイコン画像は存在しません**。Font Awesome の代替（`fa-flask`, `fa-palette`, `fa-wand-magic-sparkles`, `fa-cloud`）もしくは既存 `素材/Stitchアイコン画像.png`（Stitch のみ存在）を使用します。
-> - YouTube動画タイトルは `get_titles.py` で後処理取得してください。取得困難時は本計画書の仮タイトル固定でOK。
-
-## 3. Proposed Changes（実装詳細）
+## 問題の本質
+現在のDay11は**テキストの壁**。動画の解説がアコーディオンの中に長文で詰め込まれており、IT初心者が「結局この動画で何が分かるの？」を**視覚的に一瞬で掴めない**。テキストを増やすのではなく、**構造で理解させる**改善が必要。
 
 ---
 
-### UI・コンポーネント設計方針
-- **ベーステンプレート**: `vol10-1.html` を複製して内容差し替え。`:root` CSS変数・既存クラス（`.glass-card` / `.info-box` / `.highlight-box` / `.column-box` / `.diagram-box` / `.bento-item` / `.accordion` / `.video-grid` / `.lc-video` / `.btn` / `.btn-tier` / `.task-item` / `.mission-area` / `.wax-seal` / `.day-badge` / `.tab-btn` / `.tab-content` / `.inline-icon` / `.heading-icon`）をそのまま流用。**新規CSSの追加は原則禁止**（例外は下記のモバイル追加定義のみ）。
-- **動画組み込み（Facade パターン厳守）**: `GEMINI.md` §1 に従い、全4本のYouTube動画は **Facade パターン**（`.lc-video` クラス踏襲）で実装。`<iframe>` の直書きは禁止。`data-video-id` 属性 + `maxresdefault.jpg` / `hqdefault.jpg` フォールバック背景 + Vanilla JS の `once:true` クリックハンドラで `<iframe>` に差し替え。
-- **タブナビゲーション**: 既存の `switchTab('tab-xxx')` JS関数を流用。各タブの最下部に前後タブへの遷移ボタン（`.btn`）を必須配置。
-- **配色**: 桜ピンク（`--accent`）をベースに維持。Day11 は「システム開発・コーディングの世界観」を強める差し色として、`--purple` と `--tier-advanced`（青系）を概念図解部分のみで使用。桜系を上書きしないこと。
+## 改善方針：3つの柱
 
-### 🔴 Sticky Video（動画追従）とレスポンシブの厳守事項
+1. **「動画の中身マップ」を新設** — 各動画の内容を `compare-table` や `step-strip-sakura` で構造化し、長文アコーディオンを廃止
+2. **「Web制作 vs アプリ開発」比較を `compare-table` 化** — 現在の縦積み `column-box` ×2 を、横並び比較テーブル1つに凝縮
+3. **ツール進化マップを新設** — Day10→11の学習の流れを `diagram-steps` で可視化し、各ツールの位置づけを一目で把握できるようにする
 
-vol10-1.html の末尾に追加された**最新のSticky実装**を必ず引き継ぎ、かつ **狭幅での表示崩れを防ぐ追加CSS** を本Day11で盛り込みます。Cursor は以下の3ブロックを **そのままコピペ** または **差分追記** してください。
+---
 
-#### ブロックA：Sticky Video の基本CSS（vol10-1.html:1701-1719 を完コピ）
-`<style>` タグの末尾（レスポンシブ @media の後ろ、`</style>` の直前）に以下を配置。
-```css
-/* === 動画の追従（Sticky）対応 === */
-.video-grid {
-    position: sticky !important;
-    top: 75px;
-    z-index: 50;
-    background: var(--bg-card, #ffffff);
-    padding: 15px;
-    margin-left: -15px;
-    margin-right: -15px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-.lc-video {
-    position: sticky !important;
-    top: 75px;
-    z-index: 50;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-```
+## 改善A：タブ1「本日の目標」の構造改善
 
-#### ブロックB：レスポンシブ基本セット（vol10-1.html:1555-1674 を完コピ）
-`GEMINI.md` §2 のテンプレートと vol10-1.html の @media ブロックは内容が一致しています。**vol10-1.html:1555-1674 をそのままコピー**して `<style>` タグ末尾に配置してください（`.container` / `.hero` / `.glass-card` / `.info-box` / `.highlight-box` / `.column-box` / `.tab-btn` / `.mission-area` / `.task-item` / `.bento-item` / `.accordion` / `.fixed-header` / `.progress-container` / `.wax-seal` の狭幅調整が含まれます）。
+### A-1. Web制作 vs アプリ開発 → `compare-table` に置換
 
-#### ブロックC：Day11 で新規追加する狭幅対策CSS（★重要）
-vol10-1.html には **`.diagram-box` / `.video-grid` / `.lc-video` のモバイル調整が未実装** です。Day11 では APIキー3ステップ図解と Sticky動画が狭幅で破綻しないよう、ブロックB の `@media (max-width: 768px) { ... }` の **閉じ `}` の直前** に以下を追記してください。
+**現状の問題**: `column-box` が2つ縦に並んでおり、比較が直感的でない。
+
+**改善**: vol03〜07で実績のある `.compare-table` を使い、**1つの表で横並び比較**する。
+
+`.compare-table` のCSSは vol11-1.html に未定義なので、vol03-1.html L109-112 から以下をコピーして `<style>` 内に追加：
 
 ```css
-            /* Day11 追加：狭幅でのAPIキー図解を縦積みに */
-            .diagram-box {
-                padding: 1.25rem;
-                margin: 1.25rem 0;
-            }
-            .diagram-box .diagram-steps {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-            }
-            .diagram-box .diagram-arrow {
-                transform: rotate(90deg);
-            }
-
-            /* Day11 追加：狭幅でStickyが画面を覆いすぎないよう高さ制限 */
-            .video-grid,
-            .lc-video {
-                max-height: 45vh;
-                overflow: hidden;
-            }
-            .video-grid {
-                padding: 8px;
-                margin-left: -8px;
-                margin-right: -8px;
-            }
+.compare-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; border-radius: 16px; overflow: hidden; border: 1px solid #fbcfe8; box-shadow: 0 8px 25px rgba(216,27,96,0.05); }
+.compare-table th { background: var(--accent-bg); color: var(--accent); font-weight: 900; padding: 1.5rem 1.2rem; text-align: left; font-size: 1.1rem; border-bottom: 2px solid #f8bbd0; }
+.compare-table td { padding: 1.5rem 1.2rem; border-bottom: 1px solid #fce4ec; color: var(--text-main); line-height: 1.7; background: #fff; }
+.compare-table tr:hover td { background: #fffbfd; }
 ```
 
-> [!NOTE]
-> `.diagram-steps` / `.diagram-arrow` は Day11 で新規に導入する内部クラス（§3 タブ2 の 2-3 で使用）。`.diagram-box` の内側で各ステップを flex 横並びにする想定なので、モバイルで縦積みへ切り替える。
->
-> Sticky動画の `max-height: 45vh` は、iPhone SE（画面高 667px）基準で約 300px。`aspect-ratio 16:9` のサムネが横幅 355px × 高さ 200px 程度に収まり、下の解説テキストが充分見えるようになる。
+**HTMLの置換対象**: L1849〜L1872の `column-box` ×2 を削除し、以下に置換：
+
+```html
+<div class="compare-table-wrapper" style="overflow-x:auto;">
+    <table class="compare-table">
+        <thead>
+            <tr>
+                <th style="width:25%;"></th>
+                <th style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); color:#be185d;">
+                    <i class="fa-solid fa-palette" style="margin-right:6px;"></i> Web制作（Day 7〜10）
+                </th>
+                <th style="background: linear-gradient(135deg, #eff6ff, #dbeafe); color:#1e40af;">
+                    <i class="fa-solid fa-gears" style="margin-right:6px;"></i> アプリ開発（Day 11〜）
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ひと言で</strong></td>
+                <td>📄 見せるだけの<strong>ポスター</strong></td>
+                <td>⚙️ 動く<strong>システム</strong></td>
+            </tr>
+            <tr>
+                <td><strong>例え</strong></td>
+                <td>会社案内のパンフレット</td>
+                <td>電卓・チャットボット・予約フォーム</td>
+            </tr>
+            <tr>
+                <td><strong>ユーザーは</strong></td>
+                <td>読む・見る・リンクをクリック</td>
+                <td><strong>入力 → 結果を受け取る</strong></td>
+            </tr>
+            <tr>
+                <td><strong>裏側の技術</strong></td>
+                <td>HTML / CSS（見た目だけ）</td>
+                <td>API連携（<strong>AIの脳みそを借りる</strong>）</td>
+            </tr>
+            <tr>
+                <td><strong>データ</strong></td>
+                <td>固定（書いた通りのまま）</td>
+                <td>リアルタイムに変化する</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+```
+
+### A-2. 「今日の進行ステータス」3カードはそのまま維持
+L1874〜L1890 の `.bento-grid` は簡潔で良い。変更不要。
 
 ---
 
-### [NEW] `vol11-1.html`
+## 改善B：タブ2「前半」の構造改善
 
-**基本情報**
-- `<title>`: `Day 11 | AI活用によるアプリケーション開発実践①`
-- 固定ヘッダーの Day カウンタ: `Day 11 / 13`
-- 構成: 4タブ（`#tab-goal` / `#tab-first` / `#tab-second` / `#tab-summary`）。
+### B-1. 長文アコーディオンを「動画の中身マップ」カードに置換
 
----
+**現状の問題**: アコーディオン内が `<p>` と `<ul>` の長文テキスト。開いても「結局何の話？」が分かりにくい。
 
-#### ① タブ1：本日の目標 (`#tab-goal`)
+**改善**: アコーディオンを廃止し、各動画の直下に **`step-strip-sakura`（番号付きステップカード）** を使った「この動画で学べること」を配置。1ステップ＝1行で、**スキャンだけで内容が把握できる**ようにする。
 
-**1-1. Hero見出し**
-- 研修目的: 「**AIでアプリケーションの基本構造とUIを生成する手法を体験し、開発の基礎プロセスを習得する**」を `.glass-card` 内に大書き。
+**動画①の直下に配置するHTML**（L1953〜L1965のアコーディオンを置換）：
 
-**1-2. モヤモヤ解消ブロック**（`.info-box`、最上部）
-- 見出し: 「💭 『前までのWeb制作と何が違うの？』への回答」
-- 本文（コピペ可）:
-  > 「Day10 までで作ってきたのは、情報を**"見せる"** ためのホームページ（＝ポスターやパンフレットのような静的なWeb制作）でした。Day11 から作るのは、ユーザーの入力に反応して**計算・通信・返答**する"動くシステム"（＝電卓やチャットボットのような動的なWebアプリ開発）です。今日の真のテーマは、『**ただの画面から卒業し、AI（API）と通信して動くアプリを生成・公開する**』体験を積むことです。」
+```html
+<div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem;">
+    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
+        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
+        動画①で学べること（3つのポイント）
+    </h4>
+    <ol class="step-strip-sakura">
+        <li><strong>1</strong> <b>AI Studioとは</b> — Geminiの高性能AIモデルを<b>無料で</b>テスト・操作できる開発者向けコンソール</li>
+        <li><strong>2</strong> <b>APIキーとは</b> — あなたのアプリとGoogleのAI頭脳を繋ぐ「鍵（パスワード）」。これがないとアプリは空っぽの箱のまま</li>
+        <li><strong>3</strong> <b>裏側の仕組み</b> — ChatGPTもGeminiも、裏ではAPIキーを使ってAIサーバーに質問を投げて答えを受け取っている</li>
+    </ol>
+</div>
+```
 
-**1-3. Web制作 vs アプリ開発 比較**（`.column-box` 2カラム、差し色ピンク×青）
+**動画②の直下に配置するHTML**（L1967〜L1979のアコーディオンを置換）：
 
-| 左カラム `--accent`（桜ピンク） | 右カラム `--tier-advanced`（青） |
-|---|---|
-| 🖼️ **Web制作（Day7〜10）** | ⚙️ **アプリ開発（Day11〜）** |
-| アイコン: `fa-solid fa-palette` | アイコン: `fa-solid fa-gears` |
-| **性質**: 静的（固定の画面） | **性質**: 動的（動くシステム） |
-| **例え**: ポスター／パンフレット | **例え**: 電卓／チャットボット |
-| **主な技術**: HTML / CSS（見た目） | **主な技術**: API連携・裏側のプログラム処理 |
-| **ユーザー操作**: 見る・読む・リンクをクリック | **ユーザー操作**: 入力する・操作する・結果を受け取る |
+```html
+<div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem;">
+    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
+        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
+        動画②で学べること（3つのポイント）
+    </h4>
+    <ol class="step-strip-sakura">
+        <li><strong>1</strong> <b>Build機能</b> — AI Studioに搭載された「日本語で指示→即アプリ生成」の神機能。コーディング知識ゼロでOK</li>
+        <li><strong>2</strong> <b>実演トップ5</b> — 動画内で業務効率化アプリを5つ、プロンプトから完成まで<b>ノーカット</b>で実演</li>
+        <li><strong>3</strong> <b>常識の崩壊</b> — 「アプリ開発＝難しいプログラミング言語」という思い込みが完全に覆る体験</li>
+    </ol>
+</div>
+```
 
-**1-4. 進行ステータス**（3カード横並び、`.glass-card` 内）
-1. 前半：Google AI Studio で"**アプリを生成**"する体験（動画2本）
-2. 後半：Stitch / GenSpark で"**スマホアプリ化**"まで（動画2本）
-3. 実習：課題制作 → Padlet シェア（Day13 成果発表への第二稿）
+### B-2. APIキー図解セクション — 図解そのものは良いが、補足テキストを圧縮
 
-**1-5. タブ下部ナビゲーション**
-- 「前半タブへ進む →」ボタン（`.btn`、`switchTab('tab-first')`）
+**現状**: L1982〜L2017 の `.diagram-box` + `.diagram-steps` + `.alert-warn` は視覚的で良い。
+**改善**: 図解の下の補足テキスト（L2009-L2011）を1行に圧縮。alert-warnの長文も2行以内に。
 
----
+図解下部テキストを以下に短縮：
+```html
+<p style="margin:0.75rem 0 0; color:var(--text-main); font-size:0.95rem; line-height:1.7; text-align:center;">
+    💡 あなたのアプリ＝<strong>頭脳を持たない入れ物</strong>。APIキーで<strong>Googleの頭脳を借りて</strong>賢くなる。
+</p>
+```
 
-#### ② タブ2：前半（Google AI Studio でアプリ生成 と API理解） (`#tab-first`)
-
-**2-1. セクション導入**（`.highlight-box`）
-- 見出し: 「🧪 今日のツール：Google AI Studio」
-- 本文（コピペ可）:
-  > 「今日の主役は **Google AI Studio**。ただAIとチャットするだけのツールではなく、**AIの"脳みそ"をあなたのアプリに組み込める** 開発基盤です。『APIキー』という言葉がたくさん出てきますが、"AIの脳みそを借りるための鍵"と覚えておけばOK。」
-- リンクボタン群（`.btn` 横並び）:
-  - 「🧪 Google AI Studio を開く」→ https://aistudio.google.com/apps
-  - 「☁️ Google Cloud Run を開く」→ https://cloud.google.com/run?hl=ja（注釈: 「※ 90日間有効な$300クレジットあり。クレカ登録が必要」を `.btn` 直下の小文字テキストで付記）
-
-**2-2. 動画セクション（前半2本、Facade + Sticky 必須）** (`.video-grid`)
-
-| # | 動画ID | 仮タイトル |
-|---|---|---|
-| 1 | `bmtG4BhVRq4` | 動画1：Google AI Studio が神アプデ！『アプリ開発』とAPIキーなど『裏側の仕組み』をW解説 |
-| 2 | `HXIJ9OvkKkc` | 動画2：Google AI Studio の隠れ神機能「Build」超簡単アプリ作成術 |
-
-各動画の直下に `.accordion` で「動画の見どころ」を配置（コピペ可）:
-
-- **動画1のアコーディオン本文**:
-  > 「ただAIとチャットするだけでなく、**AIの"脳みそ（API）"を自分のアプリに組み込む仕組み** を理解します。APIキーの概念を掴むことで、『なぜアプリがAIとして機能するのか』という裏側が見えてきます。」
-- **動画2のアコーディオン本文**:
-  > 「プロンプト（指示）を入れるだけで、すぐに動く **Webアプリを生成できる『Build』機能** の紹介。環境構築ゼロで、アプリの基本構造とUIが一瞬で立ち上がる体験を得られます。」
-
-**2-3. 「APIキーって何？」の図解**（`.diagram-box`、動画2の直下）
-
-- 見出し: 「🔑 APIキー＝"AIの脳みそを借りてくる鍵"」
-- 図解構造（3ステップ、横並びまたは縦ステップ）:
-  1. **あなたのアプリ** — ユーザーの質問を受け取る（アイコン: `fa-solid fa-mobile-screen`）
-  2. **APIキー（鍵）で通信** — Google の AI 基盤へ問い合わせ（アイコン: `fa-solid fa-key` + `fa-solid fa-arrows-left-right`）
-  3. **AIが答えを返す** — アプリがユーザーに結果を表示（アイコン: `fa-solid fa-brain` + `fa-solid fa-reply`）
-- 補足テキスト（`.diagram-box` の下部、コピペ可）:
-  > 「つまり、あなたの作ったアプリは"頭脳を持たない入れ物"で、APIキーを使って **Googleが用意してくれているAIの頭脳を借りて** 賢い返答を返している、というイメージです。鍵（APIキー）の管理だけはしっかり行ってください（人に見せない！）。」
-
-**2-4. タブ下部ナビゲーション**
-- 「← 目標タブへ戻る」（`.btn`、`switchTab('tab-goal')`）
-- 「後半タブへ進む →」（`.btn`、`switchTab('tab-second')`）
+alert-warnを以下に短縮：
+```html
+<div class="alert-warn">
+    <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ APIキーは絶対に他人に見せない</h4>
+    <p>GitHub公開やSNS投稿で漏れると、<strong>第三者に使われて高額請求</strong>が発生します。管理方法は動画内で解説されています。</p>
+</div>
+```
 
 ---
 
-#### ③ タブ3：後半（Stitch & GenSpark で"スマホアプリ化"まで） (`#tab-second`)
+## 改善C：タブ3「後半」の構造改善
 
-**3-1. セクション導入**（`.highlight-box`、紫系アクセント）
-- 見出し: 「🚀 プログラミング知識ゼロで"スマホアプリ"まで出せる時代」
-- 本文（コピペ可）:
-  > 「後半は、さらに革命的な2つのツールを紹介します。**Stitch** で"UIコンポーネント"を生成し、**GenSpark** で"**話すだけでiOS/Androidアプリをリリース**" できる——という体験です。『作りたいもののイメージを言葉で伝えられればアプリが作れる時代』が、もうすでに来ています。」
+### C-1. Stitch / GenSpark の bento-item を「機能比較テーブル」に統合
 
-**3-2. 動画セクション（後半2本、Facade + Sticky 必須）** (`.video-grid`)
+**現状の問題**: bento-item が2つ縦に並び、それぞれ長文の `<p>` で説明。2つのツールの違いが直感的に掴めない。
 
-| # | 動画ID | 仮タイトル |
-|---|---|---|
-| 3 | `rsPu_15LUSU` | 動画3：GoogleのAIデザインツール「Stitch」が神進化。アイデア出しからアプリ化まで実演解説 |
-| 4 | `DLCDNCA4-iU` | 動画4：【誰でもアプリ開発者】AIに話すだけでiOS/Androidアプリをリリース！「GenSpark」AIデベロッパー2.0が革命的すぎた |
+**改善**: 2つの bento-item（L2075〜L2096）を1つの `compare-table` に置換。
 
-各動画の直下に `.bento-item` でツール解説カードを配置（コピペ可）:
+```html
+<div class="compare-table-wrapper" style="overflow-x:auto; margin-top:1.5rem;">
+    <table class="compare-table">
+        <thead>
+            <tr>
+                <th style="width:22%;"></th>
+                <th style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); color:#5b21b6;">
+                    <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon"> Stitch
+                </th>
+                <th style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); color:#7e22ce;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px;"></i> GenSpark
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ひと言で</strong></td>
+                <td>AIに画面デザインを作らせる</td>
+                <td>AIにスマホアプリを丸ごと作らせる</td>
+            </tr>
+            <tr>
+                <td><strong>入力</strong></td>
+                <td>「こんな画面が欲しい」とテキスト入力</td>
+                <td>「こんなアプリが欲しい」と<b>会話</b></td>
+            </tr>
+            <tr>
+                <td><strong>出力</strong></td>
+                <td>綺麗なUI部品＋<b>そのまま使えるコード</b></td>
+                <td><b>iOS / Android 対応のスマホアプリ</b></td>
+            </tr>
+            <tr>
+                <td><strong>動画内の実例</strong></td>
+                <td>テキスト指示だけでアプリ画面を自動生成</td>
+                <td>「英単語帳アプリ」を会話だけで構築（正答率トラッキング付き）</td>
+            </tr>
+            <tr>
+                <td><strong>すごい点</strong></td>
+                <td>デザイン→コード変換の手間がゼロ</td>
+                <td>プログラミング知識ゼロでストア公開レベル</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+```
 
-- **Stitch カード**（動画3直下）
-  - アイコン: `素材/Stitchアイコン画像.png` を `.inline-icon` で、または `fa-solid fa-palette`
-  - 見出し: 「Stitch — UIをコンポーネント化して、そのままアプリに」
-  - 本文:
-    > 「アイデアをUIデザイン（画面部品＝コンポーネント）に落とし込み、**それをアプリとして動作する状態まで持っていける** Google の AIデザインツール。Day9 でも触れた Stitch が、Day11 では"動くアプリ"を作るための土台として再登場します。」
-- **GenSpark カード**（動画4直下）
-  - アイコン: `fa-solid fa-wand-magic-sparkles`（紫系）
-  - 見出し: 「GenSpark — 話すだけで iOS/Android アプリをリリース」
-  - 本文:
-    > 「自然言語で話しかけるだけで、**スマホアプリ（iOS / Android）としてリリースできるレベルまで開発が進む** 衝撃のツール。プログラミングの知識がゼロでも、『こういうアプリが欲しい』を言葉で伝えるだけでストア公開まで辿り着ける時代の象徴です。」
+### C-2. 動画③④の直下にもステップカード追加
 
-**3-3. "革命的進化"まとめ**（`.highlight-box`、紫系）
+動画③（Stitch）の直下：
+```html
+<div class="glass-card" style="border-top: 3px solid #7c3aed; padding:1.5rem 2rem;">
+    <h4 style="margin:0 0 0.75rem; color:#5b21b6; font-size:1.1rem;">
+        <i class="fa-solid fa-map" style="color:#7c3aed; margin-right:8px;"></i>
+        動画③で学べること
+    </h4>
+    <ol class="step-strip-sakura" style="--tier-beginner:#7c3aed;">
+        <li><strong>1</strong> Stitchに「こんな画面を作って」とテキストで指示するだけでUIデザインが生成される</li>
+        <li><strong>2</strong> 生成されたデザインは画像ではなく<b>そのまま動くコード</b>として出力される</li>
+        <li><strong>3</strong> デザイン→開発の「翻訳作業」がゼロになり、アイデアから即プロトタイプが完成</li>
+    </ol>
+</div>
+```
 
-- 見出し: 「🌟 知識ゼロでもアプリが世に出せる時代」
-- 本文（コピペ可）:
-  > 「Day10 で学んだ **Bolt.new（Webアプリ）**、Day11 前半の **AI Studio（API連携アプリ）**、そして後半の **Stitch → GenSpark（スマホアプリ）**。この3層を押さえれば、あなたが『作りたい！』と思ったもののほぼ全てが、プログラミング知識なしで形にできます。あとは**何を作るか**を決めるだけです。」
+動画④（GenSpark）の直下：
+```html
+<div class="glass-card" style="border-top: 3px solid #a855f7; padding:1.5rem 2rem;">
+    <h4 style="margin:0 0 0.75rem; color:#7e22ce; font-size:1.1rem;">
+        <i class="fa-solid fa-map" style="color:#a855f7; margin-right:8px;"></i>
+        動画④で学べること
+    </h4>
+    <ol class="step-strip-sakura" style="--tier-beginner:#a855f7;">
+        <li><strong>1</strong> GenSparkに「英単語帳アプリを作って」と話しかけるだけでスマホアプリが構築される</li>
+        <li><strong>2</strong> スワイプ操作・正答率トラッキングなど<b>本格的な機能</b>が会話だけで実装される</li>
+        <li><strong>3</strong> iOS / Android 両対応でストア公開レベルまで到達可能</li>
+    </ol>
+</div>
+```
 
-**3-4. タブ下部ナビゲーション**
-- 「← 前半タブへ戻る」（`.btn`、`switchTab('tab-first')`）
-- 「実習タブへ進む →」（`.btn`、`switchTab('tab-summary')`）
+### C-3. 「知識ゼロでもアプリが世に出せる時代」ボックスを圧縮
+
+L2099-L2105 の `.highlight-box` 内テキストを以下に短縮：
+```html
+<p style="margin:0; line-height:1.85; color:#3b0764;">
+    <strong>Bolt.new</strong>（Webアプリ）→ <strong>AI Studio</strong>（API連携アプリ）→ <strong>Stitch + GenSpark</strong>（スマホアプリ）。<br>
+    この3層で、「作りたい！」がプログラミング知識なしで全て形になります。
+</p>
+```
 
 ---
 
-#### ④ タブ4：今日のまとめ・実習 (`#tab-summary`)
+## 改善D：ツール進化マップの新設（タブ1 or タブ3の末尾）
 
-**4-1. 実習導入**（`.highlight-box`）
-- 見出し: 「🎯 実習：自分の業務に役立つ"動くもの"を1つ作る」
-- 本文（コピペ可）:
-  > 「Day10 で学んだツール群（Manus / Bolt.new / Cursor / NotebookLM / Gemini Canvas / Antigravity / Dify）に、今日の **AI Studio / Stitch / GenSpark** を加えた中から、自分の業務に役立つ『アプリ』または『Webサイト』を作成しましょう。Day13 の成果発表に向けた**第二稿**を出すのが今日のゴール。Day10 で投稿したものをブラッシュアップするのでもOKです。」
+Day10〜11で登場するツールの**位置づけを一目で把握**できる `diagram-steps` スタイルのフローを、タブ3の比較テーブルの上に新設。
 
-**4-2. 必読資料：Web公開ガイドライン**（`.info-box`、大型CTAボタン）
-- 見出し: 「📖 必読：Web公開ガイドライン」
-- 本文:
-  > 「作ったものを公開する前に、社内向け／社外向けの公開ルール・セキュリティの注意点が1枚にまとまった資料を必ず目を通してください。」
-- CTAボタン（`.btn` 大型）:
-  - ラベル: 「📘 Web公開ガイドラインを開く」
-  - リンク: https://platinumzone.co.jp/dx-biome/web_publish_guide.html
-
-**4-3. Padlet 課題提出ボタン**（大型CTA、画面中央寄せ）
-- 見出し: 「📌 作ったものはここにシェア」
-- 補足テキスト: 「【DX】社員教育とAIコース 課題シェアボード（Padlet）」
-- CTAボタン（`.btn` または `.pub-card` 大型化）:
-  - ラベル: 「🚀 Padlet を開いて投稿する」
-  - リンク: https://padlet.com/platinumzonedx/dx-ai-2m1o5unlgm3dl2ji
-
-**4-4. 今日のミッションリスト** (`.mission-area` > `.task-item` × 5)
-
-チェックボックス形式。全てONで `.wax-seal` の「CLEAR」スタンプが出現（vol10-1.html のJSロジックをそのまま流用）。
-
-1. Web制作とアプリ開発の違いを自分の言葉で説明できる
-2. APIキー＝「AIの脳みそを借りる鍵」と理解した
-3. AI Studio の Build 機能で、プロンプトからアプリが生成される流れを見た（動画OK）
-4. Stitch / GenSpark が「UI → アプリ → スマホリリース」まで繋がる時代と認識した
-5. Padlet に作品を1つ投稿した（Day13 成果発表の第二稿）
-
-**4-5. ナビゲーション**（ページ最下部）
-- 「← Day 10 に戻る」ボタン → `vol10-1.html`
-- 「Day 12 へ進む →」ボタン → `vol12-1.html`
-  - Day12 未実装の可能性があるため、`onclick` に `alert('Day12 は公開準備中です')` フォールバックを1行
-- 「🏠 Home に戻る」ボタン → `index.html`
-- 「← 後半タブへ戻る」（`.btn`、`switchTab('tab-second')`）もページ内遷移として配置
-
----
-
-### [EDIT] `index.html`（差分のみ）
-- Day 11 カードの遷移先（`href` または `data-target`）を `vol11-1.html` に設定。
-- Day 11 カードのサブタイトル／ステータスバッジが未公開表示になっている場合は「AI活用によるアプリケーション開発実践①」に差し替え、バッジを「公開中」相当に更新。
-- **他のカードやグローバルCSSには一切触れない**。
+```html
+<div class="diagram-box" style="background: linear-gradient(135deg, #faf5ff, #fff); border-color:#ddd6fe;">
+    <h4 style="margin:0 0 1rem; color:#5b21b6; font-weight:900;">
+        <i class="fa-solid fa-layer-group" style="margin-right:8px;"></i>
+        ツールの進化マップ — 何がどこまでできる？
+    </h4>
+    <div class="diagram-steps">
+        <div class="diagram-step" style="background:linear-gradient(135deg, #fdf2f8, #fce7f3); border-color:#fbcfe8;">
+            <i class="fa-solid fa-bolt ds-icon" style="color:#d81b60;"></i>
+            <div class="ds-title" style="color:#be185d;">Bolt.new</div>
+            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">Webアプリを<br>自動生成</p>
+        </div>
+        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        <div class="diagram-step" style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe;">
+            <i class="fa-solid fa-flask ds-icon" style="color:#2563eb;"></i>
+            <div class="ds-title" style="color:#1e40af;">AI Studio</div>
+            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">API連携で<br>AIの頭脳を搭載</p>
+        </div>
+        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        <div class="diagram-step" style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); border-color:#ddd6fe;">
+            <i class="fa-solid fa-palette ds-icon" style="color:#7c3aed;"></i>
+            <div class="ds-title" style="color:#5b21b6;">Stitch</div>
+            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">UIデザインを<br>即コード化</p>
+        </div>
+        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        <div class="diagram-step" style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); border-color:#e9d5ff;">
+            <i class="fa-solid fa-wand-magic-sparkles ds-icon" style="color:#a855f7;"></i>
+            <div class="ds-title" style="color:#7e22ce;">GenSpark</div>
+            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">スマホアプリ<br>まで自動生成</p>
+        </div>
+    </div>
+</div>
+```
 
 ---
 
-## 4. 検証項目（Verification Plan）
+## 改善E：レスポンシブ追加
 
-1. **タブ切り替え動作**: 4タブ全てで `switchTab()` による `active` クラスの排他制御が効いていること。各タブの下部ナビ（前へ／次へ）が正しい `tab-xxx` にジャンプすること。
-2. **Facade パターン**: 全4本の動画（前半2本＋後半2本）について、サムネクリックで `<iframe>` 自動再生に切り替わり、2回目クリックで再ロードされないこと（`once:true`）。
-3. **Sticky Video（デスクトップ）**: `.video-grid` / `.lc-video` の動画カードが、解説テキストのスクロール中も `top: 75px`（固定ヘッダー直下）に追従表示されること。`z-index: 50` により他要素の下に潜らないこと。
-4. **Sticky Video（モバイル 375px）**: Day11 で追記した `max-height: 45vh` が効き、動画が画面の半分以下に収まり **下の解説テキストが常に見えること**。Stickyが画面全体を覆って解説が読めない状態になっていないこと。
-5. **column-box**: タブ1の「Web制作 vs アプリ開発」2カラム比較が、デスクトップで横並び・モバイル（375px）で縦積みになること。
-6. **diagram-box（APIキー図解）**: デスクトップで3ステップが横並び（矢印付き）、モバイル（375px）で縦積みに切り替わり、矢印が90度回転して下向きになること。paddingも適切に縮小されていること。
-7. **外部リンク動作**: AI Studio / Cloud Run / Padlet / Web公開ガイドラインの4つのCTAボタンが、別タブ（`target="_blank" rel="noopener"`）で正しく開くこと。
-8. **レスポンシブ総合**: iPhone SE（375px）／iPad mini（768px）で、`.container` / `.glass-card` / `.bento-item` / `.column-box` / `.mission-area` / `.diagram-box` / `.video-grid` / `.lc-video` の余白・幅が適切に縮小され、**横スクロールが発生しないこと**。
-9. **タブナビの狭幅表示**: モバイル時に `.tab-btn` が `flex: 1 1 100%` で1行1ボタンになり、タップ領域が十分に確保されていること。
-10. **ミッション達成演出**: 5つのチェックボックスを全てONにすると `.wax-seal.CLEAR` が出現すること（vol10-1.html と同じ挙動）。
-11. **ナビゲーション整合性**:
-    - `index.html` → Day11カード → `vol11-1.html` の遷移
-    - `vol11-1.html` → Day10 / Day12 / Home の3ボタンがそれぞれ意図通り動くこと
-    - Day12 未実装時のフォールバック alert が発火すること
-12. **素材参照**: `素材/Stitchアイコン画像.png` が Stitch カードで正しく読み込まれること（404 なし）。他のアイコン（AI Studio / GenSpark / Cloud Run）は Font Awesome で代替されていること。
-13. **桜テーマ維持**: 差し色として導入した青（`--tier-advanced`）・紫（`--purple`）がページ全体を侵食せず、主役が桜ピンク（`--accent`）のままであること。
-14. **コピペ原稿の反映**: §3 の表および本文引用が、改変なくHTMLに流し込まれていること。
+`.compare-table` のモバイル対応を `@media (max-width: 768px)` 内に追記：
+```css
+.compare-table th, .compare-table td { padding: 0.8rem 0.6rem; font-size: 0.85rem; }
+.compare-table-wrapper { margin: 1rem -0.5rem; }
+```
+
+`step-strip-sakura` に `--tier-beginner` のCSS変数オーバーライドが効くよう、`.step-strip-sakura strong` のbackgroundを `var(--tier-beginner, #f59e0b)` に変更。
+
+---
+
+## 実装手順（Cursor向け）
+
+1. **CSS追加**: `.compare-table` 4行を `<style>` 内に追加、`.step-strip-sakura strong` の background を `var(--tier-beginner, #f59e0b)` に変更
+2. **タブ1**: L1849-L1872 の `column-box` ×2 を `compare-table` に置換（改善A-1）
+3. **タブ2**: L1953-L1979 のアコーディオン×2 を `step-strip-sakura` カード×2 に置換（改善B-1）
+4. **タブ2**: L2009-L2017 の補足テキスト＋alert-warnを圧縮（改善B-2）
+5. **タブ3**: 動画③④の直下（video-gridの閉じタグ直後）に `step-strip-sakura` カード×2 を追加（改善C-2）
+6. **タブ3**: L2075-L2096 の `bento-item` ×2 を `compare-table` に置換（改善C-1）
+7. **タブ3**: 比較テーブルの上にツール進化マップを追加（改善D）
+8. **タブ3**: L2099-L2105 のhighlight-boxテキストを圧縮（改善C-3）
+9. **レスポンシブCSS追加**（改善E）
+
+## 絶対に守ること
+- **Facadeパターン厳守**: 動画の `video-grid` / `vc-thumb` / `data-video-id` は一切触らない
+- **Sticky Video**: `.video-grid` のCSS（L1778-L1788）は変更しない
+- **ナビゲーションボタン**: 各タブ末尾の `bottom-nav` は変更しない
+- **ミッションエリア**: タブ4の `.mission-area` は変更しない
+- **新規CSSクラスは追加しない**: 既存の `.compare-table` / `.step-strip-sakura` / `.diagram-steps` のみ使用

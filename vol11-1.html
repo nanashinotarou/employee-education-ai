@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -799,6 +799,40 @@
             color: var(--tier-beginner);
         }
 
+        /* === Day 11 NEW: compare-table（vol03-1.html より移植） === */
+        .compare-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #fbcfe8;
+            box-shadow: 0 8px 25px rgba(216, 27, 96, 0.05);
+        }
+
+        .compare-table th {
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-weight: 900;
+            padding: 1.5rem 1.2rem;
+            text-align: left;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #f8bbd0;
+        }
+
+        .compare-table td {
+            padding: 1.5rem 1.2rem;
+            border-bottom: 1px solid #fce4ec;
+            color: var(--text-main);
+            line-height: 1.7;
+            background: #fff;
+        }
+
+        .compare-table tr:hover td {
+            background: #fffbfd;
+        }
+
         .step-strip-sakura {
             list-style: none;
             margin: 0;
@@ -824,7 +858,7 @@
             width: 1.75rem;
             height: 1.75rem;
             border-radius: 50%;
-            background: var(--tier-beginner);
+            background: var(--tier-beginner, #f59e0b);
             color: #fff;
             font-size: 0.85rem;
             margin-right: 0.35rem;
@@ -1720,6 +1754,17 @@
                 inset: 8px;
             }
 
+            /* Day11 追加：compare-table の狭幅調整 */
+            .compare-table th,
+            .compare-table td {
+                padding: 0.8rem 0.6rem;
+                font-size: 0.85rem;
+            }
+
+            .compare-table-wrapper {
+                margin: 1rem -0.5rem;
+            }
+
             /* Day11 追加：狭幅でのAPIキー図解を縦積みに */
             .diagram-box {
                 padding: 1.25rem;
@@ -1849,26 +1894,47 @@
                 <h3 style="margin:2rem 0 0.5rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-code-compare" style="color:var(--accent);"></i> Web制作 vs アプリ開発 の違い</h3>
                 <p style="margin:0 0 1rem; color:var(--text-sub); line-height:1.75;">ここを押さえれば、今日の動画・ツール紹介がすっと入ってきます。</p>
 
-                <div class="column-box" style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); border-color:#fbcfe8; margin-top:0;">
-                    <div class="column-label" style="background: linear-gradient(135deg, var(--accent-light), var(--accent));">🖼️ Web制作（Day 7〜10）</div>
-                    <h4 style="color:#be185d; border-bottom-color:#f9a8d4;"><i class="fa-solid fa-palette" style="color:#d81b60;"></i> 静的（固定の画面）・ポスター／パンフレット</h4>
-                    <ul style="margin:0; padding-left:1.4rem; line-height:2; color:var(--text-main);">
-                        <li><strong>性質</strong>：静的（固定の画面）</li>
-                        <li><strong>例え</strong>：ポスター／パンフレット</li>
-                        <li><strong>主な技術</strong>：HTML / CSS（見た目）</li>
-                        <li><strong>ユーザー操作</strong>：見る・読む・リンクをクリック</li>
-                    </ul>
-                </div>
-
-                <div class="column-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe;">
-                    <div class="column-label" style="background: linear-gradient(135deg, #60a5fa, #2563eb);">⚙️ アプリ開発（Day 11〜）</div>
-                    <h4 style="color:#1d4ed8; border-bottom-color:#93c5fd;"><i class="fa-solid fa-gears" style="color:#2563eb;"></i> 動的（動くシステム）・電卓／チャットボット</h4>
-                    <ul style="margin:0; padding-left:1.4rem; line-height:2; color:var(--text-main);">
-                        <li><strong>性質</strong>：動的（動くシステム）</li>
-                        <li><strong>例え</strong>：電卓／チャットボット</li>
-                        <li><strong>主な技術</strong>：API連携・裏側のプログラム処理</li>
-                        <li><strong>ユーザー操作</strong>：入力する・操作する・結果を受け取る</li>
-                    </ul>
+                <div class="compare-table-wrapper" style="overflow-x:auto;">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th style="width:25%;"></th>
+                                <th style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); color:#be185d;">
+                                    <i class="fa-solid fa-palette" style="margin-right:6px;"></i> Web制作（Day 7〜10）
+                                </th>
+                                <th style="background: linear-gradient(135deg, #eff6ff, #dbeafe); color:#1e40af;">
+                                    <i class="fa-solid fa-gears" style="margin-right:6px;"></i> アプリ開発（Day 11〜）
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ひと言で</strong></td>
+                                <td>📄 見せるだけの<strong>ポスター</strong></td>
+                                <td>⚙️ 動く<strong>システム</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>例え</strong></td>
+                                <td>会社案内のパンフレット</td>
+                                <td>電卓・チャットボット・予約フォーム</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ユーザーは</strong></td>
+                                <td>読む・見る・リンクをクリック</td>
+                                <td><strong>入力 → 結果を受け取る</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>裏側の技術</strong></td>
+                                <td>HTML / CSS（見た目だけ）</td>
+                                <td>API連携（<strong>AIの脳みそを借りる</strong>）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>データ</strong></td>
+                                <td>固定（書いた通りのまま）</td>
+                                <td>リアルタイムに変化する</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="bento-grid" style="margin-top: 1rem;">
@@ -1950,32 +2016,28 @@
                     </div>
                 </div>
 
-                <div class="accordion" style="margin-top:0.5rem;">
-                    <details open>
-                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画①の見どころ（AIの「脳」を借りる鍵）</summary>
-                        <div class="acc-body">
-                            <p style="margin-top:0;">普段使っている ChatGPT や Gemini といった画面の裏側で、システムがどうやってAIの「脳みそ」を呼び出しているのか？ その答えが <strong>Google AI Studio</strong> と <strong>APIキー</strong> です。</p>
-                            <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem; color: #555;">
-                                <li><strong>APIキーとは？</strong>：あなたが作った空っぽのアプリに、Googleの超優秀なAI頭脳を接続するための「鍵（パスワード）」のようなもの。</li>
-                                <li><strong>AI Studioの役割</strong>：この「鍵」を無料で発行でき、さらにAIの振る舞いを細かくテストできる開発者向けのコントロールパネルです。</li>
-                            </ul>
-                            <p style="margin: 0.5rem 0 0;">動画を見れば、<strong>「なるほど、アプリ自体が賢いんじゃなくて、裏でAPIキーを使ってAIに質問を投げていたのか！」</strong>と、システム側の視点が直感的に理解できるようになります。</p>
-                        </div>
-                    </details>
+                <div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem; margin-top:0.5rem;">
+                    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
+                        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
+                        動画①で学べること（3つのポイント）
+                    </h4>
+                    <ol class="step-strip-sakura" style="--tier-beginner:#2563eb;">
+                        <li><strong>1</strong> <b>AI Studioとは</b> — Geminiの高性能AIモデルを<b>無料で</b>テスト・操作できる開発者向けコンソール</li>
+                        <li><strong>2</strong> <b>APIキーとは</b> — あなたのアプリとGoogleのAI頭脳を繋ぐ「鍵（パスワード）」。これがないとアプリは空っぽの箱のまま</li>
+                        <li><strong>3</strong> <b>裏側の仕組み</b> — ChatGPTもGeminiも、裏ではAPIキーを使ってAIサーバーに質問を投げて答えを受け取っている</li>
+                    </ol>
                 </div>
 
-                <div class="accordion" style="margin-top:0.5rem;">
-                    <details open>
-                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画②の見どころ（プロンプトだけで即アプリ化）</summary>
-                        <div class="acc-body">
-                            <p style="margin-top:0;">AI Studio にひっそりと実装された神機能「<strong>Build（ビルド）</strong>」の実演です。コードの知識は一切不要！</p>
-                            <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem; color: #555;">
-                                <li><strong>チャット感覚でアプリが完成</strong>：「こんな業務効率化アプリを作って」と日本語で指示するだけで、画面の右側に"実際に動くUI"がリアルタイムで生成されます。</li>
-                                <li><strong>ランキング形式の具体例</strong>：動画内では「実用的な業務効率化アプリ トップ5」として、具体的なプロンプトからアプリが組み上がっていく過程をノーカットで見ることができます。</li>
-                            </ul>
-                            <p style="margin: 0.5rem 0 0;">これを観るだけで、「アプリ開発＝難しいプログラミング言語を覚えること」という常識が完全に崩れ去るはずです。</p>
-                        </div>
-                    </details>
+                <div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem; margin-top:1rem;">
+                    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
+                        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
+                        動画②で学べること（3つのポイント）
+                    </h4>
+                    <ol class="step-strip-sakura" style="--tier-beginner:#2563eb;">
+                        <li><strong>1</strong> <b>Build機能</b> — AI Studioに搭載された「日本語で指示→即アプリ生成」の神機能。コーディング知識ゼロでOK</li>
+                        <li><strong>2</strong> <b>実演トップ5</b> — 動画内で業務効率化アプリを5つ、プロンプトから完成まで<b>ノーカット</b>で実演</li>
+                        <li><strong>3</strong> <b>常識の崩壊</b> — 「アプリ開発＝難しいプログラミング言語」という思い込みが完全に覆る体験</li>
+                    </ol>
                 </div>
             </div>
 
@@ -2006,14 +2068,14 @@
                             <p style="margin:0; color:var(--text-sub); font-size:0.92rem; line-height:1.7;">アプリがユーザーに<strong>結果を表示</strong></p>
                         </div>
                     </div>
-                    <p style="margin:0; padding:1rem 0.5rem 0; color:var(--text-main); font-size:1rem; line-height:1.85; text-align:left;">
-                        つまり、あなたの作ったアプリは<strong>"頭脳を持たない入れ物"</strong>で、APIキーを使って <strong>Googleが用意してくれているAIの頭脳を借りて</strong> 賢い返答を返している、というイメージです。
+                    <p style="margin:0.75rem 0 0; color:var(--text-main); font-size:0.95rem; line-height:1.7; text-align:center;">
+                        💡 あなたのアプリ＝<strong>頭脳を持たない入れ物</strong>。APIキーで<strong>Googleの頭脳を借りて</strong>賢くなる。
                     </p>
                 </div>
 
                 <div class="alert-warn">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ APIキーの管理だけはしっかり</h4>
-                    <p><strong>APIキーを他人に見せない／公開しない</strong>ことが鉄則です。GitHubに誤って push したり、SNSに貼ったりすると、第三者に使われて<strong>高額な請求が発生する</strong>事故が起こります。動画内で案内される「環境変数」「Secret Manager」などの保管方法に従いましょう。</p>
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ APIキーは絶対に他人に見せない</h4>
+                    <p>GitHub公開やSNS投稿で漏れると、<strong>第三者に使われて高額請求</strong>が発生します。管理方法は動画内で解説されています。</p>
                 </div>
             </div>
 
@@ -2072,35 +2134,111 @@
                     </div>
                 </div>
 
-                <div class="bento-grid" style="margin-top:1rem;">
-                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
-                        <span class="bento-tag" style="background:#ede9fe; color:#5b21b6;">Stitch</span>
-                        <h4 style="color:#5b21b6;">
-                            <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon" style="width:24px; height:24px; vertical-align:middle; margin-right:6px;">
-                            Stitch — UIをコンポーネント化して、そのままアプリに
-                        </h4>
-                        <p style="margin-top:0.5rem; line-height:1.7;">頭の中にあるアイデアを、いきなりアプリにするのは大変です。そこで活躍するのが <strong>Stitch</strong>。あなたが「こんな画面が欲しい」とテキストで指示するだけで、AIが綺麗なUIデザイン（ボタンや入力欄などの部品＝コンポーネント）を生成してくれます。<br><br>
-                        <strong>なぜ画期的なのか？</strong><br>
-                        ただの「画像」ではなく、そのままプログラマーが使える「コード（Reactなど）」としてデザインを出力してくれる点です。これにより、デザインからアプリ開発へ進む際の"面倒な翻訳作業"がゼロになります。</p>
+                <div class="glass-card" style="border-top: 3px solid #7c3aed; padding:1.5rem 2rem; margin-top:1rem;">
+                    <h4 style="margin:0 0 0.75rem; color:#5b21b6; font-size:1.1rem;">
+                        <i class="fa-solid fa-map" style="color:#7c3aed; margin-right:8px;"></i>
+                        動画③で学べること
+                    </h4>
+                    <ol class="step-strip-sakura" style="--tier-beginner:#7c3aed;">
+                        <li><strong>1</strong> Stitchに「こんな画面を作って」とテキストで指示するだけでUIデザインが生成される</li>
+                        <li><strong>2</strong> 生成されたデザインは画像ではなく<b>そのまま動くコード</b>として出力される</li>
+                        <li><strong>3</strong> デザイン→開発の「翻訳作業」がゼロになり、アイデアから即プロトタイプが完成</li>
+                    </ol>
+                </div>
+
+                <div class="glass-card" style="border-top: 3px solid #a855f7; padding:1.5rem 2rem; margin-top:1rem;">
+                    <h4 style="margin:0 0 0.75rem; color:#7e22ce; font-size:1.1rem;">
+                        <i class="fa-solid fa-map" style="color:#a855f7; margin-right:8px;"></i>
+                        動画④で学べること
+                    </h4>
+                    <ol class="step-strip-sakura" style="--tier-beginner:#a855f7;">
+                        <li><strong>1</strong> GenSparkに「英単語帳アプリを作って」と話しかけるだけでスマホアプリが構築される</li>
+                        <li><strong>2</strong> スワイプ操作・正答率トラッキングなど<b>本格的な機能</b>が会話だけで実装される</li>
+                        <li><strong>3</strong> iOS / Android 両対応でストア公開レベルまで到達可能</li>
+                    </ol>
+                </div>
+
+                <div class="diagram-box" style="background: linear-gradient(135deg, #faf5ff, #fff); border-color:#ddd6fe; margin-top:1.5rem;">
+                    <h4 style="margin:0 0 1rem; color:#5b21b6; font-weight:900;">
+                        <i class="fa-solid fa-layer-group" style="margin-right:8px;"></i>
+                        ツールの進化マップ — 何がどこまでできる？
+                    </h4>
+                    <div class="diagram-steps">
+                        <div class="diagram-step" style="background:linear-gradient(135deg, #fdf2f8, #fce7f3); border-color:#fbcfe8;">
+                            <i class="fa-solid fa-bolt ds-icon" style="color:#d81b60;"></i>
+                            <div class="ds-title" style="color:#be185d;">Bolt.new</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">Webアプリを<br>自動生成</p>
+                        </div>
+                        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="diagram-step" style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe;">
+                            <i class="fa-solid fa-flask ds-icon" style="color:#2563eb;"></i>
+                            <div class="ds-title" style="color:#1e40af;">AI Studio</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">API連携で<br>AIの頭脳を搭載</p>
+                        </div>
+                        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="diagram-step" style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); border-color:#ddd6fe;">
+                            <i class="fa-solid fa-palette ds-icon" style="color:#7c3aed;"></i>
+                            <div class="ds-title" style="color:#5b21b6;">Stitch</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">UIデザインを<br>即コード化</p>
+                        </div>
+                        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="diagram-step" style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); border-color:#e9d5ff;">
+                            <i class="fa-solid fa-wand-magic-sparkles ds-icon" style="color:#a855f7;"></i>
+                            <div class="ds-title" style="color:#7e22ce;">GenSpark</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">スマホアプリ<br>まで自動生成</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bento-grid" style="margin-top:1rem;">
-                    <div class="bento-item" style="border-top: 4px solid #a855f7;">
-                        <span class="bento-tag" style="background:#faf5ff; color:#7e22ce;">GenSpark</span>
-                        <h4 style="color:#7e22ce;"><i class="fa-solid fa-wand-magic-sparkles" style="color:#a855f7; margin-right:6px;"></i> GenSpark — 話すだけで iOS / Android アプリをリリース</h4>
-                        <p style="margin-top:0.5rem; line-height:1.7;">Webアプリだけでなく、ついに<strong>スマホアプリ（iOS / Android）</strong>までもがAIとのチャットだけで作れるようになりました。それが <strong>GenSpark（AIデベロッパー 2.0）</strong> です。<br><br>
-                        <strong>動画の必見ポイント</strong><br>
-                        動画内では「スワイプで消せる英単語帳（正答率トラッキング付き）」という本格的なスマホアプリを、会話だけで実際に構築していきます。もはや「プログラミングができないからアプリは作れない」という言い訳が通用しない、まさに革命的な時代を実感できる内容です。</p>
-                    </div>
+                <div class="compare-table-wrapper" style="overflow-x:auto; margin-top:1.5rem;">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th style="width:22%;"></th>
+                                <th style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); color:#5b21b6;">
+                                    <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon" style="width:22px; height:22px; vertical-align:middle; margin-right:6px;"> Stitch
+                                </th>
+                                <th style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); color:#7e22ce;">
+                                    <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px;"></i> GenSpark
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ひと言で</strong></td>
+                                <td>AIに画面デザインを作らせる</td>
+                                <td>AIにスマホアプリを丸ごと作らせる</td>
+                            </tr>
+                            <tr>
+                                <td><strong>入力</strong></td>
+                                <td>「こんな画面が欲しい」とテキスト入力</td>
+                                <td>「こんなアプリが欲しい」と<b>会話</b></td>
+                            </tr>
+                            <tr>
+                                <td><strong>出力</strong></td>
+                                <td>綺麗なUI部品＋<b>そのまま使えるコード</b></td>
+                                <td><b>iOS / Android 対応のスマホアプリ</b></td>
+                            </tr>
+                            <tr>
+                                <td><strong>動画内の実例</strong></td>
+                                <td>テキスト指示だけでアプリ画面を自動生成</td>
+                                <td>「英単語帳アプリ」を会話だけで構築（正答率トラッキング付き）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>すごい点</strong></td>
+                                <td>デザイン→コード変換の手間がゼロ</td>
+                                <td>プログラミング知識ゼロでストア公開レベル</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
             <div class="highlight-box" style="border-color:#c4b5fd; background: linear-gradient(135deg, #faf5ff, #f5f3ff);">
                 <h3 style="color:#5b21b6; border-bottom-color:#c4b5fd;"><i class="fa-solid fa-star" style="color:#7c3aed;"></i> 🌟 知識ゼロでもアプリが世に出せる時代</h3>
                 <p style="margin:0; line-height:1.85; color:#3b0764;">
-                    Day 10 で学んだ <strong>Bolt.new（Webアプリ）</strong>、Day 11 前半の <strong>AI Studio（API連携アプリ）</strong>、そして後半の <strong>Stitch → GenSpark（スマホアプリ）</strong>。<br>
-                    この3層を押さえれば、あなたが「作りたい！」と思ったもののほぼ全てが、プログラミング知識なしで形にできます。あとは<strong>何を作るか</strong>を決めるだけです。
+                    <strong>Bolt.new</strong>（Webアプリ）→ <strong>AI Studio</strong>（API連携アプリ）→ <strong>Stitch + GenSpark</strong>（スマホアプリ）。<br>
+                    この3層で、「作りたい！」がプログラミング知識なしで全て形になります。
                 </p>
             </div>
 
