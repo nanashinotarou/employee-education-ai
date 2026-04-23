@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 11 | AI活用によるアプリケーション開発実践①</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@500;700;900&family=Teko:wght@600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fff5f8;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --text-main: #4a4a4a;
+            --text-sub: #71717a;
+            --accent: #d81b60;
+            --accent-light: #f06292;
+            --accent-bg: #fce4ec;
+            --accent-glow: rgba(216, 27, 96, 0.25);
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --blue: #2563eb;
+            --blue-bg: #eff6ff;
+            --purple: #7c3aed;
+            --glass-blur: blur(20px);
+            --radius: 20px;
+            --tier-advanced: #3b82f6;
+            --tier-intermediate: #10b981;
+            --tier-beginner: #f59e0b;
+        }
+
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            background-color: var(--bg-body);
+            background-image: radial-gradient(at 0% 0%, rgba(252, 228, 236, 0.5) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.8) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(240, 98, 146, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.3s;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .back-link:hover {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .progress-container {
+            width: 350px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #fee2e2;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f48fb1, #d81b60);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-top: 2rem;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 0 0 1rem;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-sub);
+            line-height: 1.7;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #fff;
+            border: 1px solid #fbcfe8;
+            padding: 1.2rem 2rem;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            color: var(--text-main);
+            border-color: var(--accent-light);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #fff;
+            border: none;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            transform: translateY(-5px);
+        }
+
+        .tab-btn.active i {
+            color: #fff !important;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(216, 27, 96, 0.05);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 2px solid var(--accent-bg);
+            padding-bottom: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-header i {
+            font-size: 1.6rem;
+            color: var(--accent);
+            background: var(--accent-bg);
+            padding: 1.2rem;
+            border-radius: 14px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-main);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .info-box {
+            background: var(--accent-bg);
+            border-left: 5px solid var(--accent);
+            padding: 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1rem 0;
+        }
+
+        .info-box h4 {
+            margin: 0 0 1rem;
+            color: var(--accent);
+            line-height: 1.4;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .info-box h4 i {
+            margin-right: 0.8rem;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--text-main);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            color: #881337;
+            box-shadow: 0 8px 25px rgba(225, 29, 72, 0.1);
+            border: 1px solid #fecdd3;
+        }
+
+        .highlight-box h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-top: 0;
+            border-bottom: 2px dashed #fb7185;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .highlight-box h3 i {
+            margin-right: 8px;
+        }
+
+        .column-box {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border: 1px solid #99f6e4;
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            margin: 2.5rem 0;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.08);
+        }
+
+        .column-label {
+            position: absolute;
+            top: -14px;
+            left: 24px;
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            color: #fff;
+            padding: 4px 20px;
+            font-size: 0.95rem;
+            font-weight: 900;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+        }
+
+        .column-box h4 {
+            margin: 0.5rem 0 1rem;
+            color: #115e59;
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-bottom: 2px dashed #5eead4;
+            padding-bottom: 0.8rem;
+        }
+
+        /* YouTube Facade（GEMINI.md） */
+        .video-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid #fbcfe8;
+            box-shadow: 0 8px 24px rgba(216, 27, 96, 0.06);
+        }
+
+        .vc-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .vc-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+            pointer-events: none;
+        }
+
+        .vc-thumb:hover::before {
+            background: rgba(216, 27, 96, 0.25);
+        }
+
+        .vc-thumb-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, color 0.3s ease;
+            pointer-events: none;
+        }
+
+        .vc-thumb:hover .vc-thumb-play {
+            transform: translate(-50%, -50%) scale(1.1);
+            color: #ff0000;
+        }
+
+        .vc-info {
+            padding: 1rem 1.25rem 1.25rem;
+            border-top: 1px solid #fce4ec;
+        }
+
+        .vc-title {
+            font-weight: 900;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .vc-note {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 0.35rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .video-desc-full {
+            margin-top: 0.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #fce4ec;
+        }
+
+        .accordion {
+            margin: 1.5rem 0;
+            border: 1px solid #fbcfe8;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.03);
+        }
+
+        .accordion details {
+            border-bottom: 1px solid #fce4ec;
+        }
+
+        .accordion details:last-child {
+            border-bottom: none;
+        }
+
+        .accordion summary {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--text-main);
+            transition: background 0.2s;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .accordion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion summary::before {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.9rem;
+            color: var(--accent);
+            transition: transform 0.3s;
+            width: 20px;
+            text-align: center;
+        }
+
+        .accordion details[open] summary::before {
+            transform: rotate(180deg);
+        }
+
+        .accordion summary:hover {
+            background: var(--accent-bg);
+        }
+
+        .accordion .acc-body {
+            padding: 0 2rem 2rem 3.8rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .bento-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            border: 2px solid transparent;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(216, 27, 96, 0.08);
+            border-color: var(--accent-light);
+        }
+
+        .bento-item h4 {
+            margin: 0 0 1rem;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            line-height: 1.4;
+            font-weight: 900;
+        }
+
+        .bento-item h4 i {
+            margin-right: 0.8rem;
+        }
+
+        .bento-item p {
+            margin: 0;
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: var(--text-main);
+        }
+
+        .bento-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: var(--accent-bg);
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .diagram-box {
+            background: #fff;
+            border: 2px solid #fbcfe8;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(216, 27, 96, 0.05);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-sub);
+        }
+
+        /* === Day 11 NEW: APIキー図解用 === */
+        .diagram-steps {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .diagram-step {
+            flex: 1 1 180px;
+            min-width: 0;
+            padding: 1.25rem 1rem;
+            background: linear-gradient(135deg, #faf5ff, #ede9fe);
+            border: 2px solid #ddd6fe;
+            border-radius: 14px;
+            text-align: center;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+        }
+
+        .diagram-step .ds-icon {
+            font-size: 2rem;
+            color: #7c3aed;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .diagram-step .ds-title {
+            font-weight: 900;
+            color: #5b21b6;
+            font-size: 1.05rem;
+            margin: 0.25rem 0 0.5rem;
+        }
+
+        .diagram-arrow {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #7c3aed;
+            padding: 0 0.25rem;
+        }
+
+        .step-box {
+            background: #fff;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .step-box h4 {
+            margin: 0 0 0.5rem;
+            color: var(--accent);
+            line-height: 1.4;
+        }
+
+        .step-box h4 i {
+            margin-right: 0.5rem;
+        }
+
+        .step-box ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .step-box li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* 公開レベル別（web-publish-tiers 統合・桜テーマ） */
+        .tier-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem 0.75rem;
+            margin: 1rem 0 2rem;
+        }
+
+        .tier-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            border: 2px solid;
+        }
+
+        .tier-pill--adv {
+            color: var(--tier-advanced);
+            border-color: #93c5fd;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .tier-pill--mid {
+            color: var(--tier-intermediate);
+            border-color: #6ee7b7;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .tier-pill--beg {
+            color: var(--tier-beginner);
+            border-color: #fcd34d;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .tier-arrow {
+            color: var(--text-sub);
+            font-weight: 700;
+        }
+
+        .pub-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .pub-card--adv {
+            border-left-color: var(--tier-advanced);
+        }
+
+        .pub-card--mid {
+            border-left-color: var(--tier-intermediate);
+        }
+
+        .pub-card--beg {
+            border-left-color: var(--tier-beginner);
+        }
+
+        .pub-badge {
+            font-weight: 900;
+            font-size: 0.95rem;
+            margin: 0 0 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pub-badge--adv {
+            color: var(--tier-advanced);
+        }
+
+        .pub-badge--mid {
+            color: var(--tier-intermediate);
+        }
+
+        .pub-badge--beg {
+            color: #b45309;
+        }
+
+        .pub-title {
+            margin: 0 0 1rem;
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .pub-sub {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin: 1.25rem 0 0.4rem;
+        }
+
+        .pub-list {
+            margin: 0;
+            padding-left: 1.35rem;
+            line-height: 1.75;
+        }
+
+        .pub-note {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            display: block;
+            margin-top: 0.35rem;
+        }
+
+        .workflow-code {
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 0.85rem;
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 0.5rem 0 0;
+            line-height: 1.65;
+        }
+
+        .workflow-plain {
+            background: var(--accent-bg);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 0.5rem 0 0;
+            border: 1px solid #f8bbd0;
+        }
+
+        .workflow-plain ol {
+            margin: 0;
+            padding-left: 1.35rem;
+            line-height: 1.85;
+        }
+
+        .checklist-pub {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0 0;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .checklist-pub li::before {
+            content: "☐ ";
+            color: var(--tier-advanced);
+            font-weight: 900;
+        }
+
+        .pub-card--mid .checklist-pub li::before {
+            color: var(--tier-intermediate);
+        }
+
+        .pub-card--beg .checklist-pub li::before {
+            color: var(--tier-beginner);
+        }
+
+        .step-strip-sakura {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .step-strip-sakura li {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .step-strip-sakura strong {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            background: var(--tier-beginner);
+            color: #fff;
+            font-size: 0.85rem;
+            margin-right: 0.35rem;
+            vertical-align: middle;
+        }
+
+        .beginner-msg {
+            background: linear-gradient(135deg, #fffbeb, #fef9c3);
+            border: 2px solid #fbbf24;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-top: 1.25rem;
+            font-size: 1.02rem;
+            line-height: 1.75;
+        }
+
+        .beginner-msg p {
+            margin: 0 0 0.6rem;
+        }
+
+        .beginner-msg p:last-child {
+            margin-bottom: 0;
+            font-weight: 800;
+            color: #92400e;
+        }
+
+        .tier-cta {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px dashed #fbcfe8;
+        }
+
+        .tier-cta p {
+            margin: 0 0 0.75rem;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        .btn-tier {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.35rem;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: opacity 0.2s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-tier:hover {
+            opacity: 0.92;
+            transform: translateY(-2px);
+        }
+
+        .btn-tier--mid {
+            background: var(--tier-intermediate);
+        }
+
+        .btn-tier--beg {
+            background: var(--tier-beginner);
+            color: #1f2937;
+        }
+
+        .mission-area {
+            margin-top: 3rem;
+            background: #fff;
+            border: 2px dashed #f48fb1;
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .mission-area.completed {
+            border-color: var(--accent);
+            border-style: solid;
+            background: var(--accent-bg);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        .mission-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .mission-header h3 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin: 0 0 0.5rem;
+            font-weight: 900;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 2rem;
+            border-radius: 16px;
+            background: #fafafa;
+            border: 1px solid #e4e4e7;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .task-item:hover {
+            border-color: var(--accent-light);
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(216, 27, 96, 0.06);
+            transform: translateX(5px);
+        }
+
+        .task-item.completed {
+            background: #fdf2f8;
+            border-color: var(--accent-light);
+        }
+
+        .custom-checkbox {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #d4d4d8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            background: #fff;
+        }
+
+        .task-item.completed .custom-checkbox {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .custom-checkbox i {
+            color: #fff;
+            font-size: 18px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .task-item.completed .custom-checkbox i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-content h4 {
+            margin: 0 0 0.8rem;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            font-weight: 900;
+            transition: color 0.3s;
+        }
+
+        .task-item.completed .task-content h4 {
+            color: var(--accent);
+        }
+
+        .task-content p {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(3) rotate(-30deg);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 4rem;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 10px 40px rgba(216, 27, 96, 0.5);
+            border: 5px solid #880e4f;
+            z-index: 10;
+        }
+
+        .wax-seal::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 3px dotted rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        .mission-area.completed .wax-seal {
+            animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stampIn {
+            0% {
+                opacity: 0;
+                transform: scale(3) translateY(-50px) rotate(-30deg);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(0.9) translateY(0) rotate(5deg);
+            }
+
+            80% {
+                transform: scale(1.1) rotate(-2deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.15rem;
+            font-weight: 900;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px var(--accent-glow);
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            border-top: 2px dashed #fce4ec;
+            padding-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pub-footer-note {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+        }
+
+        /* === Day9 NEW: リアル警告ボックス（トークン消費 / プロンプト難 / 静的制約） === */
+        .alert-warn {
+            position: relative;
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            border: 2px solid #fb7185;
+            border-left: 8px solid #e11d48;
+            border-radius: 16px;
+            padding: 1.75rem 2rem 1.75rem 4.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px rgba(225, 29, 72, 0.12);
+        }
+
+        .alert-warn::before {
+            content: '\f071';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 1.5rem;
+            top: 1.6rem;
+            font-size: 1.6rem;
+            color: #e11d48;
+        }
+
+        .alert-warn h4 {
+            margin: 0 0 0.75rem;
+            color: #9f1239;
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: -0.3px;
+        }
+
+        .alert-warn p {
+            margin: 0 0 0.6rem;
+            line-height: 1.85;
+            color: #881337;
+            font-size: 1.02rem;
+        }
+
+        .alert-warn p:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-warn strong {
+            background: rgba(251, 113, 133, 0.25);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* 警告 Amber版（ネガティブプロンプト / 静的制約用） */
+        .alert-warn--amber {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: #fbbf24;
+            border-left-color: #d97706;
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.12);
+        }
+
+        .alert-warn--amber::before {
+            color: #d97706;
+        }
+
+        .alert-warn--amber h4 {
+            color: #92400e;
+        }
+
+        .alert-warn--amber p {
+            color: #78350f;
+        }
+
+        .alert-warn--amber strong {
+            background: rgba(251, 191, 36, 0.35);
+        }
+
+        /* === Day9 NEW: ツール紹介カード（Manus / Stitch 等） === */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tool-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 1.8rem;
+            border: 2px solid transparent;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(124, 58, 237, 0.12);
+            border-color: #c4b5fd;
+        }
+
+        .tool-card .tool-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .tool-card h4 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .tool-card .tool-price {
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .tool-card .tool-price--free {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .tool-card .tool-price--paid {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .tool-card .tool-price--credit {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .tool-card p {
+            margin: 0;
+            line-height: 1.7;
+            color: var(--text-main);
+            font-size: 0.98rem;
+        }
+
+        .tool-card .tool-link {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            color: #7c3aed;
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+
+        .tool-card .tool-link:hover {
+            color: #5b21b6;
+            text-decoration: underline;
+        }
+
+        /* === Day9 NEW: ワークフロー矢印フロー === */
+        .workflow-chain {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+
+        .workflow-chain .wf-node {
+            background: #fff;
+            border: 2px solid #ddd6fe;
+            border-radius: 16px;
+            padding: 1.1rem 1.25rem 0.9rem;
+            min-width: 130px;
+            max-width: 170px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.09);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .workflow-chain .wf-node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.15);
+        }
+
+        .workflow-chain .wf-node .wf-icon {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f5f3ff;
+            padding: 5px;
+            margin-bottom: 2px;
+        }
+
+        .workflow-chain .wf-node .wf-step {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #a78bfa;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: -2px;
+        }
+
+        .workflow-chain .wf-node strong {
+            color: #7c3aed;
+            font-weight: 900;
+            font-size: 0.88rem;
+            line-height: 1.3;
+        }
+
+        .workflow-chain .wf-node span {
+            font-size: 0.74rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .workflow-chain .wf-arrow {
+            align-self: center;
+            color: #a78bfa;
+            font-weight: 900;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ルートB（緑系）専用 */
+        .workflow-chain .wf-node.wf-green {
+            border-color: #6ee7b7;
+        }
+        .workflow-chain .wf-node.wf-green strong {
+            color: #059669;
+        }
+        .workflow-chain .wf-node.wf-green .wf-icon {
+            background: #ecfdf5;
+        }
+        .workflow-chain .wf-node.wf-green .wf-step {
+            color: #34d399;
+        }
+
+        /* 究極のワークフロー（グラデ紫〜テキスト）*/
+        .workflow-chain .wf-node.wf-ultimate {
+            min-width: 150px;
+            max-width: 200px;
+        }
+
+        @media (max-width: 640px) {
+            .workflow-chain {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .workflow-chain .wf-node {
+                max-width: 100%;
+                flex-direction: row;
+                text-align: left;
+                gap: 12px;
+                padding: 0.85rem 1rem;
+            }
+            .workflow-chain .wf-node .wf-icon {
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+            .workflow-chain .wf-node > div {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+            .workflow-chain .wf-arrow {
+                text-align: center;
+                transform: rotate(90deg);
+            }
+        }
+
+        /* === Day9 NEW: プロンプト例ボックス === */
+        .prompt-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin: 1rem 0;
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            position: relative;
+            border-left: 5px solid #a78bfa;
+        }
+
+        .prompt-box::before {
+            content: '✍️ プロンプト例';
+            position: absolute;
+            top: -12px;
+            left: 16px;
+            background: #7c3aed;
+            color: #fff;
+            font-family: "Noto Sans JP", sans-serif;
+            font-size: 0.8rem;
+            font-weight: 900;
+            padding: 3px 12px;
+            border-radius: 20px;
+        }
+
+        /* === Day9 NEW: 静的 vs 動的 比較ブロック === */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .compare-card {
+            padding: 1.5rem;
+            border-radius: 14px;
+            border: 2px solid;
+        }
+
+        .compare-card--ok {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .compare-card--ng {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .compare-card h5 {
+            margin: 0 0 0.75rem;
+            font-size: 1.05rem;
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        .compare-card h5 i {
+            margin-right: 0.5rem;
+        }
+
+        .compare-card--ok h5 {
+            color: #166534;
+        }
+
+        .compare-card--ng h5 {
+            color: #991b1b;
+        }
+
+        .compare-card ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            line-height: 1.75;
+            font-size: 0.95rem;
+        }
+
+        /* === Day 9 tab-second NEW: Claude Code マスタークラス用（ライト・非ターミナル） === */
+
+        /* インラインコマンドチップ（例: `/compact` などを文中に埋めるとき用） */
+        .cmd-chip {
+            display: inline-block;
+            background: #f5f3ff;
+            color: #5b21b6;
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 0.92em;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd6fe;
+            line-height: 1.6;
+            vertical-align: baseline;
+        }
+
+        /* インストールコマンド1行ブロック（黒背景ではなく薄紫のライトトーン） */
+        .cmd-line {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-left: 4px solid #a78bfa;
+            border-radius: 10px;
+            padding: 0.85rem 1.1rem;
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 0.95rem;
+            color: #4c1d95;
+            margin: 0.6rem 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .cmd-line::before {
+            content: '$';
+            color: #a78bfa;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .cmd-line--no-prompt::before {
+            content: '';
+            display: none;
+        }
+
+        /* スラッシュコマンド紹介カード */
+        .slash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .slash-card {
+            background: #fff;
+            border: 2px solid #ede9fe;
+            border-radius: 14px;
+            padding: 1.2rem 1.25rem;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            position: relative;
+        }
+
+        .slash-card:hover {
+            transform: translateY(-4px);
+            border-color: #a78bfa;
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12);
+        }
+
+        .slash-card .slash-name {
+            font-family: ui-monospace, Consolas, "Courier New", monospace;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #7c3aed;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0;
+        }
+
+        .slash-card .slash-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 6px;
+            width: fit-content;
+            letter-spacing: 0.03em;
+        }
+
+        .slash-card .slash-tag--must {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .slash-card .slash-tag--tip {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .slash-card p {
+            margin: 0;
+            font-size: 0.93rem;
+            line-height: 1.7;
+            color: var(--text-main);
+        }
+
+        /* 「ガチ勢向け」であることを示すサブヘッダバッジ */
+        .masterclass-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            color: #5b21b6;
+            font-size: 0.78rem;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* === レスポンシブ対応（モバイル最適化） === */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+                margin-top: 80px;
+            }
+
+            .hero {
+                margin-bottom: 2rem;
+                padding-top: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .glass-card {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+                gap: 1rem;
+            }
+
+            .info-box,
+            .highlight-box,
+            .column-box {
+                padding: 1.25rem;
+                margin: 1.25rem 0;
+            }
+
+            .claude-masterclass {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .tab-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+                flex: 1 1 100%;
+                justify-content: center;
+            }
+
+            .mission-area {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .task-item {
+                padding: 1.25rem;
+                gap: 1rem;
+                flex-direction: column;
+            }
+
+            .pub-card {
+                padding: 1.5rem;
+            }
+
+            .alert-warn {
+                padding: 1.5rem 1.25rem 1.5rem 3.5rem;
+                margin: 1.5rem 0;
+            }
+
+            .alert-warn::before {
+                left: 1rem;
+                font-size: 1.3rem;
+                top: 1.5rem;
+            }
+
+            .bento-item {
+                padding: 1.5rem;
+            }
+
+            .terminal-box {
+                padding: 1.25rem;
+                font-size: 0.85rem;
+            }
+
+            .cmd-line {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .workflow-code,
+            .workflow-plain {
+                padding: 1rem 1.25rem;
+            }
+
+            .step-box {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .accordion summary {
+                padding: 1.25rem 1.5rem;
+                font-size: 1.05rem;
+            }
+
+            .accordion .acc-body {
+                padding: 0 1.5rem 1.5rem 3rem;
+            }
+
+            .fixed-header {
+                padding: 0 20px;
+            }
+
+            .progress-container {
+                width: 130px;
+            }
+
+            .wax-seal {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+                right: -10px;
+                top: -10px;
+                border-width: 3px;
+            }
+
+            .wax-seal::after {
+                border-width: 2px;
+                inset: 8px;
+            }
+
+            /* Day11 追加：狭幅でのAPIキー図解を縦積みに */
+            .diagram-box {
+                padding: 1.25rem;
+                margin: 1.25rem 0;
+            }
+
+            .diagram-steps {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+
+            .diagram-arrow {
+                transform: rotate(90deg);
+            }
+
+            /* Day11 追加：狭幅でStickyが画面を覆いすぎないよう高さ制限 */
+            .video-grid,
+            .lc-video {
+                max-height: 45vh;
+                overflow: hidden;
+            }
+
+            .video-grid {
+                padding: 8px;
+                margin-left: -8px;
+                margin-right: -8px;
+            }
+        }
+
+        /* ツールアイコン表示用共通クラス */
+        .inline-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+            background: #fff;
+            border-radius: 4px;
+            padding: 2px;
+            border: 1px solid #eee;
+        }
+
+        .heading-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 10px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 3px;
+            border: 1px solid #ddd;
+        }
+    
+        /* === 動画の追従（Sticky）対応 === */
+        .video-grid {
+            position: sticky !important;
+            top: 75px;
+            z-index: 50;
+            background: var(--bg-card, #ffffff);
+            padding: 15px;
+            margin-left: -15px;
+            margin-right: -15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .lc-video {
+            position: sticky !important;
+            top: 75px;
+            z-index: 50;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header class="fixed-header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Course Home</a>
+        <div class="progress-container">
+            <div class="progress-text"><span>Day 11 Progress</span><span id="progress-percent">0%</span></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+        <div style="width:100px;"></div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <div class="day-badge">DAY 11</div>
+            <h1>AI活用によるアプリケーション開発実践①</h1>
+            <p>Day 10 で掴んだ「アプリ開発の地図」を、今日は<strong>実際に歩いてみる回</strong>です。<br>AIにコードを書かせて"画面"を作る段階から卒業し、<strong>API（AIの脳みそ）と通信して動く"アプリケーション"</strong>を生成・公開する体験をします。</p>
+        </div>
+
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-flask" style="color:#2563eb;"></i> 前半：AI Studio & API</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed;"></i> 後半：Stitch & GenSpark</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 実習・まとめ</button>
+        </div>
+
+        <!-- ===== タブ：本日の目標 ===== -->
+        <div id="tab-goal" class="tab-content active">
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-bullseye" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>本日の研修ねらい</h2>
+                </div>
+
+                <div class="column-box">
+                    <div class="column-label">コース目標</div>
+                    <h4>AIでアプリケーションの基本構造とUIを生成する手法を体験し、開発の基礎プロセスを習得する</h4>
+                    <p style="margin:0; line-height:1.85;">Day 10 で学んだ「アプリ開発の地図」を、今日は<strong>実際に歩いてみる回</strong>です。<strong>AIにコードを書かせてただの"画面"を作る段階から卒業し、API（AIの脳みそ）と通信して動く"アプリケーション"を生成・公開する</strong>プロセスを体験します。</p>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-comment-dots"></i> 💭 「前までのWeb制作と何が違うの？」への回答</h4>
+                    <p>
+                        Day 10 までで作ってきたのは、情報を<strong>"見せる"</strong>ためのホームページ（＝ポスターやパンフレットのような静的なWeb制作）でした。<br>
+                        Day 11 から作るのは、ユーザーの入力に反応して<strong>計算・通信・返答</strong>する"動くシステム"（＝電卓やチャットボットのような動的なWebアプリ開発）です。<br>
+                        今日の真のテーマは、「<strong>ただの画面から卒業し、AI（API）と通信して動くアプリを生成・公開する</strong>」体験を積むこと。
+                    </p>
+                </div>
+
+                <h3 style="margin:2rem 0 0.5rem; color:var(--text-main); font-weight:900; font-size:1.3rem; display:flex; align-items:center; gap:0.6rem;"><i class="fa-solid fa-code-compare" style="color:var(--accent);"></i> Web制作 vs アプリ開発 の違い</h3>
+                <p style="margin:0 0 1rem; color:var(--text-sub); line-height:1.75;">ここを押さえれば、今日の動画・ツール紹介がすっと入ってきます。</p>
+
+                <div class="column-box" style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); border-color:#fbcfe8; margin-top:0;">
+                    <div class="column-label" style="background: linear-gradient(135deg, var(--accent-light), var(--accent));">🖼️ Web制作（Day 7〜10）</div>
+                    <h4 style="color:#be185d; border-bottom-color:#f9a8d4;"><i class="fa-solid fa-palette" style="color:#d81b60;"></i> 静的（固定の画面）・ポスター／パンフレット</h4>
+                    <ul style="margin:0; padding-left:1.4rem; line-height:2; color:var(--text-main);">
+                        <li><strong>性質</strong>：静的（固定の画面）</li>
+                        <li><strong>例え</strong>：ポスター／パンフレット</li>
+                        <li><strong>主な技術</strong>：HTML / CSS（見た目）</li>
+                        <li><strong>ユーザー操作</strong>：見る・読む・リンクをクリック</li>
+                    </ul>
+                </div>
+
+                <div class="column-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe;">
+                    <div class="column-label" style="background: linear-gradient(135deg, #60a5fa, #2563eb);">⚙️ アプリ開発（Day 11〜）</div>
+                    <h4 style="color:#1d4ed8; border-bottom-color:#93c5fd;"><i class="fa-solid fa-gears" style="color:#2563eb;"></i> 動的（動くシステム）・電卓／チャットボット</h4>
+                    <ul style="margin:0; padding-left:1.4rem; line-height:2; color:var(--text-main);">
+                        <li><strong>性質</strong>：動的（動くシステム）</li>
+                        <li><strong>例え</strong>：電卓／チャットボット</li>
+                        <li><strong>主な技術</strong>：API連携・裏側のプログラム処理</li>
+                        <li><strong>ユーザー操作</strong>：入力する・操作する・結果を受け取る</li>
+                    </ul>
+                </div>
+
+                <div class="bento-grid" style="margin-top: 1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #2563eb;">
+                        <span class="bento-tag">前半</span>
+                        <h4 style="color:#2563eb;"><i class="fa-solid fa-flask"></i> AI Studio で"アプリを生成"</h4>
+                        <p>Google AI Studio の <strong>Build 機能</strong> と <strong>APIキー</strong> の仕組みを掴みます（動画2本）。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <span class="bento-tag">後半</span>
+                        <h4 style="color:#7c3aed;"><i class="fa-solid fa-wand-magic-sparkles"></i> Stitch / GenSpark で"スマホアプリ化"</h4>
+                        <p>UIコンポーネント生成から、<strong>話すだけで iOS / Android アプリをリリース</strong>できる時代までを体験（動画2本）。</p>
+                    </div>
+                    <div class="bento-item" style="border-top: 4px solid #10b981;">
+                        <span class="bento-tag">実習</span>
+                        <h4 style="color:#059669;"><i class="fa-solid fa-flag-checkered"></i> 課題制作 → Padlet シェア</h4>
+                        <p>自分の業務に役立つ1作を作り、<strong>Day 13 成果発表の第二稿</strong>として Padlet に投稿します。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <button type="button" class="btn" onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    前半：AI Studio & API へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== タブ：前半 ===== -->
+        <div id="tab-first" class="tab-content">
+
+            <div class="highlight-box" style="border-color:#bfdbfe; background: linear-gradient(135deg, #eff6ff, #dbeafe);">
+                <h3 style="color:#1e40af; border-bottom-color:#93c5fd;"><i class="fa-solid fa-flask" style="color:#2563eb;"></i> 🧪 今日のツール：Google AI Studio</h3>
+                <p style="margin:0; line-height:1.85; color:#1e3a8a;">
+                    今日の主役は <strong>Google AI Studio</strong>。ただAIとチャットするだけのツールではなく、<strong>AIの"脳みそ"をあなたのアプリに組み込める</strong> 開発基盤です。<br>
+                    「APIキー」という言葉がたくさん出てきますが、<strong>"AIの脳みそを借りるための鍵"</strong>と覚えておけばOK。
+                </p>
+                <div style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:0.75rem;">
+                    <a href="https://aistudio.google.com/apps" target="_blank" rel="noopener" class="btn" style="background: linear-gradient(135deg, #60a5fa, #2563eb); padding:0.9rem 1.4rem; font-size:1rem;">
+                        <i class="fa-solid fa-flask"></i> 🧪 Google AI Studio を開く
+                    </a>
+                    <a href="https://cloud.google.com/run?hl=ja" target="_blank" rel="noopener" class="btn" style="background:#fff; color:#1e3a8a; border:2px solid #93c5fd; box-shadow:none; padding:0.9rem 1.4rem; font-size:1rem;">
+                        <i class="fa-solid fa-cloud"></i> ☁️ Google Cloud Run を開く
+                    </a>
+                </div>
+                <p style="margin:0.6rem 0 0; font-size:0.85rem; color:#475569;">※ Cloud Run は 90日間有効な $300 クレジットあり。クレカ登録が必要です。</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #2563eb;">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-play" style="color:#2563eb; background:#eff6ff;"></i>
+                    <h2>動画（前半）— 2本</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub);">サムネイルをクリックすると、このページ内で再生が始まります（Facadeパターン）。</p>
+
+                <div class="video-grid">
+                    <!-- 動画① -->
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="bmtG4BhVRq4"
+                            style="background-image: url('https://img.youtube.com/vi/bmtG4BhVRq4/maxresdefault.jpg'), url('https://img.youtube.com/vi/bmtG4BhVRq4/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">① Google AI Studio が神アプデ！『アプリ開発』とAPIキーなど『裏側の仕組み』をW解説</div>
+                            <div class="vc-note">コース情報共有 Day 11 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+
+                    <!-- 動画② -->
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="HXIJ9OvkKkc"
+                            style="background-image: url('https://img.youtube.com/vi/HXIJ9OvkKkc/maxresdefault.jpg'), url('https://img.youtube.com/vi/HXIJ9OvkKkc/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">② Google AI Studio の隠れ神機能「Build」超簡単アプリ作成術</div>
+                            <div class="vc-note">コース情報共有 Day 11 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion" style="margin-top:0.5rem;">
+                    <details open>
+                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画①の見どころ</summary>
+                        <div class="acc-body">
+                            ただAIとチャットするだけでなく、<strong>AIの"脳みそ（API）"を自分のアプリに組み込む仕組み</strong> を理解します。APIキーの概念を掴むことで、「なぜアプリがAIとして機能するのか」という裏側が見えてきます。
+                        </div>
+                    </details>
+                </div>
+
+                <div class="accordion" style="margin-top:0.5rem;">
+                    <details open>
+                        <summary><i class="fa-solid fa-lightbulb" style="color:#f59e0b; margin-right:0.5rem;"></i> 動画②の見どころ</summary>
+                        <div class="acc-body">
+                            プロンプト（指示）を入れるだけで、すぐに動く <strong>Webアプリを生成できる「Build」機能</strong> の紹介。環境構築ゼロで、アプリの基本構造とUIが一瞬で立ち上がる体験を得られます。
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-key" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>🔑 APIキー＝"AIの脳みそを借りてくる鍵"</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.8;">難しい仕組みは覚えなくてOK。「<strong>鍵を使って、Google の賢いAIに質問して、答えを受け取っている</strong>」というイメージだけ掴めれば十分です。</p>
+
+                <div class="diagram-box" style="background: linear-gradient(135deg, #faf5ff, #fff); border-color:#ddd6fe;">
+                    <div class="diagram-steps">
+                        <div class="diagram-step">
+                            <i class="fa-solid fa-mobile-screen ds-icon"></i>
+                            <div class="ds-title">① あなたのアプリ</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.92rem; line-height:1.7;">ユーザーの質問・入力を<strong>受け取る</strong>"入れ物"</p>
+                        </div>
+                        <div class="diagram-arrow"><i class="fa-solid fa-arrows-left-right"></i></div>
+                        <div class="diagram-step">
+                            <i class="fa-solid fa-key ds-icon"></i>
+                            <div class="ds-title">② APIキー（鍵）で通信</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.92rem; line-height:1.7;">鍵を使って Google の AI 基盤へ<strong>問い合わせ</strong></p>
+                        </div>
+                        <div class="diagram-arrow"><i class="fa-solid fa-arrows-left-right"></i></div>
+                        <div class="diagram-step">
+                            <i class="fa-solid fa-brain ds-icon"></i>
+                            <div class="ds-title">③ AIが答えを返す</div>
+                            <p style="margin:0; color:var(--text-sub); font-size:0.92rem; line-height:1.7;">アプリがユーザーに<strong>結果を表示</strong></p>
+                        </div>
+                    </div>
+                    <p style="margin:0; padding:1rem 0.5rem 0; color:var(--text-main); font-size:1rem; line-height:1.85; text-align:left;">
+                        つまり、あなたの作ったアプリは<strong>"頭脳を持たない入れ物"</strong>で、APIキーを使って <strong>Googleが用意してくれているAIの頭脳を借りて</strong> 賢い返答を返している、というイメージです。
+                    </p>
+                </div>
+
+                <div class="alert-warn">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ APIキーの管理だけはしっかり</h4>
+                    <p><strong>APIキーを他人に見せない／公開しない</strong>ことが鉄則です。GitHubに誤って push したり、SNSに貼ったりすると、第三者に使われて<strong>高額な請求が発生する</strong>事故が起こります。動画内で案内される「環境変数」「Secret Manager」などの保管方法に従いましょう。</p>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button type="button" class="btn"
+                    style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;"
+                    onclick="switchTab('tab-goal'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 目標に戻る
+                </button>
+                <button type="button" class="btn" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);" onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                    後半：Stitch & GenSpark へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <!-- ===== タブ：後半 ===== -->
+        <div id="tab-second" class="tab-content">
+
+            <div class="highlight-box" style="border-color:#ddd6fe; background: linear-gradient(135deg, #f5f3ff, #ede9fe);">
+                <h3 style="color:#5b21b6; border-bottom-color:#c4b5fd;"><i class="fa-solid fa-rocket" style="color:#7c3aed;"></i> 🚀 プログラミング知識ゼロで"スマホアプリ"まで出せる時代</h3>
+                <p style="margin:0; line-height:1.85; color:#3b0764;">
+                    後半は、さらに革命的な2つのツールを紹介します。<strong>Stitch</strong> で"UIコンポーネント"を生成し、<strong>GenSpark</strong> で"<strong>話すだけで iOS / Android アプリをリリース</strong>" できる——という体験です。<br>
+                    「作りたいもののイメージを言葉で伝えられればアプリが作れる時代」が、もうすでに来ています。
+                </p>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-circle-play" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>動画（後半）— 2本</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub);">サムネイルをクリックすると、このページ内で再生が始まります（Facadeパターン）。</p>
+
+                <div class="video-grid">
+                    <!-- 動画③ -->
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="rsPu_15LUSU"
+                            style="background-image: url('https://img.youtube.com/vi/rsPu_15LUSU/maxresdefault.jpg'), url('https://img.youtube.com/vi/rsPu_15LUSU/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">③ Google の AIデザインツール「Stitch」が神進化。アイデア出しからアプリ化まで実演解説</div>
+                            <div class="vc-note">コース情報共有 Day 11 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+
+                    <!-- 動画④ -->
+                    <div class="video-card">
+                        <div class="vc-thumb" data-video-id="DLCDNCA4-iU"
+                            style="background-image: url('https://img.youtube.com/vi/DLCDNCA4-iU/maxresdefault.jpg'), url('https://img.youtube.com/vi/DLCDNCA4-iU/hqdefault.jpg');">
+                            <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                        </div>
+                        <div class="vc-info">
+                            <div class="vc-title">④ 【誰でもアプリ開発者】AIに話すだけで iOS/Android アプリをリリース！「GenSpark」AIデベロッパー2.0 が革命的すぎた</div>
+                            <div class="vc-note">コース情報共有 Day 11 に掲載の URL どおり</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-grid" style="margin-top:1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #7c3aed;">
+                        <span class="bento-tag" style="background:#ede9fe; color:#5b21b6;">Stitch</span>
+                        <h4 style="color:#5b21b6;">
+                            <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon" style="width:24px; height:24px; vertical-align:middle; margin-right:6px;">
+                            Stitch — UIをコンポーネント化して、そのままアプリに
+                        </h4>
+                        <p>アイデアをUIデザイン（画面部品＝コンポーネント）に落とし込み、<strong>それをアプリとして動作する状態まで持っていける</strong> Google の AIデザインツール。Day 9 でも触れた Stitch が、Day 11 では"動くアプリ"を作るための土台として再登場します。</p>
+                    </div>
+                </div>
+
+                <div class="bento-grid" style="margin-top:1rem;">
+                    <div class="bento-item" style="border-top: 4px solid #a855f7;">
+                        <span class="bento-tag" style="background:#faf5ff; color:#7e22ce;">GenSpark</span>
+                        <h4 style="color:#7e22ce;"><i class="fa-solid fa-wand-magic-sparkles" style="color:#a855f7; margin-right:6px;"></i> GenSpark — 話すだけで iOS / Android アプリをリリース</h4>
+                        <p>自然言語で話しかけるだけで、<strong>スマホアプリ（iOS / Android）としてリリースできるレベルまで開発が進む</strong> 衝撃のツール。プログラミングの知識がゼロでも、「こういうアプリが欲しい」を言葉で伝えるだけでストア公開まで辿り着ける時代の象徴です。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="border-color:#c4b5fd; background: linear-gradient(135deg, #faf5ff, #f5f3ff);">
+                <h3 style="color:#5b21b6; border-bottom-color:#c4b5fd;"><i class="fa-solid fa-star" style="color:#7c3aed;"></i> 🌟 知識ゼロでもアプリが世に出せる時代</h3>
+                <p style="margin:0; line-height:1.85; color:#3b0764;">
+                    Day 10 で学んだ <strong>Bolt.new（Webアプリ）</strong>、Day 11 前半の <strong>AI Studio（API連携アプリ）</strong>、そして後半の <strong>Stitch → GenSpark（スマホアプリ）</strong>。<br>
+                    この3層を押さえれば、あなたが「作りたい！」と思ったもののほぼ全てが、プログラミング知識なしで形にできます。あとは<strong>何を作るか</strong>を決めるだけです。
+                </p>
+            </div>
+
+            <div class="bottom-nav">
+                <button type="button" class="btn"
+                    style="background: #fff; color: var(--text-main); border: 2px solid #e4e4e7; box-shadow: none;"
+                    onclick="switchTab('tab-first'); window.scrollTo(0,0);">
+                    <i class="fa-solid fa-arrow-left"></i> 前半に戻る
+                </button>
+                <button type="button" class="btn" style="background: linear-gradient(135deg, #34d399, #059669);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">
+                    実習・まとめへ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <!-- ===== タブ：まとめ ===== -->
+        <div id="tab-summary" class="tab-content">
+
+            <div class="hero" style="margin-bottom: 2rem;">
+                <h2 style="font-size:2.2rem; color:#059669; font-family:'Teko', sans-serif;"><i class="fa-solid fa-flag-checkered"></i> TODAY's MISSION</h2>
+                <p>今日までに学んだAIツールを総動員して、<strong>自分の業務に役立つ1作</strong>を作り、Padlet に<strong>第二稿</strong>を投稿しましょう。</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #f59e0b;">
+                <div class="card-header">
+                    <i class="fa-solid fa-bullseye" style="color:#f59e0b; background:#fffbeb;"></i>
+                    <h2>🎯 実習：自分の業務に役立つ"動くもの"を1つ作る</h2>
+                </div>
+                <div class="highlight-box" style="border-color:#fde68a; background: linear-gradient(135deg, #fffbeb, #fef3c7);">
+                    <h3 style="color:#b45309; border-bottom-color:#fcd34d;"><i class="fa-solid fa-wand-magic-sparkles" style="color:#f59e0b;"></i> 集大成アウトプット（第二稿）</h3>
+                    <p style="margin:0; line-height:1.85; color:#78350f;">
+                        Day 10 で学んだツール群（<strong>Manus / Bolt.new / Cursor / NotebookLM / Gemini Canvas / Antigravity / Dify</strong>）に、今日の <strong>AI Studio / Stitch / GenSpark</strong> を加えた中から、自分の業務に役立つ<strong>「アプリ」または「Webサイト」</strong>を作成しましょう。<br>
+                        Day 13 の成果発表に向けた<strong>第二稿</strong>を出すのが今日のゴール。Day 10 で投稿したものをブラッシュアップするのでもOKです。
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #2563eb;">
+                <div class="card-header">
+                    <i class="fa-solid fa-book" style="color:#2563eb; background:#eff6ff;"></i>
+                    <h2>📖 必読：Web公開ガイドライン</h2>
+                </div>
+                <div class="info-box" style="background:#eff6ff; border-left-color:#2563eb;">
+                    <h4 style="color:#1e40af;"><i class="fa-solid fa-shield-halved"></i> 公開前に1枚で要点把握</h4>
+                    <p>作ったものを公開する前に、<strong>社内向け／社外向けの公開ルール・セキュリティの注意点</strong>が1枚にまとまった資料を必ず目を通してください。</p>
+                </div>
+                <div style="text-align:center; padding:0.5rem 0;">
+                    <a href="https://platinumzone.co.jp/dx-biome/web_publish_guide.html" target="_blank" rel="noopener" class="btn"
+                        style="padding: 1.2rem 2.5rem; font-size:1.15rem; background: linear-gradient(135deg, #60a5fa, #2563eb); border-radius:50px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);">
+                        <i class="fa-solid fa-book-open"></i> 📘 Web公開ガイドラインを開く
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 5px solid #ec4899; text-align:center; background: linear-gradient(180deg, #fff 0%, #fdf2f8 100%);">
+                <div class="card-header" style="justify-content:center; border-bottom:none; padding-bottom:0;">
+                    <i class="fa-solid fa-thumbtack" style="color:#ec4899; background:#fce7f3;"></i>
+                    <h2>📌 作ったものはここにシェア</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.8;">【DX】社員教育とAIコース 課題シェアボード（Padlet）</p>
+                <div style="padding: 1rem 0 0.5rem;">
+                    <a href="https://padlet.com/platinumzonedx/dx-ai-2m1o5unlgm3dl2ji" target="_blank" rel="noopener" class="btn"
+                        style="padding: 1.3rem 3rem; font-size:1.3rem; background: linear-gradient(135deg, #f472b6, #db2777); border-radius:50px; box-shadow: 0 15px 35px rgba(219, 39, 119, 0.3);">
+                        <i class="fa-solid fa-rocket"></i> 🚀 Padlet を開いて投稿する
+                    </a>
+                </div>
+                <p style="margin:0.5rem 0 0; font-size:0.92rem; color:var(--text-sub);">※ Day 10 で投稿した方は、今日はその<strong>ブラッシュアップ版（第二稿）</strong>を投稿してください。</p>
+            </div>
+
+            <div class="mission-area" id="mission-group-11">
+                <div class="wax-seal">CLEAR</div>
+                <div class="mission-header">
+                    <h3><i class="fa-solid fa-clipboard-check"></i> 今日のミッションリスト</h3>
+                </div>
+
+                <ul class="task-list">
+                    <li class="task-item" onclick="toggleTask('t11_1', this)">
+                        <div class="custom-checkbox" id="check_t11_1"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4><i class="fa-solid fa-code-compare" style="color:#2563eb; margin-right:0.5rem;"></i> STEP 01: Web制作とアプリ開発の違いを自分の言葉で説明できる</h4>
+                            <p>「見せる／動かす・通信する」「パンフレット／電卓・チャットボット」など、<strong>例え話で</strong>他人に説明できればチェック。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t11_2', this)">
+                        <div class="custom-checkbox" id="check_t11_2"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4><i class="fa-solid fa-key" style="color:#7c3aed; margin-right:0.5rem;"></i> STEP 02: APIキー＝「AIの脳みそを借りる鍵」と理解した</h4>
+                            <p>自分のアプリ → APIキー → Google の AI → 答えを返す、という<strong>3ステップの流れ</strong>がイメージできればOK。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t11_3', this)">
+                        <div class="custom-checkbox" id="check_t11_3"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4><i class="fa-solid fa-flask" style="color:#2563eb; margin-right:0.5rem;"></i> STEP 03: AI Studio の Build 機能でアプリが生成される流れを見た</h4>
+                            <p>実際に触るのが理想ですが、<strong>動画の中で流れを確認した</strong>だけでもチェックOK。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t11_4', this)">
+                        <div class="custom-checkbox" id="check_t11_4"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4><i class="fa-solid fa-wand-magic-sparkles" style="color:#a855f7; margin-right:0.5rem;"></i> STEP 04: Stitch / GenSpark が「UI → アプリ → スマホリリース」まで繋がると認識した</h4>
+                            <p>「<strong>知識ゼロでもアプリが世に出せる時代</strong>」の感覚を掴めればチェック。</p>
+                        </div>
+                    </li>
+                    <li class="task-item" onclick="toggleTask('t11_5', this)">
+                        <div class="custom-checkbox" id="check_t11_5"><i class="fa-solid fa-check"></i></div>
+                        <div class="task-content">
+                            <h4><i class="fa-solid fa-thumbtack" style="color:#ec4899; margin-right:0.5rem;"></i> STEP 05: Padlet に作品を1つ投稿した（Day 13 成果発表の第二稿）</h4>
+                            <p>Day 10 投稿のブラッシュアップでもOK。<strong>Padlet に第二稿を出した</strong>ら今日は100点満点です。</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-box" style="margin-top:2rem;">
+                <h4><i class="fa-solid fa-forward"></i> 次のステップ（Day 12）</h4>
+                <p style="margin:0;">次回 Day 12 では、今日作った"動くもの"を<strong>さらに磨き上げる実践②</strong>に進みます。今日掴んだ「API × アプリ」の感覚が、そのまま次回のベースになります。</p>
+            </div>
+
+            <div
+                style="text-align:center; padding: 3rem 0 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                <button type="button" class="btn"
+                    style="padding: 1.2rem 4rem; font-size:1.25rem; background:linear-gradient(135deg, var(--accent-light), var(--accent)); border-radius:50px; box-shadow: 0 10px 30px var(--accent-glow);"
+                    onclick="if(typeof fetch==='function'){fetch('vol12-1.html',{method:'HEAD'}).then(function(r){if(r.ok){window.location.href='vol12-1.html';}else{alert('Day 12 は公開準備中です。');}}).catch(function(){alert('Day 12 は公開準備中です。');});}else{window.location.href='vol12-1.html';}">
+                    Day 12 へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+                    <button type="button" class="btn"
+                        style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                        onclick="window.location.href='vol10-1.html'">
+                        <i class="fa-solid fa-arrow-left"></i> Day 10 に戻る
+                    </button>
+                    <button type="button" class="btn"
+                        style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                        onclick="window.location.href='index.html'">
+                        <i class="fa-solid fa-house"></i> 🏠 Home に戻る
+                    </button>
+                    <button type="button" class="btn"
+                        style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                        onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                        <i class="fa-solid fa-arrow-left"></i> 後半タブに戻る
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* YouTube Facade（GEMINI.md） */
+        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(function (thumb) {
+            thumb.addEventListener('click', function () {
+                var videoId = this.dataset.videoId;
+                var start = this.dataset.start;
+                var src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+                if (start) src += '&start=' + encodeURIComponent(start);
+                this.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>';
+                this.style.backgroundImage = 'none';
+                this.style.cursor = 'default';
+            }, { once: true });
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+            var el = document.getElementById(tabId);
+            if (el) el.classList.add('active');
+            var targetBtn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+            if (targetBtn) targetBtn.classList.add('active');
+            updateProgress(tabId);
+        }
+
+        function updateProgress(tabId) {
+            var m = { 'tab-goal': 0, 'tab-first': 33, 'tab-second': 66, 'tab-summary': 100 };
+            var p = m[tabId] != null ? m[tabId] : 0;
+            var bar = document.getElementById('progress-bar');
+            var txt = document.getElementById('progress-percent');
+            if (bar) bar.style.width = p + '%';
+            if (txt) txt.innerText = p + '%';
+        }
+
+        var missionState = { t11_1: false, t11_2: false, t11_3: false, t11_4: false, t11_5: false };
+        function toggleTask(taskId, element) {
+            missionState[taskId] = !missionState[taskId];
+            if (missionState[taskId]) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+            checkAllMissions();
+        }
+
+        function checkAllMissions() {
+            var allDone = Object.keys(missionState).every(function (k) { return missionState[k]; });
+            var missionArea = document.getElementById('mission-group-11');
+            if (!missionArea) return;
+            if (allDone) {
+                missionArea.classList.add('completed');
+                setTimeout(function () {
+                    alert('全ステップ完了おめでとうございます！Day 11 のミッションをクリアしました。');
+                }, 800);
+            } else {
+                missionArea.classList.remove('completed');
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+            anchor.addEventListener('click', function (e) {
+                var id = this.getAttribute('href');
+                if (!id || id === '#') return;
+                var target = document.querySelector(id);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+
+</html>
