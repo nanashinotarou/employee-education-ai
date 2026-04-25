@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 04：使うツールを知る | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg-body:#f8f9fc; --bg-card:#fff; --bg-dark:#1a1f36; --text-main:#1a1f36; --text-sub:#6b7280; --accent:#ff6b6b; --accent-2:#4ecdc4; --border:#e5e7eb; --shadow:0 4px 20px rgba(0,0,0,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    .page-meta { background: #333; color: #fff; padding: 6px 20px; font-size: 12px; display: flex; gap: 16px; align-items: center; }
+    .page-meta strong { font-size: 13px; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* ツール全体マップ */
+    .tool-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0 8px; }
+    .tool-phase { border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; background: #fafbff; text-align: center; }
+    .tool-phase .label { font-family: "Roboto"; font-weight: 900; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; }
+    .tool-phase h5 { font-size: 13px; margin: 6px 0 10px; }
+    .tool-phase ul { list-style: none; padding: 0; margin: 0; }
+    .tool-phase li { font-size: 12px; color: var(--text-sub); padding: 3px 0; border-top: 1px dashed var(--border); }
+    .tool-phase li:first-child { border-top: none; }
+
+    /* ツール比較テーブル */
+    .tool-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .tool-table th, .tool-table td { padding: 12px 14px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .tool-table th { background: #f3f4f6; font-weight: 700; font-size: 12px; color: var(--text-sub); letter-spacing: 0.02em; }
+    .tool-table tr:last-child td { border-bottom: none; }
+    .tool-table td:first-child { font-weight: 700; color: var(--accent); white-space: nowrap; }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    .wf-note { background: #fff3cd; border-left: 4px solid #ff9500; padding: 10px 16px; margin: 12px 0; font-size: 13px; color: #7a5800; border-radius: 0 6px 6px 0; line-height: 1.75; }
+    .wf-note strong { color: #5a3c00; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .tool-map { grid-template-columns: repeat(2, 1fr); }
+      .tool-table { display: block; overflow-x: auto; white-space: nowrap; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-meta">
+    <div style="font-size:11px; opacity:0.7;">How to Webデザイナー</div>
+    <strong>PAGE 04 / page04_tools.html</strong>
+    <span style="margin-left:auto; opacity:0.7;">Phase 2 ワイヤーフレーム</span>
+  </div>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html" class="active">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 04</div>
+    <h1>使うツールを知る</h1>
+    <p>"全部覚える" は不要。<br>プロジェクトに応じて組み合わせる感覚が掴めれば OK。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- ツール全体マップ -->
+    <section class="card" id="tool-map">
+      <h2 class="section-title">ツール全体マップ</h2>
+      <p class="section-lead">フェーズ別に "主要どころ" だけ並べた一覧図。研修内で実際に触れるものは太字にする予定。</p>
+
+      <div class="wf-note">
+        📌 <strong>【ツールマップ 実装注釈】</strong>
+        要確認・仮テキスト。最終版では<strong>研修で扱うツールを太字＆色付き</strong>にして強調。
+        新ツール登場に備えて、本マップは年 1 回のメンテ想定。
+      </div>
+
+      <div class="tool-map">
+        <div class="tool-phase">
+          <div class="label">DESIGN</div>
+          <h5>デザインツール</h5>
+          <ul><li>Figma</li><li>Adobe XD</li><li>Canva</li></ul>
+        </div>
+        <div class="tool-phase">
+          <div class="label">CMS / PUBLISH</div>
+          <h5>公開・CMS</h5>
+          <ul><li>WordPress</li><li>Wix</li><li>STUDIO</li></ul>
+        </div>
+        <div class="tool-phase">
+          <div class="label">COMM</div>
+          <h5>コミュニケーション</h5>
+          <ul><li>Slack</li><li>Notion</li><li>Google Workspace</li></ul>
+        </div>
+        <div class="tool-phase">
+          <div class="label">DEPLOY</div>
+          <h5>納品・公開</h5>
+          <ul><li>Netlify</li><li>GitHub Pages</li><li>レンタルサーバー</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- デザインツール比較 -->
+    <section class="card" id="design-tools">
+      <h2 class="section-title">デザインツール：Figma / Adobe XD / Canva</h2>
+      <p class="section-lead">迷ったら Figma 一択。Adobe XD は今後縮小、Canva は "非デザイナーとの共有" に強い。</p>
+
+      <div class="wf-note">
+        📌 <strong>【比較表 実装注釈】</strong>
+        要確認・仮テキスト。"こんな案件ならこのツール" という<strong>選び方の指針</strong>を本公開版で追加。
+      </div>
+
+      <div style="overflow-x:auto;">
+      <table class="tool-table">
+        <thead><tr><th>ツール</th><th>強み</th><th>向いている案件</th><th>料金</th></tr></thead>
+        <tbody>
+          <tr><td>Figma</td><td>ブラウザで動作／リアルタイム共同編集／業界標準</td><td>中〜大規模Web、チーム制作</td><td>無料〜</td></tr>
+          <tr><td>Adobe XD</td><td>Adobe 連携がスムーズ</td><td>既存 Adobe ユーザー（今後縮小）</td><td>CCプラン</td></tr>
+          <tr><td>Canva</td><td>テンプレ豊富／非デザイナーでも扱える</td><td>SNS・社内資料・軽めのLP</td><td>無料〜</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- CMS -->
+    <section class="card" id="cms">
+      <h2 class="section-title">CMS：WordPress / Wix / STUDIO</h2>
+      <p class="section-lead">"クライアントが自分で更新したい" という要望に応えるのが CMS の役割。</p>
+
+      <div class="wf-note">
+        📌 <strong>【CMS 実装注釈】</strong>
+        要確認・仮テキスト。料金・初期費用・コード介入の必要度の 3 軸で比較する列を追加予定。
+      </div>
+
+      <div style="overflow-x:auto;">
+      <table class="tool-table">
+        <thead><tr><th>CMS</th><th>特徴</th><th>向いている案件</th><th>デザイナー関与度</th></tr></thead>
+        <tbody>
+          <tr><td>WordPress</td><td>シェア No.1・プラグイン豊富・自由度高</td><td>中〜大規模・長期運用</td><td>テーマカスタマイズに PHP 知識がやや要る</td></tr>
+          <tr><td>Wix</td><td>ドラッグ＆ドロップで完結</td><td>小規模サイト・個人事業主</td><td>コード不要（Wix 内で完結）</td></tr>
+          <tr><td>STUDIO</td><td>日本製／ノーコード／デザイン自由度高</td><td>LP・スタートアップ・ブランドサイト</td><td>Figma 感覚で作れる（デザイナー適性高）</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- コミュニケーション -->
+    <section class="card" id="comm">
+      <h2 class="section-title">コミュニケーション：Slack / Notion / Google Workspace</h2>
+      <p class="section-lead">制作スキル以上に、"情報を整理して共有する力" で評価されることが多い。</p>
+
+      <div class="wf-note">
+        📌 <strong>【コミュニケーションツール 実装注釈】</strong>
+        要確認・仮テキスト。社内利用ツールに合わせるのが基本。クライアントが別ツール指定してきた場合のマナー（Chatwork / Teams 等）も最終版で言及。
+      </div>
+
+      <div style="overflow-x:auto;">
+      <table class="tool-table">
+        <thead><tr><th>ツール</th><th>主用途</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>Slack</td><td>チャット・ファイル共有・通知</td><td>制作会社・スタートアップで主流</td></tr>
+          <tr><td>Notion</td><td>議事録・仕様書・ナレッジベース</td><td>共有 URL を渡すだけで閲覧 OK</td></tr>
+          <tr><td>Google Workspace</td><td>資料作成・メール・カレンダー</td><td>企業クライアントとの接続に強い</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- 納品・公開 -->
+    <section class="card" id="deploy">
+      <h2 class="section-title">納品・公開：Netlify / GitHub Pages / レンタルサーバー</h2>
+      <p class="section-lead">"どこに置くか" で納品方法が変わる。クライアントが用意しているサーバーに合わせることも多い。</p>
+
+      <div class="wf-note">
+        📌 <strong>【デプロイ 実装注釈】</strong>
+        要確認・仮テキスト。デザイナー単体で扱うのは現実的ではない領域なので、<strong>「エンジニアと会話できる最低限」</strong> を目的にする。
+      </div>
+
+      <div style="overflow-x:auto;">
+      <table class="tool-table">
+        <thead><tr><th>サービス</th><th>特徴</th><th>向いているケース</th></tr></thead>
+        <tbody>
+          <tr><td>Netlify</td><td>静的サイトを GitHub 連携で自動公開／SSL 無料</td><td>小〜中規模・制作案件の即時公開</td></tr>
+          <tr><td>GitHub Pages</td><td>GitHub リポジトリからそのまま公開</td><td>ポートフォリオ・ドキュメントサイト</td></tr>
+          <tr><td>レンタルサーバー</td><td>さくら・ロリポップ・エックスサーバー等／WordPress 相性◎</td><td>中小企業サイト・歴史的な WP 案件</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page03_design.html"><i class="fa-solid fa-arrow-left"></i> 前へ：デザイン基礎</a>
+    <a class="next" href="page05_ai.html">次へ：AIとWebデザイン <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー <span style="color:#ff9500;">［ワイヤー版］</span> ― <a href="../index.html">本番版を見る</a> ｜ <a href="../../index.html">研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

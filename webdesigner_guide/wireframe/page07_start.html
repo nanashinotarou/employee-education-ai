@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 07：これから始める人へ | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg-body:#f8f9fc; --bg-card:#fff; --bg-dark:#1a1f36; --text-main:#1a1f36; --text-sub:#6b7280; --accent:#ff6b6b; --accent-2:#4ecdc4; --border:#e5e7eb; --shadow:0 4px 20px rgba(0,0,0,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    .page-meta { background: #333; color: #fff; padding: 6px 20px; font-size: 12px; display: flex; gap: 16px; align-items: center; }
+    .page-meta strong { font-size: 13px; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* ポートフォリオポイント */
+    .pf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+    .pf-item { background: #fafbff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .pf-item h5 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .pf-item h5 i { color: var(--accent); margin-right: 6px; }
+    .pf-item p { font-size: 12px; color: var(--text-sub); }
+
+    /* コミュニティ一覧 */
+    .community-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
+    .community-item { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 13px; }
+    .community-item .label { font-family: "Roboto"; font-weight: 900; font-size: 10px; color: var(--accent); letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+    .community-item strong { display: block; font-size: 13px; margin-bottom: 2px; }
+    .community-item p { font-size: 11px; color: var(--text-sub); }
+
+    /* ロードマップ */
+    .roadmap { position: relative; margin: 20px 0; }
+    .roadmap::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 2px; }
+    .roadmap-step { position: relative; padding: 14px 14px 14px 56px; margin-bottom: 12px; background: #fafbff; border: 1px solid var(--border); border-radius: 10px; }
+    .roadmap-step::before { content: attr(data-step); position: absolute; left: 5px; top: 8px; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-family: "Roboto"; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .roadmap-step h5 { font-size: 14px; margin-bottom: 4px; font-weight: 700; }
+    .roadmap-step p { font-size: 12px; color: var(--text-sub); line-height: 1.7; }
+
+    /* 締めメッセージ */
+    .finale { background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%); color: #fff; border-radius: 16px; padding: 40px 28px; text-align: center; margin-top: 16px; }
+    .finale h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    .finale p { font-size: 14px; line-height: 1.9; opacity: 0.95; max-width: 520px; margin: 0 auto 16px; }
+    .finale a { display: inline-block; background: #fff; color: var(--accent); padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    .wf-note { background: #fff3cd; border-left: 4px solid #ff9500; padding: 10px 16px; margin: 12px 0; font-size: 13px; color: #7a5800; border-radius: 0 6px 6px 0; line-height: 1.75; }
+    .wf-note strong { color: #5a3c00; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .finale { padding: 28px 20px; }
+      .finale h3 { font-size: 18px; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-meta">
+    <div style="font-size:11px; opacity:0.7;">How to Webデザイナー</div>
+    <strong>PAGE 07 / page07_start.html</strong>
+    <span style="margin-left:auto; opacity:0.7;">Phase 2 ワイヤーフレーム</span>
+  </div>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html" class="active">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 07</div>
+    <h1>これから始める人へ</h1>
+    <p>ポートフォリオ・副業/フリーランス・コミュニティ・学習ロードマップ。<br>"最初の一歩" をまとめます。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- ポートフォリオ -->
+    <section class="card" id="portfolio">
+      <h2 class="section-title">ポートフォリオサイトの考え方</h2>
+      <p class="section-lead">"何が作れる人なのか" を 30 秒で伝えることがゴール。量より "見せ方"。</p>
+
+      <div class="wf-note">
+        📌 <strong>【ポートフォリオ 実装注釈】</strong>
+        要確認・仮テキスト。本公開版では<strong>実際のポートフォリオサイト事例</strong>（許諾済み）を 2〜3 枚スクショで掲載予定。
+      </div>
+
+      <div class="pf-grid">
+        <div class="pf-item"><h5><i class="fa-solid fa-user"></i> 自己紹介</h5><p>何ができる人か／どんな案件を受けたいかを明記。</p></div>
+        <div class="pf-item"><h5><i class="fa-solid fa-images"></i> 実績</h5><p>少なくて OK。役割・期間・成果を添える。</p></div>
+        <div class="pf-item"><h5><i class="fa-solid fa-comment-dots"></i> 声・プロセス</h5><p>作ったモノだけでなく "なぜそうしたか" を語る。</p></div>
+        <div class="pf-item"><h5><i class="fa-solid fa-envelope"></i> お問い合わせ導線</h5><p>連絡先 / SNS / メールフォームをわかりやすく。</p></div>
+      </div>
+    </section>
+
+    <!-- 副業・フリーランスの始め方 -->
+    <section class="card" id="sidejob">
+      <h2 class="section-title">副業・フリーランスの始め方</h2>
+      <p class="section-lead">"いきなり独立" はリスクが高い。まずは<strong>本業を続けながらの副業</strong>からが現実的。</p>
+
+      <div class="wf-note">
+        📌 <strong>【副業フロー 実装注釈】</strong>
+        要確認・仮テキスト。税務面（開業届・青色申告）は<strong>最終版で税理士監修コピー</strong>に差し替え予定。
+      </div>
+
+      <ol style="padding-left: 20px; font-size:13px; line-height: 2;">
+        <li>まず<strong>副業で 1〜2 案件受ける</strong>（友人・知人経由が現実的）</li>
+        <li>対応できる案件の種類と料金感を把握する</li>
+        <li><strong>月収の 50% を副業で賄える見込み</strong>が立ったら独立検討</li>
+        <li>開業届・青色申告・インボイス等の事務手続き</li>
+        <li>独立後 3 ヶ月分の生活費を確保したうえで踏み切る</li>
+      </ol>
+    </section>
+
+    <!-- コミュニティ -->
+    <section class="card" id="community">
+      <h2 class="section-title">コミュニティ・情報収集先</h2>
+      <p class="section-lead">"1 人で学ばない" が長続きのコツ。情報源は定期的に見直す。</p>
+
+      <div class="wf-note">
+        📌 <strong>【コミュニティ 実装注釈】</strong>
+        要確認・仮テキスト。具体サービス名は流動的なので、本公開時に最新の人気どころに差し替える。
+      </div>
+
+      <div class="community-list">
+        <div class="community-item"><span class="label">SNS</span><strong>X（旧 Twitter）</strong><p>デザイナー／エンジニアの発信が集まる中心地。</p></div>
+        <div class="community-item"><span class="label">LEARNING</span><strong>Udemy / Schoo</strong><p>体系的に学びたい時に。</p></div>
+        <div class="community-item"><span class="label">COMMUNITY</span><strong>Design Scramble / BONO</strong><p>勉強会・Slack コミュニティ。</p></div>
+        <div class="community-item"><span class="label">TECH NEWS</span><strong>Zenn / Qiita</strong><p>実装系のナレッジ。</p></div>
+        <div class="community-item"><span class="label">INSPIRATION</span><strong>Awwwards / SANKOU!</strong><p>デザイン事例の宝庫。</p></div>
+      </div>
+    </section>
+
+    <!-- 学習ロードマップ -->
+    <section class="card" id="roadmap">
+      <h2 class="section-title">学習ロードマップ</h2>
+      <p class="section-lead">0 → 1 を目安にしたステップ。焦らず順番に。</p>
+
+      <div class="wf-note">
+        📌 <strong>【ロードマップ 実装注釈】</strong>
+        要確認・仮テキスト。期間感（1 ヶ月／3 ヶ月）を入れるかどうかは社内レビュー後に決定。
+      </div>
+
+      <div class="roadmap">
+        <div class="roadmap-step" data-step="1">
+          <h5>Figma でトレース模写（3 作品）</h5>
+          <p>好きなサイトを観察し、同じものを作る練習。デザイン眼と操作に慣れる。</p>
+        </div>
+        <div class="roadmap-step" data-step="2">
+          <h5>本ガイドを通読する</h5>
+          <p>Web 制作の全体像・ワークフロー・クライアントワークを理解。</p>
+        </div>
+        <div class="roadmap-step" data-step="3">
+          <h5>社内研修（vol.08〜11）で AI 実装に触れる</h5>
+          <p>Cursor / Claude Code / Stitch を実際に動かしてみる。</p>
+        </div>
+        <div class="roadmap-step" data-step="4">
+          <h5>ポートフォリオサイトを自作</h5>
+          <p>1 枚ものでも OK。AI を活用して公開までやり切る。</p>
+        </div>
+        <div class="roadmap-step" data-step="5">
+          <h5>友人・知人案件で実戦経験</h5>
+          <p>有料 or 体験価格で 1 件。フィードバックを得ることが最重要。</p>
+        </div>
+        <div class="roadmap-step" data-step="6">
+          <h5>継続 / 副業として回す</h5>
+          <p>月 1〜2 案件を安定して回せる状態を目指す。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 締めメッセージ -->
+    <section class="card" id="finale" style="padding: 0; background: transparent; box-shadow: none;">
+      <div class="wf-note">
+        📌 <strong>【締めメッセージ 実装注釈】</strong>
+        要確認・仮テキスト。本公開版ではディレクターから<strong>署名入りメッセージ</strong>に差し替え予定。
+      </div>
+
+      <div class="finale">
+        <h3>デザインはできる。あとは Web を知るだけ。</h3>
+        <p>
+          コードが書けなくても、Web デザイナーという仕事は成立します。<br>
+          "どう使うか／誰に渡すか" を考えられる人が、これからの主役です。<br>
+          一歩ずつで大丈夫。応援しています。
+        </p>
+        <a href="index.html"><i class="fa-solid fa-house"></i> トップへ戻る</a>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page06_client.html"><i class="fa-solid fa-arrow-left"></i> 前へ：クライアントワーク</a>
+    <a class="next" href="index.html">トップへ戻る <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー <span style="color:#ff9500;">［ワイヤー版］</span> ― <a href="../index.html">本番版を見る</a> ｜ <a href="../../index.html">研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

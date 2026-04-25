@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 01：Webデザイナーという仕事 | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-body:   #f8f9fc;
+      --bg-card:   #ffffff;
+      --bg-dark:   #1a1f36;
+      --text-main: #1a1f36;
+      --text-sub:  #6b7280;
+      --accent:    #ff6b6b;
+      --accent-2:  #4ecdc4;
+      --border:    #e5e7eb;
+      --shadow:    0 4px 20px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; }
+
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* 比較テーブル */
+    .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .compare-table th, .compare-table td { padding: 14px 16px; text-align: left; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .compare-table th { background: #f3f4f6; font-weight: 700; font-size: 13px; color: var(--text-sub); letter-spacing: 0.02em; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { font-weight: 700; color: var(--text-main); white-space: nowrap; }
+
+    /* スキル・働き方カード */
+    .skill-grid, .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; }
+    .skill-item, .work-item { background: #fafbff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .skill-item .num { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 12px; color: var(--accent); letter-spacing: 0.1em; }
+    .skill-item h4, .work-item h4 { font-size: 15px; font-weight: 700; margin: 6px 0 8px; }
+    .skill-item h4 i, .work-item h4 i { color: var(--accent); margin-right: 6px; }
+    .skill-item p, .work-item p { font-size: 13px; color: var(--text-sub); }
+
+    /* コラム */
+    .callout { background: #fffaf6; border: 1px dashed var(--accent); border-radius: 10px; padding: 20px; margin-top: 16px; }
+    .callout h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--accent); }
+    .callout p { font-size: 13px; color: var(--text-main); }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    /* 守備範囲外セクション */
+    .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
+    .scope-box { border-radius: 10px; padding: 20px 22px; border: 1px solid var(--border); }
+    .scope-box.out  { background: #fff5f5; border-left: 5px solid var(--accent); }
+    .scope-box.gray { background: #f7f9fc; border-left: 5px solid #94a3b8; }
+    .scope-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+    .scope-box.out h4 i  { color: var(--accent); margin-right: 6px; }
+    .scope-box.gray h4 i { color: #64748b; margin-right: 6px; }
+    .scope-box ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .scope-box li { font-size: 13.5px; padding-left: 18px; position: relative; line-height: 1.75; }
+    .scope-box.out  li::before { content: "✕"; position: absolute; left: 0; color: var(--accent); font-weight: 900; font-size: 12px; top: 0.25em; }
+    .scope-box.gray li::before { content: "△"; position: absolute; left: 0; color: #64748b; font-weight: 900; font-size: 12px; top: 0.25em; }
+    .scope-box.gray li b { color: var(--text-main); }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+      .compare-table { display: block; overflow-x: auto; white-space: nowrap; }
+      .scope-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html" class="active">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 01</div>
+    <h1>Webデザイナーという仕事</h1>
+    <p>グラフィックデザイナーとの違い、必要なスキル、働き方までを一気に俯瞰します。<br>「自分でコードを書く必要はない」ことも、ここで明示します。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- セクション 1：グラフィックデザイナーとの違い -->
+    <section class="card" id="vs-graphic">
+      <h2 class="section-title">グラフィックデザイナーとの違い</h2>
+      <p class="section-lead">「紙の世界」と「Web の世界」は、成果物もワークフローも前提が違います。最初に押さえておきたいのは、Web は <strong>"納品して終わり" ではなく、公開後も更新し続ける前提のメディア</strong>であるという点です。</p>
+
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th style="width:24%;">観点</th>
+              <th>グラフィックデザイナー</th>
+              <th>Webデザイナー</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>成果物</td>
+              <td>印刷物（紙・看板など）</td>
+              <td>Webサイト・Webサービス</td>
+            </tr>
+            <tr>
+              <td>サイズ</td>
+              <td>固定（A4・B2 等）</td>
+              <td>可変（PC／タブレット／スマホ）</td>
+            </tr>
+            <tr>
+              <td>納品形式</td>
+              <td>入稿データ（AI / PDF）</td>
+              <td>デザインデータ → HTML/CSS 実装</td>
+            </tr>
+            <tr>
+              <td>修正</td>
+              <td>印刷前までが勝負（刷り直し不可）</td>
+              <td>公開後も更新し続ける前提</td>
+            </tr>
+            <tr>
+              <td>関わる人</td>
+              <td>印刷会社・クライアント</td>
+              <td>ディレクター・エンジニア・クライアント</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- セクション 2：必要なスキルセット -->
+    <section class="card" id="skills">
+      <h2 class="section-title">Webデザイナーに必要なスキルセット</h2>
+      <p class="section-lead">大きく 3 領域＋α。<strong>「コードを自分で書けるかどうか」は必須スキルではありません</strong>。むしろ重要なのは、設計と判断、そして人と AI に的確な指示を出す力です。</p>
+
+      <div class="skill-grid">
+        <div class="skill-item">
+          <div class="num">SKILL 01</div>
+          <h4><i class="fa-solid fa-palette"></i> デザインスキル</h4>
+          <p>UI・レイアウト・タイポグラフィ・色の扱い。グラフィック出身者の強みが直接効く領域。</p>
+        </div>
+        <div class="skill-item">
+          <div class="num">SKILL 02</div>
+          <h4><i class="fa-solid fa-comments"></i> ディレクションスキル</h4>
+          <p>クライアント要件の整理・進行管理・社内外コミュニケーション。意外と比重が大きい。</p>
+        </div>
+        <div class="skill-item">
+          <div class="num">SKILL 03</div>
+          <h4><i class="fa-solid fa-code"></i> 最低限の Web 知識</h4>
+          <p>HTML / CSS を<strong>読める</strong>レベル。エンジニアとの会話で困らない程度があれば OK。</p>
+        </div>
+        <div class="skill-item" style="border-color: var(--accent); background:#fff7f7;">
+          <div class="num" style="color:var(--accent);">SKILL 04 / 重要</div>
+          <h4 style="color:var(--accent);"><i class="fa-solid fa-circle-info"></i> コードは "自分で書く必要はない"</h4>
+          <p><strong>書く人はエンジニア・AI</strong>。デザイナーは「設計して渡す／指示する」側でOK。ここが誤解されがち。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクション 3：働き方 -->
+    <section class="card" id="work-style">
+      <h2 class="section-title">Webデザイナーの働き方</h2>
+      <p class="section-lead">大きく 3 パターン。グラフィック出身者の最初の一歩としては「<strong>副業</strong>」または「<strong>フリーランスで小規模案件から始める</strong>」が現実的です。詳しい始め方は Page 07 で扱います。</p>
+
+      <div class="work-grid">
+        <div class="work-item">
+          <h4><i class="fa-solid fa-briefcase"></i> インハウス</h4>
+          <p>企業のデザイン部・マーケ部などに所属。自社サービスを長期で育てる働き方。</p>
+        </div>
+        <div class="work-item">
+          <h4><i class="fa-solid fa-laptop"></i> 副業</h4>
+          <p>本業を持ちながら週末・夜間に案件受注。初心者の入口として現実的。</p>
+        </div>
+        <div class="work-item">
+          <h4><i class="fa-solid fa-user-group"></i> フリーランス</h4>
+          <p>独立して複数クライアントを並行受注。営業・見積もり・契約まで自分で。</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h4><i class="fa-solid fa-lightbulb"></i> このガイドの立ち位置</h4>
+        <p>本ガイドは「デザインはできるが Web が未知」という方向け。Page 06 でクライアントワーク、Page 07 で始め方を詳しく扱います。</p>
+      </div>
+    </section>
+
+    <!-- セクション 4：守備範囲と、その外側 -->
+    <section class="card" id="scope">
+      <h2 class="section-title">Webデザイナーの守備範囲と、その外側</h2>
+      <p class="section-lead">Web デザイナーとして仕事をするうえで、<strong>「これは自分が担う範囲か、エンジニアに依頼すべきか」</strong>を瞬時に判断できることはとても重要です。クライアントへの説明、見積もり、チームへの依頼——すべてがこの線引きを正確に理解しているかどうかで変わります。</p>
+
+      <div class="scope-grid">
+        <div class="scope-box out">
+          <h4><i class="fa-solid fa-circle-xmark"></i> Webデザイナーの範囲外（エンジニアが必要）</h4>
+          <ul>
+            <li>会員機能・ログイン・マイページ</li>
+            <li>EC カート・決済処理・在庫管理</li>
+            <li>予約・申込システムのバックエンド</li>
+            <li>データベース設計・API との接続</li>
+            <li>セキュリティが絡む個人情報処理</li>
+            <li>サーバーサイドのプログラミング全般</li>
+          </ul>
+        </div>
+
+        <div class="scope-box gray">
+          <h4><i class="fa-solid fa-circle-half-stroke"></i> グレーゾーン（外部サービスで代替できるケースも）</h4>
+          <ul>
+            <li>フォーム送信処理 → <b>Formspree / Google Forms</b> で代替可</li>
+            <li>簡易ブログ機能 → <b>WordPress / Notion API</b> で代替可</li>
+            <li>メルマガ・自動返信 → <b>Mailchimp / SendGrid</b> で代替可</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 22px;">
+        <h4><i class="fa-solid fa-quote-left"></i> 「わかりません」と言える勇気が、信頼をつくる</h4>
+        <p>範囲外を正直に伝え、適切な専門家につなぐことができるディレクターは、クライアントから長期的に信頼されます。「持ち帰って確認します」「ここから先はエンジニアと一緒に検討させてください」と言える人こそ、結果的に大きな案件を任されていきます。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="index.html"><i class="fa-solid fa-arrow-left"></i> トップへ戻る</a>
+    <a class="next" href="page02_workflow.html">次へ：Web制作のワークフロー <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

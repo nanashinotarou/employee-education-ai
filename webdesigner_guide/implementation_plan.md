@@ -1,0 +1,1085 @@
+# How to Webデザイナー ― 実装計画書
+
+最終更新：2026-04-24  
+設計：Claude Code / 実装：Cursor / デプロイ：Antigravity
+
+---
+
+## この計画の目的
+
+Cursor がこのファイルを読んで、ワイヤーフレームとHTMLページを順番に作成できるようにする実行計画。  
+Claude Code はここまで（設計＋計画書作成）を担当。実際のHTML生成はCursorが担当する。
+
+---
+
+## 前提として読むべきファイル
+
+作業開始前に、必ず以下を読んで文脈を理解すること。
+
+1. **[site_structure.md](site_structure.md)** — ページ構成・コンテンツ定義・デザイン仕様（本作業の設計書）
+2. **参考ワイヤー（別プロジェクト）**：`G:/マイドライブ/仕事/BNI岐阜チャプターサイト制作/wireframe_top.html`  
+   → 注釈の書き方・ワイヤーフレームの思想はこれに準ずる
+
+---
+
+## フォルダ構成
+
+すべてのファイルは `G:/マイドライブ/研修/【202604】社員教育とAI/webdesigner_guide/` 配下に作成する。
+
+```
+webdesigner_guide/
+├─ site_structure.md        ← 設計書（読むだけ。変更不要）
+├─ implementation_plan.md   ← 本ファイル（読むだけ。変更不要）
+├─ index.html               ← 本番トップページ
+├─ page01_what.html         ← 本番：Webデザイナーという仕事
+├─ page02_workflow.html     ← 本番：Web制作のワークフロー
+├─ page03_design.html       ← 本番：Webデザインの基礎知識
+├─ page04_tools.html        ← 本番：使うツールを知る
+├─ page05_ai.html           ← 本番：AIとWebデザイン
+├─ page06_client.html       ← 本番：クライアントワークの実際
+├─ page07_start.html        ← 本番：これから始める人へ
+└─ wireframe/               ← ★ メイキング特典（Phase 2 時点のワイヤー版を保存）
+   └─ *.html                ← .wf-note と .page-meta 付きの制作途中版
+```
+
+---
+
+## 実装フェーズ
+
+### Phase 1：トップページ（index.html） ✅ 完了（2026-04-22）
+**Cursorへの指示**：まずこれだけ作る。他のページはPhase 2。
+
+### Phase 2：内部ページ（page01〜page07） ✅ 完了（2026-04-22）
+Phase 1 完了・確認後に着手。page01 から順に作成する。
+
+### Phase 3：既存研修サイトへの連携 ✅ 完了（2026-04-22）
+`G:/マイドライブ/研修/【202604】社員教育とAI/index.html` に  
+`webdesigner_guide/index.html` へのリンクボタンを追加する。  
+（既存ファイルの変更なので、Phase 2 完了後に実施）
+
+### Phase 4：本番化・コンテンツ執筆 ✅ 完了（2026-04-25）
+
+**担当**：Cursor  
+**前提として読むファイル**：必ず `site_structure.md` を最初から最後まで読むこと。  
+特に「サイトを貫くメッセージ」「各ページの詳細構成」を把握してから作業を開始する。
+
+---
+
+#### Phase 4 の全体方針
+
+- `wireframe/` 配下のファイルは **絶対に変更しない**（メイキング特典として保存済み）
+- `webdesigner_guide/` 直下の `index.html` と `page01〜page07` を**上書き**して本番版を作る
+- 各ページのCSS・HTML構造は `wireframe/` 内の対応ファイルをベースに使う
+- 削除するもの：`.wf-note` 要素の全削除、`.page-meta` 黒帯の全削除
+- 追加するもの：実コンテンツ本文、新規セクション（下記参照）
+
+---
+
+#### Phase 4-1：index.html（トップページ）の再構築
+
+`wireframe/index.html` をベースに、以下の変更を加えて本番版 `index.html` を作る。
+
+**変更点 1：キャッチコピー**
+ヒーローのメインコピーは現在保留中。以下のコメントを HTML に残すこと：
+```html
+<!-- CATCHCOPY: 現在検討中。ここを差し替える。暫定：「デザインを、仕事に変える。」-->
+<h1>デザインを、仕事に変える。</h1>
+```
+
+**変更点 2：ヒーローCTAボタンの廃止**
+`.hero-cta` リンクを削除し、代わりにスクロール誘導を追加：
+```html
+<p class="scroll-hint">↓ まずはこのサイトについて</p>
+```
+
+**変更点 3：「このサイトについて」セクションを新設**（ヒーローの直後、7カードの前に配置）
+
+3ブロック構成：
+
+**A. こんな人のために**
+```
+- グラフィック経験はあるが、Webに越境したい方
+- Canva / Figmaは触れるが、Web制作の全体像が掴めていない方
+- 自分でコードは書かないが、クライアント対応・ディレクションでWebに関わる方
+- 「言われた作業をこなすだけ」を卒業したい方
+```
+
+**B. なぜ作ったか**
+```
+素材を作るだけでは、採算が取れない時代がある。
+定型の作業をどれだけ積み上げても、素材を納品するだけでは単価の天井がある。
+
+一方で、コーディング力が初歩でも「プロジェクトを動かす力」があれば仕事は変わる。
+AIが実装を担う今こそ、「何を依頼するか」「成果物が妥当か」を判断できる人に価値が集まる。
+
+このサイトは「Webの技術を教える場所」ではない。
+あなたがすでに持つデザイン力に、仕事を動かす視点を掛け算するための教材だ。
+```
+
+**C. 読み終えたら、あなたは**
+- クライアントと対等に要件定義ができる
+- 制作者やAIに的確な指示が出せる
+- 成果物のクオリティを自分で判断できる
+- 案件の採算（単価・作業時間・AI コスト配分）を見極められる
+- 「素材を納品する人」ではなく「プロジェクトを完遂するディレクター」として仕事を取れる
+
+**変更点 4：7カードの後に二次CTAを追加**
+```html
+<div class="secondary-cta">
+  <a href="page01_what.html" class="cta-btn">
+    では、Page 01 から読み始めよう <i class="fa-solid fa-arrow-right"></i>
+  </a>
+</div>
+```
+
+**変更点 5：フッター上に「制作の裏側を見る」リンクを追加**
+```html
+<div class="making-link">
+  <a href="wireframe/index.html">
+    <i class="fa-solid fa-film"></i> このサイトの制作過程を見る（ワイヤーフレーム版）
+  </a>
+</div>
+```
+
+---
+
+#### Phase 4-2：page01_what.html の更新
+
+`wireframe/page01_what.html` をベースに `.wf-note` と `.page-meta` を削除し、  
+仮テキストを実コンテンツに差し替える。
+
+**追加セクション：「Webデザイナーがカバーできない範囲」**
+
+既存コンテンツの後、次ページナビの前に追加する。
+
+```
+見出し：「Webデザイナーの守備範囲と、その外側」
+
+リード：Webデザイナーとして仕事をするうえで、
+「これは自分が担う範囲か、エンジニアに依頼すべきか」を
+瞬時に判断できることはとても重要だ。
+クライアントへの説明、見積もり、チームへの依頼——
+すべてがこの線引きを正確に理解しているかどうかで変わる。
+
+▼ Webデザイナーの範囲外（エンジニアが必要）
+- 会員機能・ログイン・マイページ
+- ECカート・決済処理・在庫管理
+- 予約・申込システムのバックエンド
+- データベース設計・APIとの接続
+- セキュリティが絡む個人情報処理
+- サーバーサイドのプログラミング全般
+
+▼ グレーゾーン（ツールや外部サービスで代替できるケースも）
+- フォーム送信処理 → Formspree / Google Forms で代替可
+- 簡易ブログ機能 → WordPress / Notion API で代替可
+- メルマガ・自動返信 → Mailchimp / SendGrid で代替可
+
+コラムボックス：「"わかりません"と言える勇気が、信頼をつくる」
+→ 範囲外を正直に伝え、適切な専門家につなぐことができるディレクターは
+   クライアントから長期的に信頼される。
+```
+
+---
+
+#### Phase 4-3：page02〜page05 の更新
+
+`wireframe/` 対応ファイルをベースに `.wf-note` と `.page-meta` を削除し、  
+仮テキストを実コンテンツに差し替える。  
+セクション構成の変更はなし。`site_structure.md` の該当ページ記述を参照してコンテンツを執筆。
+
+---
+
+#### Phase 4-4：page06_client.html の更新（追加コンテンツあり）
+
+`wireframe/page06_client.html` をベースに `.wf-note` と `.page-meta` を削除し、  
+既存コンテンツを差し替えたうえで、以下の2コラムを末尾に追加する。
+
+**COLUMN 1：「作画カロリー」と採算性の話**
+
+```
+見出し：稼げる案件の選び方——「作画カロリー」を意識する
+
+リード：どれだけ丁寧に仕事をしても、最初の案件選択で採算が決まることがある。
+「作画カロリー」——その案件にかかる設計・実装・調整コストの総量——を
+見積もる力が、Webデザイナーの収益を左右する。
+
+▼ 作画カロリーが高い案件（低単価で受けると危険）
+- 複雑なアニメーション・インタラクション多用
+- カスタムイラスト・オリジナルビジュアルが必須
+- ページ数が多く、コンテンツ量も膨大
+- 多言語対応・会員機能など複合要件
+- 要件が曖昧なクライアント（修正が青天井になりやすい）
+
+▼ カロリー低く・高単価を狙いやすい案件
+- LP（1ページ完結・明確な目的）
+- WordPressテーマのカスタマイズ
+- STUDIOやwixなどノーコードCMS案件
+- 定期保守・更新作業（継続課金モデル）
+- 要件定義・ワイヤーフレームのみ（上流工程特化）
+
+コラムボックス：「省エネで高単価を狙う、がプロの発想」
+→ AIを使えば実装コストは下がる。でも設計・確認・コミュニケーションコストは下がらない。
+   だからこそ、上流工程の価値はむしろ上がっている。
+```
+
+**COLUMN 2：AI開発環境のコスト配分と採算設計**
+
+```
+見出し：月1万円で「止まらない開発環境」を作る発想
+
+リード：開発にかかるコストは「時間」だけではなく
+「AIのトークン使用量」も含む時代になった。
+どのAIツールに何を任せるか——その設計力が、採算を決める。
+
+▼ 現実的なAI開発環境の例（月額目安）
+Claude Code（Pro）：約 ¥2,500〜3,000
+→ 役割：要件定義・実装計画・レビュー・仕様書作成
+
+Cursor（Pro）：約 ¥2,000〜3,000
+→ 役割：コーディング・実装の実行担当
+
+Antigravity等（Googleエコシステム連携）：約 ¥数百〜数千
+→ 役割：デプロイ・Google Workspace連携・自動化
+
+合計：月 ¥10,000 前後で、役割分担された「止まらない開発環境」が成立する。
+
+▼ 考え方
+- MAXプランを無制限に使っても、採算割れなら意味がない
+- AIのトークン消費量は、案件の複雑さ・開発難度にある程度比例する
+- つまり「AIに何を頼むか」を設計できる人が、コストを制御できる
+- Claude Code → 計画と判断、Cursor → 実装、Antigravity → 運用という
+  役割分担が「省エネ高単価」の一形態
+
+▼ 案件種別ごとの採算目安
+| 案件種別                     | 目安単価         | 目安工数    |
+|------------------------------|-----------------|------------|
+| LP（シンプル）               | 3〜8万円        | 3〜10h     |
+| コーポレートサイト           | 15〜50万円      | 40〜100h   |
+| WordPress構築                | 10〜30万円      | 20〜60h    |
+| ECサイト                     | 30〜100万円+    | 100h+      |
+| 保守・更新（月額）           | 1〜5万円/月     | 数h/月     |
+| 上流工程のみ（要件定義・WF） | 5〜20万円       | 10〜30h    |
+```
+
+---
+
+#### Phase 4-5：page07_start.html の更新
+
+`wireframe/page07_start.html` をベースに `.wf-note` と `.page-meta` を削除し、  
+仮テキストを実コンテンツに差し替える。  
+締めのメッセージには「素材屋→プロジェクト屋」の転換を込める：
+
+```
+締めのメッセージ（例）：
+「このガイドを読み終えたあなたは、もう「ただのデザイナー」ではない。
+Webの全体像を知り、クライアントと話せ、AIに指示が出せる。
+プロジェクトを動かす一歩を、ここから踏み出してほしい。」
+```
+
+---
+
+#### Phase 4 完了チェックリスト
+
+- [x] `wireframe/` 配下のファイルが変更されていないこと
+- [ ] `index.html` から `.wf-note` が完全に削除されていること ← **未完了**
+- [x] page01〜page07 から `.page-meta`・`.wf-note` が削除されていること
+- [ ] `index.html` に「このサイトについて」3ブロックが入っていること ← **未完了**
+- [ ] `index.html` のヒーローにCTAボタンがなく、スクロール誘導になっていること ← **未完了**
+- [ ] `index.html` に「ワイヤーフレーム版を見る」リンクが入っていること ← **未完了**
+- [x] `page01` に「カバーできない範囲」セクションが入っていること
+- [x] `page06` に「作画カロリー」「AI開発コスト」2コラムが入っていること
+- [x] `page07` の締めメッセージに「プロジェクト屋」への転換が込められていること
+- [x] 全ページでナビの `.active` クラスが正しく設定されていること
+
+---
+
+### Phase 4 修正指示（index.html のみ再作業）
+
+**page01〜page07 は完了。`webdesigner_guide/index.html` のみ以下を修正すること。**
+`wireframe/index.html` は変更しないこと。
+
+#### 修正 1：`.wf-note` を全削除
+以下5箇所をすべて削除する（行番号は現在の index.html 基準）：
+- 行408-412：ヒーロー実装注釈
+- 行419-424：カードグリッド実装注釈
+- 行483-487：使い方セクション実装注釈
+- 行505-509：研修連携実装注釈
+- 行521-525：ページナビ実装注釈
+
+#### 修正 2：ヒーローの CTA ボタンを差し替え
+`.hero-cta` を削除し、スクロール誘導テキストに変更：
+```html
+<!-- 削除する -->
+<a href="page01_what.html" class="hero-cta">
+  まず "Webデザイナーという仕事" を読む <i class="fa-solid fa-arrow-right"></i>
+</a>
+
+<!-- 代わりに追加する -->
+<p class="scroll-hint" style="margin-top:24px; font-size:14px; color:rgba(255,255,255,0.6); letter-spacing:0.05em;">
+  ↓ まずはこのサイトについて
+</p>
+```
+
+#### 修正 3：ヒーロー直後に「このサイトについて」セクションを追加
+`.page-hero` の直後、`<main class="content-wrap">` の**最初の `<section>` の前**に挿入：
+
+```html
+<main class="content-wrap">
+
+  <!-- ★ このサイトについて（新規追加）-->
+  <section class="card" id="about">
+    <h2 class="section-title">このサイトについて</h2>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-top:8px;">
+
+      <!-- A. こんな人のために -->
+      <div style="background:#fafbff; border:1px solid #e5e7eb; border-radius:10px; padding:20px;">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:12px; color:#1a1f36;">
+          <i class="fa-solid fa-user" style="color:#ff6b6b; margin-right:6px;"></i>こんな人のために
+        </h3>
+        <ul style="font-size:13px; color:#6b7280; line-height:2; padding-left:1em;">
+          <li>グラフィック経験はあるが、Webに越境したい方</li>
+          <li>Canva / Figmaは触れるが、Web制作の全体像が掴めていない方</li>
+          <li>コードは書かないが、クライアント対応・ディレクションでWebに関わる方</li>
+          <li>「言われた作業をこなすだけ」を卒業したい方</li>
+        </ul>
+      </div>
+
+      <!-- B. なぜ作ったか -->
+      <div style="background:#fafbff; border:1px solid #e5e7eb; border-radius:10px; padding:20px;">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:12px; color:#1a1f36;">
+          <i class="fa-solid fa-lightbulb" style="color:#ff6b6b; margin-right:6px;"></i>なぜ作ったか
+        </h3>
+        <p style="font-size:13px; color:#6b7280; line-height:2;">
+          素材を作るだけでは、採算の天井がある。<br>
+          一方で、コーディング力が初歩でも「プロジェクトを動かす力」があれば仕事は変わる。<br>
+          AIが実装を担う今こそ、「何を依頼するか」「成果物が妥当か」を判断できる人に価値が集まる。<br>
+          このサイトは「Webの技術を教える場所」ではない。<strong>あなたのデザイン力に、仕事を動かす視点を掛け算する</strong>ための教材だ。
+        </p>
+      </div>
+
+      <!-- C. 読み終えたら -->
+      <div style="background:#fafbff; border:1px solid #e5e7eb; border-radius:10px; padding:20px;">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:12px; color:#1a1f36;">
+          <i class="fa-solid fa-arrow-trend-up" style="color:#ff6b6b; margin-right:6px;"></i>読み終えたら、あなたは
+        </h3>
+        <ul style="font-size:13px; color:#6b7280; line-height:2; padding-left:1em;">
+          <li>クライアントと対等に要件定義ができる</li>
+          <li>制作者やAIに的確な指示が出せる</li>
+          <li>成果物のクオリティを自分で判断できる</li>
+          <li>案件の採算・AI コスト配分を見極められる</li>
+          <li>「素材を納品する人」でなく「プロジェクトを完遂するディレクター」として仕事を取れる</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- レスポンシブ対応：スマホでは1カラムに -->
+    <style>
+      @media (max-width: 768px) {
+        #about > div { grid-template-columns: 1fr !important; }
+      }
+    </style>
+  </section>
+  <!-- ★ ここまで新規追加 -->
+
+  <!-- 以降は既存コンテンツ（このサイトで学べること 等）をそのまま続ける -->
+```
+
+#### 修正 4：7カードの後に二次CTA を追加
+`.nav-cards` の閉じタグ `</div>` の直後に追加：
+```html
+<div style="text-align:center; margin-top:28px;">
+  <a href="page01_what.html" style="
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 36px; background:var(--accent); color:#fff;
+    border-radius:999px; text-decoration:none; font-weight:700; font-size:15px;
+    box-shadow:0 8px 24px rgba(255,107,107,0.35);
+  ">
+    では、Page 01 から読み始めよう <i class="fa-solid fa-arrow-right"></i>
+  </a>
+</div>
+```
+
+#### 修正 5：フッター直前に「制作の裏側を見る」リンクを追加
+`<footer>` タグの直前に追加：
+```html
+<div style="text-align:center; padding:24px; border-top:1px solid #e5e7eb; margin-top:8px;">
+  <a href="wireframe/index.html" style="font-size:13px; color:#6b7280; text-decoration:none;">
+    <i class="fa-solid fa-film"></i> このサイトの制作過程を見る（ワイヤーフレーム版）
+  </a>
+</div>
+```
+
+---
+
+## 全ページ共通ルール
+
+### HTML構造（全ページ共通）
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【ページ名】| How to Webデザイナー</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ← 後述の共通CSSをここに記述 */
+  </style>
+</head>
+<body>
+  <!-- ページ情報バー（開発用・黒帯）-->
+  <div class="page-meta">
+    <div style="font-size:11px; opacity:0.7;">How to Webデザイナー</div>
+    <strong>【ページ名と番号】</strong>
+  </div>
+
+  <!-- ヘッダー -->
+  <header>...</header>
+
+  <!-- ページタイトルエリア -->
+  <section class="page-hero">...</section>
+
+  <!-- メインコンテンツ -->
+  <main class="content-wrap">...</main>
+
+  <!-- ページナビゲーション（前後ページ）-->
+  <nav class="page-nav">...</nav>
+
+  <!-- フッター -->
+  <footer>...</footer>
+</body>
+</html>
+```
+
+---
+
+### 共通CSS（全ページの `<style>` にコピーして使う）
+
+```css
+:root {
+  --bg-body:   #f8f9fc;
+  --bg-card:   #ffffff;
+  --bg-dark:   #1a1f36;
+  --text-main: #1a1f36;
+  --text-sub:  #6b7280;
+  --accent:    #ff6b6b;
+  --accent-2:  #4ecdc4;
+  --border:    #e5e7eb;
+  --shadow:    0 4px 20px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* ページ情報バー（開発用：本番では非表示 or 削除） */
+.page-meta {
+  background: #333;
+  color: #fff;
+  padding: 6px 20px;
+  font-size: 12px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ヘッダー */
+header {
+  background: var(--bg-dark);
+  color: #fff;
+  padding: 0 40px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-logo {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+header nav a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 13px;
+  margin-left: 20px;
+  transition: color 0.2s;
+}
+header nav a:hover,
+header nav a.active { color: var(--accent); }
+
+/* ページタイトルエリア */
+.page-hero {
+  background: var(--bg-dark);
+  color: #fff;
+  padding: 48px 40px;
+  text-align: center;
+}
+.page-hero .page-num {
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.page-hero h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.page-hero p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* メインコンテンツ */
+.content-wrap {
+  max-width: 960px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+/* カード */
+.card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+}
+
+/* セクション見出し */
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent);
+}
+
+/* ページナビ */
+.page-nav {
+  max-width: 960px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.page-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--bg-dark);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+.page-nav a:hover { opacity: 0.85; }
+.page-nav a.next { background: var(--accent); margin-left: auto; }
+
+/* フッター */
+footer {
+  background: var(--bg-dark);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 13px;
+}
+footer a { color: var(--accent-2); text-decoration: none; }
+
+/* 注釈スタイル（ワイヤーフレーム用：本番では削除） */
+.wf-note {
+  background: #fff3cd;
+  border-left: 4px solid #ff9500;
+  padding: 10px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  color: #7a5800;
+  border-radius: 0 6px 6px 0;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  header { padding: 0 20px; }
+  header nav { display: none; } /* ハンバーガー対応は本実装で */
+  .page-hero { padding: 32px 20px; }
+  .page-hero h1 { font-size: 24px; }
+  .content-wrap { margin: 32px auto; }
+  .card { padding: 20px; }
+  .page-nav { flex-direction: column; }
+  .page-nav a.next { margin-left: 0; }
+}
+```
+
+---
+
+### ヘッダー・フッターの共通HTML
+
+**全ページで以下を統一すること（コピペして使う）**
+
+```html
+<!-- ヘッダー -->
+<header>
+  <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+  <nav>
+    <a href="page01_what.html">仕事を知る</a>
+    <a href="page02_workflow.html">ワークフロー</a>
+    <a href="page03_design.html">デザイン基礎</a>
+    <a href="page04_tools.html">ツール</a>
+    <a href="page05_ai.html">AIと活用</a>
+    <a href="page06_client.html">クライアントワーク</a>
+    <a href="page07_start.html">始め方</a>
+  </nav>
+</header>
+
+<!-- フッター -->
+<footer>
+  <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+  <p style="margin-top:8px;">© 2026 H.K</p>
+</footer>
+```
+
+---
+
+### 注釈ルール（`.wf-note`）
+
+各セクション・各ブロックに必ず注釈を入れる。目的は「実装者がコーディング時に迷わないようにする」こと。
+
+必ず以下を含める：
+- **実装要件**（例：「アコーディオンUI → CSS `<details>`で実装可」）
+- **素材の状態**（「仮テキスト」「要差し替え」「確定済み」）
+- **レスポンシブ挙動**（「スマホでは1カラム」「ナビは非表示・ハンバーガー化」）
+
+```html
+<div class="wf-note">
+  📌 【実装注釈】ここにコーディング上の指示を書く
+</div>
+```
+
+---
+
+## Phase 1 詳細：トップページ（index.html）
+
+**最初に作るファイル**。他のページより先に完成させて確認を取ること。
+
+### セクション構成
+
+```
+1. ページ情報バー（.page-meta）
+2. ヘッダー
+3. ヒーローエリア
+   - メインコピー：「デザインはできる。あとはWebを知るだけ。」
+   - サブテキスト：ターゲット説明（3行）
+   - CTAボタン：「まずはここから → Page 01へ」
+
+4. このサイトで学べること
+   - 7枚のカードナビ（各ページへリンク）
+   - カードには：番号・アイコン・タイトル・一言説明
+
+5. このサイトの使い方
+   - 「初めての方は順番に」「気になるテーマから読んでもOK」
+
+6. 研修コンテンツとの連携
+   - 「AIとWebデザイン（Page 5）は研修のvol*.htmlと連動しています」
+
+7. フッター
+```
+
+### ヒーローの仮テキスト
+
+```
+メインコピー：デザインはできる。あとはWebを知るだけ。
+サブコピー：CanvaやFigmaで手を動かせるあなたへ。
+           Webデザイナーとして活躍するために必要な知識を
+           7つのテーマで体系的にまとめました。
+CTAボタン：「まず "Webデザイナーという仕事" を読む →」
+```
+
+---
+
+## Phase 2 詳細：内部ページ（page01〜page07）
+
+各ページの詳細コンテンツ定義は `site_structure.md` の「各ページの詳細構成」セクションを参照。
+
+### Phase 1 レビューから引き継ぐ追加ルール（Phase 2 で必ず守る）
+
+Phase 1 レビュー結果より、以降のページで以下 3 点を徹底する：
+
+1. **ナビの active クラス**
+   - `<header>` 内の `<a>` のうち、そのページに対応するリンクに `class="active"` を必ず付与する。
+   - 例：`page01_what.html` では `<a href="page01_what.html" class="active">仕事を知る</a>`
+   - index.html（トップ）は対応するナビリンクがないため付与不要。
+
+2. **`.wf-note` の配置**
+   - すべての `.wf-note` は `<main class="content-wrap">` の**内側**に配置する。
+   - `max-width: 960px` をインラインで当てて外側に置く書き方はしない（Phase 1 index.html で使っていた一時対応は解消済み）。
+
+3. **注釈コピーの用語統一**
+   - 注釈内で要確認の旨を示す際は、**「要確認・仮テキスト」** に統一する。
+   - 「クライアント確認」「要クライアント確認」等の表現は本プロジェクトでは使わない（本サイトはクライアント案件ではないため）。
+
+### 作成順
+
+1. `page01_what.html`（最もシンプル・テキスト中心）
+2. `page02_workflow.html`（ステップ図が肝）
+3. `page03_design.html`（視覚的なサンプル多め）
+4. `page04_tools.html`（比較表・ツールマップ）
+5. `page05_ai.html`（研修コンテンツと連携）
+6. `page06_client.html`（実務寄り・テキスト中心）
+7. `page07_start.html`（まとめ・ロードマップ）
+
+---
+
+## Phase 3 詳細：既存研修サイトへの連携
+
+対象ファイル：`G:/マイドライブ/研修/【202604】社員教育とAI/index.html`
+
+既存の右側パネル（`detail-area` または同様のエリア）の下部に以下を追加する：
+
+```html
+<!-- How to Webデザイナー リンク -->
+<div style="padding: 20px; border-top: 1px solid #eee; margin-top: 16px;">
+  <a href="webdesigner_guide/index.html" style="
+    display: block;
+    background: #1a1f36;
+    color: #fff;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+  ">
+    📘 How to Webデザイナー ガイドを読む
+  </a>
+  <p style="font-size: 12px; color: #888; text-align:center; margin-top: 8px;">
+    Webデザインの基礎を体系的に学べます
+  </p>
+</div>
+```
+
+---
+
+## 完了チェックリスト
+
+### Phase 1 完了時
+- [x] `index.html` がブラウザで正しく表示される
+- [x] 7枚のカードリンクがすべて設置されている（リンク先はまだ404でOK）
+- [x] スマホ表示（768px以下）でレイアウトが崩れない
+- [x] 各セクションに `.wf-note` が入っている
+
+### Phase 2 完了時
+- [x] 7ページすべてブラウザで表示される
+- [x] ヘッダーナビ・フッターが全ページで共通内容になっている
+- [x] 前後ページへのナビゲーションが正しくリンクしている
+- [x] 各ページの `.page-meta` にページ名・番号が正しく入っている
+- [x] 各ブロックに `.wf-note` が入っている
+
+### Phase 3 完了時
+- [x] 研修サイト（`../index.html`）からリンクが張られている
+- [x] リンクをクリックすると `webdesigner_guide/index.html` に飛ぶ
+
+---
+
+### Phase 5：ワイヤーフレーム体験ガイドページの新設
+
+**担当**：Cursor  
+**作成ファイル**：`webdesigner_guide/wireframe/guide.html`（新規）  
+**変更ファイル**：`webdesigner_guide/index.html`（ワイヤーリンクの向き先変更のみ）
+
+---
+
+#### Phase 5 の目的
+
+現状、本番サイトから `wireframe/index.html` に飛んでも「なんか未完成っぽいサイト」にしか見えない。
+「ワイヤーフレームとは何か」「どう読むか」「制作プロセスとどう繋がるか」を解説するガイドページを設けることで、
+メイキング特典として・Webデザイン制作の教材として機能させる。
+
+---
+
+#### 変更点 1：`webdesigner_guide/index.html` のリンク修正
+
+フッター付近の「制作の裏側を見る」リンクの向き先を変更する：
+
+```html
+<!-- 変更前 -->
+<a href="wireframe/index.html">
+  <i class="fa-solid fa-film"></i> このサイトの制作過程を見る（ワイヤーフレーム版）
+</a>
+
+<!-- 変更後 -->
+<a href="wireframe/guide.html">
+  <i class="fa-solid fa-film"></i> このサイトの制作過程を見る（ワイヤーフレーム版）
+</a>
+```
+
+---
+
+#### 変更点 2：`wireframe/guide.html` を新規作成
+
+CSS・フォント・Font Awesome は本番サイトと同じものを使う。
+ただし全体のトーンは「ドキュメンタリー・メイキング感」を出すため、
+背景を `#0f1117`（より濃いダーク）にしてアクセントカラーに `#ff9500`（オレンジ）を追加する。
+
+```css
+:root {
+  --bg-body:   #0f1117;
+  --bg-card:   #1a1f36;
+  --bg-light:  #1e2440;
+  --text-main: #e8eaf0;
+  --text-sub:  #9ca3af;
+  --accent:    #ff6b6b;
+  --accent-making: #ff9500;   /* メイキング特典専用カラー */
+  --border:    rgba(255,255,255,0.08);
+  --shadow:    0 4px 20px rgba(0,0,0,0.3);
+}
+```
+
+---
+
+#### `wireframe/guide.html` のページ構成
+
+```
+[ ヘッダー：本番版へ戻るリンク常設 ]
+[ ① メイキング特典ヒーロー ]
+[ ② ワイヤーフレームとは？ ]
+[ ③ このサイトのワイヤーフレームの読み方（注釈・開発バーの見方）]
+[ ④ 制作プロセス全体図 ]
+[ ⑤ 本番版との比較ポイント3選 ]
+[ ⑥ ワイヤーフレームを見る（CTAボタン → wireframe/index.html）]
+[ フッター ]
+```
+
+---
+
+##### セクション① ヒーロー
+
+```html
+<!-- ヘッダー：シンプルに本番版へ戻るリンクのみ -->
+<header style="background:rgba(0,0,0,0.4); padding:14px 40px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; backdrop-filter:blur(8px);">
+  <span style="font-family:'Roboto',sans-serif; font-weight:900; font-size:16px; color:#ff9500; letter-spacing:0.05em;">
+    MAKING OF HOW TO WEBDESIGNER
+  </span>
+  <a href="../index.html" style="font-size:13px; color:rgba(255,255,255,0.6); text-decoration:none;">
+    <i class="fa-solid fa-arrow-left"></i> 本番サイトへ戻る
+  </a>
+</header>
+
+<!-- ヒーロー -->
+<section style="text-align:center; padding:80px 40px 64px; background:radial-gradient(circle at 50% 30%, rgba(255,149,0,0.12), transparent 60%);">
+  <p style="font-size:12px; color:#ff9500; letter-spacing:0.15em; margin-bottom:16px;">MAKING / BEHIND THE SCENES</p>
+  <h1 style="font-size:36px; font-weight:700; color:#e8eaf0; line-height:1.4; margin-bottom:20px;">
+    このサイトは、<br>どのように作られたのか。
+  </h1>
+  <p style="font-size:15px; color:#9ca3af; max-width:560px; margin:0 auto; line-height:2;">
+    完成した成果物だけでは見えないことがある。<br>
+    ここでは「How to Webデザイナー」の制作過程を公開する。<br>
+    ワイヤーフレームとは何か、どう読むか——制作の裏側を追体験してほしい。
+  </p>
+</section>
+```
+
+---
+
+##### セクション② ワイヤーフレームとは？
+
+カード1枚でシンプルに説明する。
+
+```
+見出し：ワイヤーフレームとは？
+
+本文：
+建築に例えると、ワイヤーフレームは「間取り図」にあたる。
+家を建てる前に「リビングはどこか」「扉はどちらに開くか」を決めるように、
+Webサイトを作る前に「何をどこに置くか」「どんな目的を持たせるか」を設計する工程だ。
+
+この段階では、色・写真・装飾はまだ関係ない。
+大事なのは「構造」と「情報の流れ」。
+
+ただし、このサイトのワイヤーフレームは少し特殊だ。
+通常のグレーボックス型ではなく、最終的なデザイン（色・フォント）を当てた
+「高品質プロトタイプ型ワイヤーフレーム」として作られている。
+見た目はほぼ本番版と同じだが、「設計者から実装者へのメモ」が随所に残っている。
+```
+
+---
+
+##### セクション③ このサイトのワイヤーフレームの読み方
+
+2つのUI要素をビジュアルで説明する。実際のスタイルを当てた「サンプルボックス」を使うこと。
+
+**要素1：黄色い注釈ボックス（.wf-note）**
+
+```html
+<!-- サンプル表示 -->
+<div style="background:#fff3cd; border-left:4px solid #ff9500; padding:12px 16px; border-radius:0 6px 6px 0; font-size:13px; color:#7a5800; margin:16px 0;">
+  📌 <strong>【実装注釈の例】</strong>
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) で自動折返し。
+  PC：3〜4列 ／ タブレット：2列 ／ スマホ：1列に自動変化。各カードは &lt;a&gt; タグでリンク。
+</div>
+
+説明文：
+この黄色いボックスが「.wf-note（ワイヤーフレーム注釈）」。
+実装を担当するコーダーに向けた、設計者からのメモ書きだ。
+「ここはアコーディオンUIにしてほしい」「スマホでは1カラムにすること」
+「このテキストは仮。本番では差し替え」——
+コーダーが迷わないよう、判断に必要な情報を書き込んでいる。
+
+本番サイトではすべて削除済み。ワイヤーフレーム版でのみ見ることができる。
+```
+
+**要素2：黒帯（.page-meta）**
+
+```html
+<!-- サンプル表示 -->
+<div style="background:#333; color:#fff; padding:6px 20px; font-size:12px; display:flex; gap:16px; align-items:center; border-radius:6px; margin:16px 0;">
+  <div style="font-size:11px; opacity:0.7;">How to Webデザイナー</div>
+  <strong>PAGE 02 / page02_workflow.html</strong>
+  <span style="margin-left:auto; opacity:0.7;">Phase 2 ワイヤーフレーム</span>
+</div>
+
+説明文：
+ページ最上部の黒帯が「.page-meta（開発管理バー）」。
+「今どのページを見ているか」「どのフェーズの作業か」を管理するための開発用ラベルだ。
+複数のファイルを並行して作るとき、混在を防ぐための目印として機能する。
+こちらも本番サイトでは削除済み。
+```
+
+---
+
+##### セクション④ 制作プロセス全体図
+
+横並びのステップ図（フロー）で表現する。
+
+```
+STEP 1：設計（Claude Code）
+  要件定義・サイト構成案・デザイン仕様・コンテンツ定義・実装計画書の作成
+  → アウトプット：site_structure.md / implementation_plan.md
+
+STEP 2：ワイヤーフレーム実装（Cursor）
+  実装計画書を読み、HTML/CSSでワイヤーフレームを生成
+  → アウトプット：wireframe/*.html（このフォルダ）
+
+STEP 3：レビュー（Claude Code）
+  実装の品質確認・問題点の指摘・修正指示の作成
+  → アウトプット：implementation_plan.md への修正追記
+
+STEP 4：本番化（Cursor）
+  .wf-note・.page-meta の削除、実コンテンツ差し替え、新規セクション追加
+  → アウトプット：webdesigner_guide/*.html（本番版）
+
+STEP 5：デプロイ（Antigravity）
+  Cloudflare Pages への公開
+  → アウトプット：公開URL
+```
+
+各ステップはカード形式で横並び（PC）・縦積み（スマホ）にすること。
+ステップ間は `→` または矢印アイコンで繋ぐ。
+
+---
+
+##### セクション⑤ 本番版との比較ポイント3選
+
+3枚のカードで、「ワイヤーフレーム → 本番で何が変わったか」を解説する。
+
+```
+比較① ヒーローのCTAボタンが消えた
+  ワイヤー版：ヒーロー直下に「Page 01を読む」ボタンがあった
+  本番版：ボタンを廃止し「↓ まずはこのサイトについて」スクロール誘導に変更
+  なぜ？：CTAボタンがあると真面目な人がそこで飛んでしまい、
+          下部コンテンツ（このサイトについて・7カード）を読まずに終わる問題があった
+
+比較② 「このサイトについて」セクションが後から生まれた
+  ワイヤー版：このセクションは存在しない
+  本番版：ヒーロー直後に「こんな人のために」「なぜ作ったか」「読み終えたら」の3ブロックを追加
+  なぜ？：ターゲットと目的が最初に伝わらないと、読者が「自分向けかどうか」判断できないため
+
+比較③ 注釈がどう実装に反映されたか
+  例：「アコーディオンUI → CSS <details>で実装可」という注釈
+  → 本番版で実際にどう実装されたかをワイヤー版と見比べてみよう
+```
+
+---
+
+##### セクション⑥ ワイヤーフレームを見る（CTA）
+
+```html
+<div style="text-align:center; padding:48px 24px;">
+  <p style="color:#9ca3af; font-size:14px; margin-bottom:24px;">
+    では、実際のワイヤーフレームを見てみよう。<br>
+    黄色い注釈と黒帯に注目しながら、本番版と見比べてほしい。
+  </p>
+  <a href="index.html" style="
+    display:inline-flex; align-items:center; gap:10px;
+    padding:18px 40px; background:#ff9500; color:#fff;
+    border-radius:999px; text-decoration:none; font-weight:700; font-size:15px;
+    box-shadow:0 8px 24px rgba(255,149,0,0.4);
+  ">
+    <i class="fa-solid fa-film"></i> ワイヤーフレーム版 index.html を開く
+  </a>
+  <p style="margin-top:16px; font-size:12px; color:#6b7280;">
+    page01〜page07 はヘッダーナビから移動できます
+  </p>
+</div>
+```
+
+---
+
+##### フッター
+
+```html
+<footer style="background:#0a0d14; color:rgba(255,255,255,0.4); text-align:center; padding:28px 24px; font-size:13px;">
+  <p>Making of How to Webデザイナー ―
+    <a href="../index.html" style="color:#ff9500; text-decoration:none;">本番サイトへ戻る</a>
+  </p>
+  <p style="margin-top:8px;">© 2026 H.K</p>
+</footer>
+```
+
+---
+
+#### Phase 5 完了チェックリスト
+
+- [ ] `wireframe/guide.html` が新規作成されている
+- [ ] `guide.html` の6セクション（ヒーロー・定義・読み方・プロセス・比較・CTA）がすべて入っている
+- [ ] 読み方セクションに `.wf-note` と `.page-meta` のサンプルボックスが実際のスタイルで表示されている
+- [ ] 制作プロセス図が5ステップで表示されている
+- [ ] 比較ポイント3選が3カードで表示されている
+- [ ] CTAボタンが `wireframe/index.html` へ正しくリンクしている
+- [ ] ヘッダー・フッターに `../index.html`（本番版）へのリンクがある
+- [ ] `webdesigner_guide/index.html` のワイヤーリンクが `wireframe/guide.html` に変更されている
+- [ ] スマホ（768px以下）でレイアウトが崩れないこと
+
+---
+
+## 作業完了後にすること（Cursor向け）
+
+1. このファイル（`implementation_plan.md`）の各Phaseの状態を更新
+2. 完了チェックリストのチェックを入れる
+3. 作業ログを `project_log.md` に記録（まだなければ新規作成）

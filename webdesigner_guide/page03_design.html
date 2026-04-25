@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 03：Webデザインの基礎知識 | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg-body:#f8f9fc; --bg-card:#fff; --bg-dark:#1a1f36; --text-main:#1a1f36; --text-sub:#6b7280; --accent:#ff6b6b; --accent-2:#4ecdc4; --border:#e5e7eb; --shadow:0 4px 20px rgba(0,0,0,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* 見本ブロック */
+    .sample-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 12px; }
+    .sample-item { border: 1px solid var(--border); border-radius: 10px; padding: 20px; background: #fafbff; }
+    .sample-item h4 { font-size: 14px; margin-bottom: 6px; }
+    .sample-item h4 i { color: var(--accent); margin-right: 6px; }
+    .sample-item p { font-size: 12px; color: var(--text-sub); }
+    .sample-item .preview { margin-top: 12px; padding: 14px; border-radius: 6px; background: #fff; border: 1px dashed var(--border); text-align: center; font-size: 13px; color: var(--text-sub); min-height: 60px; display: flex; align-items: center; justify-content: center; }
+
+    /* カラーサンプル */
+    .color-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .swatch { flex: 1 1 100px; min-width: 100px; border-radius: 8px; padding: 14px 10px; text-align: center; font-size: 12px; font-weight: 700; color: #fff; }
+
+    /* レスポンシブ図解 */
+    .bp-row { display: flex; gap: 14px; align-items: flex-end; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .bp-box { border: 2px solid var(--accent-2); border-radius: 8px; background: #f3fcfb; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; min-width: 100px; }
+    .bp-box .label { font-family: "Roboto"; font-weight: 900; font-size: 11px; color: var(--accent-2); }
+    .bp-box .size  { font-size: 12px; margin-top: 4px; color: var(--text-sub); }
+    .bp-mobile  { width: 80px;  height: 120px; }
+    .bp-tablet  { width: 140px; height: 110px; }
+    .bp-desktop { width: 220px; height: 130px; }
+
+    .callout { background: #fffaf6; border: 1px dashed var(--accent); border-radius: 10px; padding: 20px; margin-top: 16px; }
+    .callout h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--accent); }
+    .callout p { font-size: 13px; color: var(--text-main); }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html" class="active">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 03</div>
+    <h1>Webデザインの基礎知識</h1>
+    <p>印刷デザインとの違いを踏まえつつ、<br>タイポ・色・レイアウト・レスポンシブ・UX/UI を一気に。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- タイポグラフィ -->
+    <section class="card" id="typography">
+      <h2 class="section-title">① タイポグラフィ</h2>
+      <p class="section-lead">Web 特有の制約は「フォントの自由度」「デバイスごとの文字サイズ」。紙のように自由に級数指定はしない。</p>
+
+      <div class="sample-grid">
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-text-height"></i> サイズ設計</h4>
+          <p>本文 16px を基準に見出しへジャンプ率を取る。</p>
+          <div class="preview" style="font-size:22px; font-weight:700;">見出しサンプル</div>
+        </div>
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-font"></i> フォント選定</h4>
+          <p>Web フォント or システムフォント。表示速度とのバランス。</p>
+          <div class="preview" style="font-family: 'Noto Sans JP'; font-weight:500;">Noto Sans JP プレビュー</div>
+        </div>
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-align-left"></i> 行間・字間</h4>
+          <p>line-height 1.7〜1.9 が目安。日本語は特に広めが読みやすい。</p>
+          <div class="preview" style="text-align:left; font-size:12px; line-height:1.9;">行間を広めにとると、長文も読みやすく情報がスッと入ります。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- カラー -->
+    <section class="card" id="color">
+      <h2 class="section-title">② カラー</h2>
+      <p class="section-lead">RGB／HEX／HSL といったカラーモードと、アクセシビリティ（コントラスト比）に触れる。</p>
+
+      <h4 style="margin-top:12px; margin-bottom:6px; font-size:14px;">CMYK（印刷）→ RGB（Web）への切り替え</h4>
+      <p style="font-size:13px; color:var(--text-sub);">Web では <code>#FF6B6B</code> のような HEX 表記が主流。アルファ値で透明度も扱える（<code>rgba(0,0,0,0.5)</code>）。</p>
+
+      <div class="color-row">
+        <div class="swatch" style="background:#ff6b6b;">Accent #FF6B6B</div>
+        <div class="swatch" style="background:#4ecdc4;">Accent2 #4ECDC4</div>
+        <div class="swatch" style="background:#1a1f36;">Dark #1A1F36</div>
+        <div class="swatch" style="background:#f8f9fc; color:#1a1f36;">Bg #F8F9FC</div>
+      </div>
+
+      <div class="callout" style="margin-top:16px;">
+        <h4><i class="fa-solid fa-universal-access"></i> アクセシビリティ（コントラスト比）</h4>
+        <p>本文は最低 4.5:1 のコントラスト比を確保。Figma / Chrome DevTools で自動チェック可能。</p>
+      </div>
+    </section>
+
+    <!-- レイアウト -->
+    <section class="card" id="layout">
+      <h2 class="section-title">③ レイアウト</h2>
+      <p class="section-lead">グリッド・余白・整列・視線誘導（Z 型 / F 型）。紙と共通する原則と、Web 独自の流れ。</p>
+
+      <div class="sample-grid">
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-table-cells-large"></i> グリッド</h4>
+          <p>12 分割が標準。複雑なレイアウトも "列幅" で統一感を保つ。</p>
+        </div>
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-arrows-up-down-left-right"></i> 余白</h4>
+          <p>8px / 16px / 24px / 32px のステップで統一すると整う。</p>
+        </div>
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-eye"></i> 視線誘導</h4>
+          <p>Z 型（ランディング）／ F 型（長文）を使い分ける。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- レスポンシブ -->
+    <section class="card" id="responsive">
+      <h2 class="section-title">④ レスポンシブデザイン</h2>
+      <p class="section-lead">PC・タブレット・スマホで<strong>同じ HTML を書き換えなくても見え方が変わる</strong>仕組み。</p>
+
+      <div class="bp-row">
+        <div class="bp-box bp-mobile"><span class="label">MOBILE</span><span class="size">〜 768px</span></div>
+        <div class="bp-box bp-tablet"><span class="label">TABLET</span><span class="size">768 〜 1024px</span></div>
+        <div class="bp-box bp-desktop"><span class="label">DESKTOP</span><span class="size">1024px 〜</span></div>
+      </div>
+
+      <div class="callout" style="margin-top:20px;">
+        <h4><i class="fa-solid fa-mobile-screen"></i> モバイルファースト</h4>
+        <p>実ユーザーの多くはスマホ。スマホのデザインから作り始めるのが現在の主流。</p>
+      </div>
+    </section>
+
+    <!-- UX / UI -->
+    <section class="card" id="ux-ui">
+      <h2 class="section-title">⑤ UX / UI</h2>
+      <p class="section-lead">UI = 見た目・操作する部分／UX = 使った人の体験全体。デザイナーは両方に責任を持つ。</p>
+
+      <div class="sample-grid">
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-pen-ruler"></i> UI（User Interface）</h4>
+          <p>ボタン・フォーム・ナビなど "触れる要素" の設計。見た目とインタラクション。</p>
+        </div>
+        <div class="sample-item">
+          <h4><i class="fa-solid fa-heart"></i> UX（User Experience）</h4>
+          <p>サイトに来てから離脱するまでの体験全体。情報設計・導線・速度も UX の一部。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page02_workflow.html"><i class="fa-solid fa-arrow-left"></i> 前へ：ワークフロー</a>
+    <a class="next" href="page04_tools.html">次へ：使うツールを知る <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

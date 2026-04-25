@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 05：AIとWebデザイン | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg-body:#f8f9fc; --bg-card:#fff; --bg-dark:#1a1f36; --text-main:#1a1f36; --text-sub:#6b7280; --accent:#ff6b6b; --accent-2:#4ecdc4; --border:#e5e7eb; --shadow:0 4px 20px rgba(0,0,0,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    .ai-usage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px; }
+    .ai-usage-item { border: 1px solid var(--border); border-radius: 10px; padding: 16px; background: #fafbff; }
+    .ai-usage-item h5 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .ai-usage-item h5 i { color: var(--accent); margin-right: 6px; }
+    .ai-usage-item p { font-size: 12px; color: var(--text-sub); }
+
+    .ai-category { background: #fafbff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; }
+    .ai-category h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .ai-category h4 i { color: var(--accent); margin-right: 6px; }
+    .ai-category .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .ai-category .tool-pill { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; color: var(--text-main); }
+
+    /* プロンプト例 */
+    .prompt-example { background: #1a1f36; color: #f8f9fc; border-radius: 10px; padding: 20px; margin-top: 10px; font-family: "Courier New", monospace; font-size: 13px; line-height: 1.7; }
+    .prompt-example .label { display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em; margin-bottom: 8px; font-family: "Noto Sans JP", sans-serif; }
+
+    /* 研修誘導 */
+    .cta-training { background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%); color: #fff; border-radius: 12px; padding: 24px; text-align: center; margin-top: 12px; }
+    .cta-training h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .cta-training p { font-size: 13px; opacity: 0.95; margin-bottom: 14px; }
+    .cta-training a { display: inline-block; background: #fff; color: var(--accent); padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700; }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html" class="active">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 05</div>
+    <h1>AIとWebデザイン</h1>
+    <p>2026 年時点の "使える AI" を、Web デザイナー目線で棚卸し。<br>詳しい実践は研修コンテンツ（vol.08〜）にバトンタッチします。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- AI 全体でできること -->
+    <section class="card" id="ai-overview">
+      <h2 class="section-title">AI が Web デザインでできること</h2>
+      <p class="section-lead">"絵が描ける" だけではない。情報整理・コード・UI 雛形・ライティングまで広く使える。</p>
+
+      <div class="ai-usage-grid">
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-image"></i> ビジュアル生成</h5><p>イメージ画像・アイコン・背景素材を自動生成。</p></div>
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-pen-nib"></i> コピー生成</h5><p>ヒーロー文・CTA 文言・メタディスクリプション等。</p></div>
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-code"></i> コード生成</h5><p>HTML / CSS / JS の実装。デザイナー自身が手を動かさなくても OK。</p></div>
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-layer-group"></i> UI 雛形</h5><p>ワイヤーフレーム・UI パターンの初稿作成。</p></div>
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-magnifying-glass-chart"></i> 情報整理</h5><p>ヒアリング内容の要約・構造化・FAQ 抽出。</p></div>
+        <div class="ai-usage-item"><h5><i class="fa-solid fa-bug"></i> デバッグ</h5><p>表示崩れ・JS エラーの原因特定をアシスト。</p></div>
+      </div>
+    </section>
+
+    <!-- 画像生成AI -->
+    <section class="card" id="image-ai">
+      <h2 class="section-title">画像生成 AI</h2>
+      <p class="section-lead">ヒーロー画像・バナー・アイコンまで。著作権・商用利用規約だけ要注意。</p>
+
+      <div class="ai-category">
+        <h4><i class="fa-solid fa-palette"></i> 代表ツール</h4>
+        <p style="font-size:13px;">プロ用途なら Midjourney / Adobe Firefly。手軽さなら Canva AI / Image Creator。</p>
+        <div class="tools">
+          <span class="tool-pill">Midjourney</span>
+          <span class="tool-pill">Adobe Firefly</span>
+          <span class="tool-pill">DALL·E</span>
+          <span class="tool-pill">Canva AI</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- デザイン生成AI -->
+    <section class="card" id="design-ai">
+      <h2 class="section-title">デザイン生成 AI</h2>
+      <p class="section-lead">UI コンポーネント・画面全体を、プロンプトから出力してくれるツール群。</p>
+
+      <div class="ai-category">
+        <h4><i class="fa-solid fa-wand-magic-sparkles"></i> 代表ツール</h4>
+        <p style="font-size:13px;">Google Stitch（Figma 連携）、Framer AI（そのまま公開）、Uizard（ワイヤーフレーム特化）。</p>
+        <div class="tools">
+          <span class="tool-pill">Google Stitch</span>
+          <span class="tool-pill">Framer AI</span>
+          <span class="tool-pill">Uizard</span>
+          <span class="tool-pill">v0.dev</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- コード生成AI -->
+    <section class="card" id="code-ai">
+      <h2 class="section-title">コード生成 AI</h2>
+      <p class="section-lead">"コードは書かなくていい" を実現する主役。Cursor・Claude Code・GitHub Copilot が中心。</p>
+
+      <div class="ai-category">
+        <h4><i class="fa-solid fa-terminal"></i> 代表ツール</h4>
+        <div class="tools">
+          <span class="tool-pill">Cursor</span>
+          <span class="tool-pill">Claude Code</span>
+          <span class="tool-pill">GitHub Copilot</span>
+          <span class="tool-pill">Bolt.new</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- プロンプトの書き方 -->
+    <section class="card" id="prompt">
+      <h2 class="section-title">プロンプトの書き方</h2>
+      <p class="section-lead">"良いプロンプト = 良いクライアントブリーフ"。ヒアリングを構造化する感覚に近い。</p>
+
+      <div class="prompt-example">
+        <span class="label">PROMPT SAMPLE</span>
+        <div>
+          あなたは Web デザイナーです。<br>
+          以下の条件でヒーローセクションの HTML / CSS を作ってください。<br>
+          ・ターゲット：30 代女性、ハンドメイド作家<br>
+          ・トンマナ：手書き感・ベージュ基調・やわらかい<br>
+          ・含める要素：キャッチコピー / サブ / CTA ボタン<br>
+          ・レスポンシブ対応（768px ブレイクポイント）
+        </div>
+      </div>
+    </section>
+
+    <!-- 研修誘導 -->
+    <section class="card" id="to-training">
+      <h2 class="section-title">研修コンテンツへの誘導</h2>
+      <p class="section-lead">実際に手を動かすパートは、H.K社内研修サイトで用意しています。</p>
+
+      <div class="cta-training">
+        <h4><i class="fa-solid fa-graduation-cap"></i> 実践編は研修サイトで</h4>
+        <p>Vol.08〜11 で Cursor / Claude Code / Stitch を実際に動かす回を用意しています。</p>
+        <a href="../index.html">研修サイトを開く <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page04_tools.html"><i class="fa-solid fa-arrow-left"></i> 前へ：ツール</a>
+    <a class="next" href="page06_client.html">次へ：クライアントワーク <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

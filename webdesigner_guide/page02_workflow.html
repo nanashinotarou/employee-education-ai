@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 02：Web制作のワークフロー | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-body:   #f8f9fc;
+      --bg-card:   #ffffff;
+      --bg-dark:   #1a1f36;
+      --text-main: #1a1f36;
+      --text-sub:  #6b7280;
+      --accent:    #ff6b6b;
+      --accent-2:  #4ecdc4;
+      --border:    #e5e7eb;
+      --shadow:    0 4px 20px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* ワークフロー図 */
+    .flow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0 24px; }
+    .flow-step { background: #fafbff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; position: relative; }
+    .flow-step .num { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; display: block; }
+    .flow-step h5 { font-size: 13px; font-weight: 700; margin: 8px 0 4px; }
+    .flow-step p { font-size: 11px; color: var(--text-sub); line-height: 1.6; }
+    .flow-step.phase-design { border-color: var(--accent); background: #fff7f7; }
+    .flow-step.phase-dev { border-color: var(--accent-2); background: #f3fcfb; }
+
+    /* ステップ詳細（アコーディオン風） */
+    .step-accordion { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; background: #fff; }
+    .step-accordion summary { padding: 14px 18px; cursor: pointer; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 10px; list-style: none; user-select: none; }
+    .step-accordion summary::-webkit-details-marker { display: none; }
+    .step-accordion summary::before { content: "▶"; font-size: 10px; color: var(--accent); transition: transform 0.2s; }
+    .step-accordion[open] summary::before { transform: rotate(90deg); }
+    .step-accordion .body { padding: 0 18px 16px 40px; font-size: 13px; color: var(--text-main); line-height: 1.85; }
+    .step-accordion .body p { margin-bottom: 8px; }
+    .step-accordion .chip { display: inline-block; font-size: 11px; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 6px; font-weight: 700; }
+    .step-accordion .chip.dev { background: var(--accent-2); }
+
+    .callout { background: #fffaf6; border: 1px dashed var(--accent); border-radius: 10px; padding: 20px; margin-top: 16px; }
+    .callout h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--accent); }
+    .callout p { font-size: 13px; color: var(--text-main); margin-bottom: 6px; }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .flow-grid { grid-template-columns: repeat(2, 1fr); }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html" class="active">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 02</div>
+    <h1>Web制作のワークフロー</h1>
+    <p>ヒアリングから公開・運用までを 8 ステップで俯瞰します。<br>"どこに自分が関わるのか" を掴めれば十分です。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- セクション 1：全体図 -->
+    <section class="card" id="flow-overview">
+      <h2 class="section-title">ワークフロー全体図（8 ステップ）</h2>
+      <p class="section-lead">赤系カードは<strong>デザイナーが主役</strong>の工程、青緑カードは<strong>エンジニア・実装寄り</strong>の工程。完全な分業ではなく、ヒアリング〜公開まで重なり合いながら進みます。</p>
+
+      <div class="flow-grid">
+        <div class="flow-step phase-design"><span class="num">STEP 01</span><h5>ヒアリング</h5><p>要件・目的・ターゲットの確認</p></div>
+        <div class="flow-step phase-design"><span class="num">STEP 02</span><h5>サイトマップ</h5><p>ページ構成と導線の設計</p></div>
+        <div class="flow-step phase-design"><span class="num">STEP 03</span><h5>ワイヤーフレーム</h5><p>各ページの骨組み・情報設計</p></div>
+        <div class="flow-step phase-design"><span class="num">STEP 04</span><h5>デザインカンプ</h5><p>見た目の確定（Figma 等）</p></div>
+        <div class="flow-step phase-dev"><span class="num">STEP 05</span><h5>コーディング</h5><p>HTML/CSS/JS 実装</p></div>
+        <div class="flow-step phase-dev"><span class="num">STEP 06</span><h5>コンテンツ入稿</h5><p>文章・画像を流し込む</p></div>
+        <div class="flow-step phase-dev"><span class="num">STEP 07</span><h5>テスト</h5><p>表示確認・リンクチェック</p></div>
+        <div class="flow-step phase-dev"><span class="num">STEP 08</span><h5>公開 / 運用</h5><p>サーバーアップ・更新対応</p></div>
+      </div>
+    </section>
+
+    <!-- セクション 2：各ステップ詳細 -->
+    <section class="card" id="flow-detail">
+      <h2 class="section-title">各ステップの詳細</h2>
+      <p class="section-lead">各ステップを開いて、何をする工程なのか・誰が担うのかを確認してください。<strong>STEP 01 のヒアリングは特に重要</strong>で、ここでの情報精度が以降すべての工程に効いてきます。</p>
+
+      <details class="step-accordion" open>
+        <summary>STEP 01：ヒアリング / 要件定義 <span class="chip">デザイナー</span></summary>
+        <div class="body">
+          <p>クライアントの目的・ターゲット・予算・スケジュール・競合を確認。デザイナーも同席する場合が多い。</p>
+          <p>ここで得た情報が後工程すべての土台になるため、最も重要な工程。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 02：サイトマップ / 情報設計 <span class="chip">デザイナー</span></summary>
+        <div class="body">
+          <p>どんなページが必要か／導線をどう設計するかを決める。画面遷移図・グローバルナビの整理。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 03：ワイヤーフレーム <span class="chip">デザイナー</span></summary>
+        <div class="body">
+          <p>各ページの骨組みを作る（色を付けない "箱と文字" だけの状態）。まさに本ガイドのような状態。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 04：デザインカンプ <span class="chip">デザイナー</span></summary>
+        <div class="body">
+          <p>Figma / Adobe XD でビジュアルを確定。ブレイクポイントごとに PC／SP のデザインを作る。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 05：コーディング <span class="chip dev">エンジニア / AI</span></summary>
+        <div class="body">
+          <p>HTML / CSS / JavaScript で実装。最近は AI（Cursor / Claude Code）を使うことで、非エンジニアでも対応可能になってきている。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 06：コンテンツ入稿 <span class="chip dev">エンジニア / ディレクター</span></summary>
+        <div class="body">
+          <p>本番の文章・画像を流し込む。CMS（WordPress / STUDIO 等）であればクライアントが後から更新することも可能。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 07：テスト / デバッグ <span class="chip dev">エンジニア</span></summary>
+        <div class="body">
+          <p>ブラウザごとの表示確認／リンク切れ／問い合わせフォーム動作確認など。</p>
+        </div>
+      </details>
+
+      <details class="step-accordion">
+        <summary>STEP 08：公開 / 運用 <span class="chip dev">エンジニア / ディレクター</span></summary>
+        <div class="body">
+          <p>サーバーへアップロードして公開。公開後の更新・改修も "運用フェーズ" として続く。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- セクション 3：ディレクター寄りの関わり方コラム -->
+    <section class="card" id="director-role">
+      <h2 class="section-title">コラム：ディレクター寄りの関わり方</h2>
+      <p class="section-lead">「自分でコードを書かないデザイナー」が職業として成立するのは、Web 制作が<strong>"設計" と "実装" の分業</strong>で回るからです。AI が実装側を急速に肩代わりする今、設計者の価値はむしろ上がっています。</p>
+
+      <div class="callout">
+        <h4><i class="fa-solid fa-user-tie"></i> デザイナー = ディレクター + 設計者、と考える</h4>
+        <p>Web 制作では「設計できる人」と「実装できる人」は分かれていることが多い。デザイナーは前者に軸足を置き、実装は AI・エンジニアに任せる体制でも十分回る。</p>
+        <p>特に AI 時代は、<strong>STEP 05 以降を AI に "指示する側" の役割</strong> が重要になる。本ガイド Page 05 で詳説。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page01_what.html"><i class="fa-solid fa-arrow-left"></i> 前へ：仕事を知る</a>
+    <a class="next" href="page03_design.html">次へ：Webデザインの基礎知識 <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>

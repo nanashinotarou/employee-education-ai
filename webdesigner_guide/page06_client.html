@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 06：クライアントワークの実際 | How to Webデザイナー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root { --bg-body:#f8f9fc; --bg-card:#fff; --bg-dark:#1a1f36; --text-main:#1a1f36; --text-sub:#6b7280; --accent:#ff6b6b; --accent-2:#4ecdc4; --border:#e5e7eb; --shadow:0 4px 20px rgba(0,0,0,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 16px; line-height: 1.8; }
+    header { background: var(--bg-dark); color: #fff; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
+    header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
+    header nav a:hover, header nav a.active { color: var(--accent); }
+    .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
+    .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; }
+    .content-wrap { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); }
+    .section-lead { color: var(--text-sub); font-size: 14px; margin-bottom: 20px; }
+
+    /* 出会い方カード */
+    .meet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+    .meet-item { background: #fafbff; border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+    .meet-item h5 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .meet-item h5 i { color: var(--accent); margin-right: 6px; }
+    .meet-item p { font-size: 12px; color: var(--text-sub); }
+
+    /* ヒアリングシート */
+    .hearing-list { list-style: none; padding: 0; margin: 0; }
+    .hearing-list li { padding: 10px 14px; border-left: 3px solid var(--accent); background: #fff7f7; margin-bottom: 8px; border-radius: 0 6px 6px 0; font-size: 13px; }
+    .hearing-list li strong { color: var(--accent); margin-right: 6px; }
+
+    /* コミュニケーション心得 */
+    .tips-list { margin-top: 10px; }
+    .tips-list .tip { display: flex; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.7; }
+    .tips-list .tip i { flex: 0 0 20px; color: var(--accent-2); margin-top: 4px; }
+
+    /* トラブル防止警告 */
+    .warn-box { background: #fff2f2; border: 1px solid #ffc9c9; border-left: 5px solid var(--accent); border-radius: 8px; padding: 18px; margin-top: 12px; }
+    .warn-box h4 { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .warn-box h4 i { margin-right: 6px; }
+    .warn-box p { font-size: 13px; color: var(--text-main); }
+
+    .page-nav { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; display: flex; justify-content: space-between; gap: 16px; }
+    .page-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--bg-dark); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+    .page-nav a:hover { opacity: 0.85; }
+    .page-nav a.next { background: var(--accent); margin-left: auto; }
+
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+    footer a { color: var(--accent-2); text-decoration: none; }
+
+    /* COLUMN 共通スタイル（作画カロリー・AI開発コスト） */
+    .col-card { background: linear-gradient(180deg, #ffffff, #fafbff); border: 1px solid var(--border); border-radius: 14px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 32px; position: relative; overflow: hidden; }
+    .col-card::before { content: "COLUMN"; position: absolute; top: 16px; right: 20px; font-family: "Roboto", sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 0.18em; color: var(--accent); }
+    .col-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); padding-right: 90px; }
+    .col-card h2 .col-num { color: var(--accent); font-family: "Roboto", sans-serif; font-weight: 900; margin-right: 8px; font-size: 18px; }
+    .col-card .col-lead { color: var(--text-sub); font-size: 14.5px; margin-bottom: 20px; line-height: 1.95; }
+
+    .compare-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
+    .col-list-box { border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+    .col-list-box.high { background: #fff5f5; border-left: 5px solid var(--accent); }
+    .col-list-box.low  { background: #f3fcfb; border-left: 5px solid var(--accent-2); }
+    .col-list-box h4 { font-size: 14.5px; font-weight: 700; margin-bottom: 10px; }
+    .col-list-box.high h4 i { color: var(--accent); margin-right: 6px; }
+    .col-list-box.low  h4 i { color: var(--accent-2); margin-right: 6px; }
+    .col-list-box ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .col-list-box li { font-size: 13px; padding-left: 16px; position: relative; line-height: 1.75; }
+    .col-list-box.high li::before { content: "▲"; position: absolute; left: 0; top: 0.2em; color: var(--accent); font-size: 9px; }
+    .col-list-box.low  li::before { content: "●"; position: absolute; left: 0; top: 0.2em; color: var(--accent-2); font-size: 9px; }
+
+    .col-callout { background: #fffaf6; border: 1px dashed var(--accent); border-radius: 10px; padding: 18px 20px; margin-top: 18px; }
+    .col-callout h4 { font-size: 14.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .col-callout h4 i { margin-right: 6px; }
+    .col-callout p { font-size: 13px; color: var(--text-main); line-height: 1.85; }
+
+    /* AIスタック */
+    .ai-stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+    .ai-stack-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px 16px; text-align: center; }
+    .ai-stack-item .tool { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 15px; color: var(--text-main); margin-bottom: 4px; }
+    .ai-stack-item .price { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+    .ai-stack-item .role { font-size: 12px; color: var(--text-sub); line-height: 1.7; }
+    .ai-stack-total { background: var(--bg-dark); color: #fff; border-radius: 10px; padding: 14px 18px; text-align: center; margin-top: 12px; font-size: 14px; }
+    .ai-stack-total strong { color: var(--accent); font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; margin: 0 4px; }
+
+    /* 採算テーブル */
+    .biz-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 12px 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); font-size: 13px; }
+    .biz-table th, .biz-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .biz-table th { background: #f3f4f6; font-weight: 700; font-size: 12px; color: var(--text-sub); letter-spacing: 0.02em; }
+    .biz-table tr:last-child td { border-bottom: none; }
+    .biz-table td:first-child { font-weight: 700; color: var(--text-main); }
+    .biz-table td:nth-child(2) { color: var(--accent); font-weight: 700; }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      header nav { display: none; }
+      .page-hero { padding: 32px 20px; }
+      .page-hero h1 { font-size: 24px; }
+      .content-wrap { margin: 32px auto; }
+      .card { padding: 20px; }
+      .page-nav { flex-direction: column; }
+      .page-nav a.next { margin-left: 0; }
+      .col-card { padding: 22px; }
+      .col-card h2 { padding-right: 0; font-size: 19px; }
+      .col-card::before { display: none; }
+      .compare-2col { grid-template-columns: 1fr; }
+      .ai-stack { grid-template-columns: 1fr; }
+      .biz-table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+    <nav>
+      <a href="page01_what.html">仕事を知る</a>
+      <a href="page02_workflow.html">ワークフロー</a>
+      <a href="page03_design.html">デザイン基礎</a>
+      <a href="page04_tools.html">ツール</a>
+      <a href="page05_ai.html">AIと活用</a>
+      <a href="page06_client.html" class="active">クライアントワーク</a>
+      <a href="page07_start.html">始め方</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-num">PAGE 06</div>
+    <h1>クライアントワークの実際</h1>
+    <p>出会い方から納品・運用まで。<br>"制作スキル" と同じくらい大事な "仕事としての進め方"。</p>
+  </section>
+
+  <main class="content-wrap">
+
+    <!-- 出会い方 -->
+    <section class="card" id="meet-client">
+      <h2 class="section-title">クライアントとの出会い方</h2>
+      <p class="section-lead">大きく分けて 4 経路。いきなり 1 から営業、ではなく "つながりから始まる" ことが多い。</p>
+
+      <div class="meet-grid">
+        <div class="meet-item"><h5><i class="fa-solid fa-user-group"></i> 既存のつながり</h5><p>友人・知人・元同僚からの紹介。最も始めやすく信頼関係も早い。</p></div>
+        <div class="meet-item"><h5><i class="fa-solid fa-globe"></i> SNS / ポートフォリオ</h5><p>発信経由での問い合わせ。Page 07 のポートフォリオ話とつながる。</p></div>
+        <div class="meet-item"><h5><i class="fa-solid fa-briefcase"></i> クラウドソーシング</h5><p>ランサーズ／ココナラ等。価格勝負になりがち。</p></div>
+        <div class="meet-item"><h5><i class="fa-solid fa-building"></i> エージェント</h5><p>常駐型フリーランス向けの紹介会社を経由。</p></div>
+      </div>
+    </section>
+
+    <!-- ヒアリング -->
+    <section class="card" id="hearing">
+      <h2 class="section-title">はじめての打ち合わせで聞くこと</h2>
+      <p class="section-lead">"何となく" で進めると後工程が崩壊する。最低限ここを押さえる。</p>
+
+      <ol class="hearing-list">
+        <li><strong>目的</strong>なぜ Web サイトを作るのか／作り直したいのか</li>
+        <li><strong>ターゲット</strong>誰に届けたいのか・そのペルソナの行動特性</li>
+        <li><strong>KPI</strong>成功の基準は何か（問い合わせ数／売上／認知）</li>
+        <li><strong>スケジュール</strong>公開希望日・マストとベスト</li>
+        <li><strong>予算</strong>上限・優先順位</li>
+        <li><strong>運用体制</strong>公開後に誰が更新するのか</li>
+        <li><strong>参考サイト</strong>好き／嫌いを 3 サイトずつ</li>
+      </ol>
+    </section>
+
+    <!-- 提案・見積もり -->
+    <section class="card" id="proposal">
+      <h2 class="section-title">提案・見積もりの考え方</h2>
+      <p class="section-lead">"時間単価 × 工数" ではなく<strong>「価値ベース」</strong>で考える習慣を。</p>
+
+      <div class="tips-list">
+        <div class="tip"><i class="fa-solid fa-check"></i><div><strong>項目の分解</strong>：ヒアリング／設計／デザイン／実装／運用と、工程ごとに見積もる。</div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div><strong>範囲の明記</strong>：含まないもの（素材撮影・原稿作成 等）を必ず書く。</div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div><strong>修正回数</strong>：無制限にしない。2〜3 回までが一般的。</div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div><strong>支払い条件</strong>：着手金・中間金・納品後、のタイミングを明示。</div></div>
+      </div>
+    </section>
+
+    <!-- 制作中のコミュニケーション -->
+    <section class="card" id="during">
+      <h2 class="section-title">制作中のコミュニケーション</h2>
+      <p class="section-lead">沈黙はトラブルの温床。"見せながら進める" がベスト。</p>
+
+      <div class="tips-list">
+        <div class="tip"><i class="fa-solid fa-clock"></i><div><strong>定例ミーティング</strong>：週 1 or 隔週で 30 分でも良いので固定する。</div></div>
+        <div class="tip"><i class="fa-solid fa-image"></i><div><strong>早い段階で画面を見せる</strong>：ワイヤーの段階で共有するほどズレが減る。</div></div>
+        <div class="tip"><i class="fa-solid fa-circle-exclamation"></i><div><strong>悪い知らせほど早く</strong>：遅延・不具合は隠さず即共有。</div></div>
+        <div class="tip"><i class="fa-solid fa-file-lines"></i><div><strong>議事録を残す</strong>：Notion / ドキュメントに決定事項を記録。</div></div>
+      </div>
+    </section>
+
+    <!-- 契約・仕様書 -->
+    <section class="card" id="contract">
+      <h2 class="section-title">トラブルを防ぐための契約・仕様書</h2>
+      <p class="section-lead">"口頭だけ" は必ず揉める。最低限の書面は必ず残す。</p>
+
+      <div class="warn-box">
+        <h4><i class="fa-solid fa-triangle-exclamation"></i> 必ず書面にしておくべき 5 項目</h4>
+        <p>
+          ① 納品物の範囲（ページ数・画像点数）／
+          ② 修正回数と追加料金／
+          ③ 著作権の帰属（納品後にクライアントへ譲渡か、制作者保持か）／
+          ④ 検収の条件・期限／
+          ⑤ 支払いタイミングと遅延時の対応
+        </p>
+      </div>
+    </section>
+
+    <!-- COLUMN 1：作画カロリーと採算性 -->
+    <section class="col-card" id="col-calorie">
+      <h2><span class="col-num">01</span>稼げる案件の選び方——「作画カロリー」を意識する</h2>
+      <p class="col-lead">どれだけ丁寧に仕事をしても、<strong>最初の案件選択で採算が決まる</strong>ことがあります。「作画カロリー」——その案件にかかる設計・実装・調整コストの総量——を見積もる力が、Web デザイナーの収益を左右します。</p>
+
+      <div class="compare-2col">
+        <div class="col-list-box high">
+          <h4><i class="fa-solid fa-fire"></i> 作画カロリーが高い案件（低単価で受けると危険）</h4>
+          <ul>
+            <li>複雑なアニメーション・インタラクション多用</li>
+            <li>カスタムイラスト・オリジナルビジュアルが必須</li>
+            <li>ページ数が多く、コンテンツ量も膨大</li>
+            <li>多言語対応・会員機能など複合要件</li>
+            <li>要件が曖昧なクライアント（修正が青天井になりやすい）</li>
+          </ul>
+        </div>
+        <div class="col-list-box low">
+          <h4><i class="fa-solid fa-leaf"></i> カロリー低く・高単価を狙いやすい案件</h4>
+          <ul>
+            <li>LP（1 ページ完結・明確な目的）</li>
+            <li>WordPress テーマのカスタマイズ</li>
+            <li>STUDIO や Wix などノーコード CMS 案件</li>
+            <li>定期保守・更新作業（継続課金モデル）</li>
+            <li>要件定義・ワイヤーフレームのみ（上流工程特化）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-callout">
+        <h4><i class="fa-solid fa-quote-left"></i> 省エネで高単価を狙う、がプロの発想</h4>
+        <p>AI を使えば実装コストは下がる。でも<strong>設計・確認・コミュニケーションコストは下がらない</strong>。だからこそ、上流工程の価値はむしろ上がっています。コードを書ける量で勝負するのではなく、案件の "重さ" を見抜いて選び取る判断力が収益を決めます。</p>
+      </div>
+    </section>
+
+    <!-- COLUMN 2：AI開発環境のコスト配分と採算設計 -->
+    <section class="col-card" id="col-ai-cost">
+      <h2><span class="col-num">02</span>月 1 万円で「止まらない開発環境」を作る発想</h2>
+      <p class="col-lead">開発にかかるコストは「時間」だけではなく<strong>「AI のトークン使用量」</strong>も含む時代になりました。どの AI ツールに何を任せるか——その設計力が、採算を決めます。</p>
+
+      <h4 style="font-size:14.5px; margin: 18px 0 6px;">現実的な AI 開発環境の例（月額目安）</h4>
+      <div class="ai-stack">
+        <div class="ai-stack-item">
+          <div class="tool">Claude Code</div>
+          <div class="price">¥2,500〜3,000 / 月</div>
+          <div class="role">要件定義・実装計画・レビュー・仕様書作成</div>
+        </div>
+        <div class="ai-stack-item">
+          <div class="tool">Cursor</div>
+          <div class="price">¥2,000〜3,000 / 月</div>
+          <div class="role">コーディング・実装の実行担当</div>
+        </div>
+        <div class="ai-stack-item">
+          <div class="tool">Antigravity 等</div>
+          <div class="price">¥数百〜数千 / 月</div>
+          <div class="role">デプロイ・Google Workspace 連携・自動化</div>
+        </div>
+      </div>
+      <div class="ai-stack-total">
+        合計 <strong>月 ¥10,000</strong> 前後で、役割分担された「止まらない開発環境」が成立する。
+      </div>
+
+      <h4 style="font-size:14.5px; margin: 22px 0 6px;">考え方</h4>
+      <div class="tips-list">
+        <div class="tip"><i class="fa-solid fa-check"></i><div>MAX プランを無制限に使っても、<strong>採算割れなら意味がない</strong></div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div>AI のトークン消費量は、案件の複雑さ・開発難度にある程度比例する</div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div>つまり「AI に何を頼むか」を設計できる人が、コストを制御できる</div></div>
+        <div class="tip"><i class="fa-solid fa-check"></i><div><strong>Claude Code → 計画と判断、Cursor → 実装、Antigravity → 運用</strong>という役割分担が「省エネ高単価」の一形態</div></div>
+      </div>
+
+      <h4 style="font-size:14.5px; margin: 22px 0 6px;">案件種別ごとの採算目安</h4>
+      <div style="overflow-x:auto;">
+        <table class="biz-table">
+          <thead><tr><th>案件種別</th><th>目安単価</th><th>目安工数</th></tr></thead>
+          <tbody>
+            <tr><td>LP（シンプル）</td><td>3〜8 万円</td><td>3〜10h</td></tr>
+            <tr><td>コーポレートサイト</td><td>15〜50 万円</td><td>40〜100h</td></tr>
+            <tr><td>WordPress 構築</td><td>10〜30 万円</td><td>20〜60h</td></tr>
+            <tr><td>EC サイト</td><td>30〜100 万円＋</td><td>100h＋</td></tr>
+            <tr><td>保守・更新（月額）</td><td>1〜5 万円 / 月</td><td>数 h / 月</td></tr>
+            <tr><td>上流工程のみ（要件定義・WF）</td><td>5〜20 万円</td><td>10〜30h</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="page-nav">
+    <a href="page05_ai.html"><i class="fa-solid fa-arrow-left"></i> 前へ：AIとWebデザイン</a>
+    <a class="next" href="page07_start.html">次へ：これから始める人へ <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+
+  <footer>
+    <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
+    <p style="margin-top:8px;">© 2026 H.K</p>
+  </footer>
+
+</body>
+</html>
