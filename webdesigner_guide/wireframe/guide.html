@@ -8,15 +8,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-body:   #0f1117;
-      --bg-card:   #1a1f36;
-      --bg-light:  #1e2440;
-      --text-main: #e8eaf0;
-      --text-sub:  #9ca3af;
-      --accent:    #ff6b6b;
-      --accent-making: #ff9500;
-      --border:    rgba(255,255,255,0.08);
-      --shadow:    0 4px 20px rgba(0,0,0,0.3);
+      --bg-body:   #faf8f5;
+      --bg-card:   #ffffff;
+      --bg-light:  #f5f0ea;
+      --text-main: #2c3440;
+      --text-sub:  #7a8494;
+      --accent:    #e07050;
+      --accent-making: #c47a20;
+      --border:    #e8e4df;
+      --shadow:    0 4px 20px rgba(44,52,64,0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,7 +30,7 @@
     }
 
     .guide-header {
-      background: rgba(0,0,0,0.4);
+      background: #3d4f6f;
       padding: 14px 40px;
       display: flex;
       align-items: center;
@@ -38,22 +38,21 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
     .guide-header .brand {
       font-family: "Roboto", sans-serif;
       font-weight: 900;
       font-size: 16px;
-      color: var(--accent-making);
+      color: #f5c86e;
       letter-spacing: 0.05em;
     }
     .guide-header a {
       font-size: 13px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.8);
       text-decoration: none;
     }
-    .guide-header a:hover { color: var(--accent-making); }
+    .guide-header a:hover { color: #f5c86e; }
 
     .inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
@@ -80,7 +79,7 @@
     /* ワイヤー版と同じ注釈スタイル */
     .wf-note {
       background: #fff3cd;
-      border-left: 4px solid #ff9500;
+      border-left: 4px solid #d4940a;
       padding: 10px 16px;
       margin: 16px 0;
       font-size: 13px;
@@ -91,7 +90,7 @@
     .wf-note strong { color: #5a3c00; }
 
     .page-meta {
-      background: #333;
+      background: #3d4f6f;
       color: #fff;
       padding: 6px 20px;
       font-size: 12px;
@@ -120,7 +119,7 @@
     }
     .process-step {
       min-width: 0;
-      background: var(--bg-light);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px 12px;
@@ -147,7 +146,7 @@
       gap: 16px;
     }
     .compare-card {
-      background: var(--bg-light);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 20px 16px;
@@ -166,7 +165,7 @@
     .hero {
       text-align: center;
       padding: 80px 24px 64px;
-      background: radial-gradient(circle at 50% 30%, rgba(255,149,0,0.12), transparent 60%);
+      background: linear-gradient(135deg, #f5ede4, #efe6da);
     }
     .hero .eyeline {
       font-size: 12px;
@@ -194,7 +193,7 @@
       padding: 48px 24px;
     }
     .cta-block .cta-lead {
-      color: #9ca3af;
+      color: var(--text-sub);
       font-size: 14px;
       margin-bottom: 24px;
     }
@@ -209,19 +208,19 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 15px;
-      box-shadow: 0 8px 24px rgba(255,149,0,0.4);
+      box-shadow: 0 8px 24px rgba(196,122,32,0.3);
     }
     .cta-btn:hover { filter: brightness(1.05); }
-    .cta-hint { margin-top: 16px; font-size: 12px; color: #6b7280; }
+    .cta-hint { margin-top: 16px; font-size: 12px; color: var(--text-sub); }
 
     footer {
-      background: #0a0d14;
-      color: rgba(255,255,255,0.4);
+      background: #3d4f6f;
+      color: rgba(255,255,255,0.7);
       text-align: center;
       padding: 28px 24px;
       font-size: 13px;
     }
-    footer a { color: var(--accent-making); text-decoration: none; }
+    footer a { color: #f5c86e; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
     @media (max-width: 768px) {
@@ -283,7 +282,7 @@
       </div>
     </section>
 
-    <section class="section-pad" id="read" style="background: rgba(0,0,0,0.2);">
+    <section class="section-pad" id="read" style="background: #f2ece4;">
       <div class="inner">
         <h2 class="section-title">このサイトのワイヤーフレームの読み方</h2>
         <p style="color: var(--text-sub); margin-bottom: 24px; font-size: 15px;">
@@ -371,7 +370,7 @@
       </div>
     </section>
 
-    <section class="section-pad" id="compare" style="background: rgba(0,0,0,0.2);">
+    <section class="section-pad" id="compare" style="background: #f2ece4;">
       <div class="inner">
         <h2 class="section-title">本番版との比較ポイント3選</h2>
         <div class="compare-grid">
