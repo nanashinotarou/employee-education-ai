@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -24,6 +24,10 @@
     .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
     header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
     header nav a:hover, header nav a.active { color: var(--accent); }
+
+    /* ハンバーガートグル（PCでは非表示）*/
+    .nav-toggle { display: none; }
+    .nav-toggle-label { display: none; }
     .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
     .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
     .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
@@ -67,7 +71,63 @@
 
     @media (max-width: 768px) {
       header { padding: 0 20px; }
-      header nav { display: none; }
+      /* ハンバーガーアイコン（ヘッダー右に表示）*/
+      .nav-toggle-label {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .nav-toggle-label::before { content: "\2630"; } /* ☰ */
+
+      /* ナビをドロワー化 */
+      header nav {
+        display: block;
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 80%;
+        max-width: 320px;
+        height: calc(100vh - 64px);
+        background: var(--bg-dark);
+        padding: 24px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+        overflow-y: auto;
+      }
+      header nav a {
+        display: block;
+        margin-left: 0;
+        padding: 14px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 15px;
+      }
+
+      /* チェック時：ドロワー展開 + アイコンを × に */
+      .nav-toggle:checked ~ nav {
+        transform: translateX(0);
+      }
+      .nav-toggle:checked ~ .nav-toggle-label::before {
+        content: "\00D7"; /* × */
+        font-size: 28px;
+      }
+
+      /* オーバーレイ（背景クリックで閉じる）*/
+      .nav-toggle:checked ~ .nav-overlay {
+        display: block;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 64px);
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+      }
+      .nav-overlay { display: none; }
       .page-hero { padding: 32px 20px; }
       .page-hero h1 { font-size: 24px; }
       .content-wrap { margin: 32px auto; }
@@ -82,6 +142,11 @@
 
   <header>
     <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+
+    <!-- ハンバーガートグル（追加）-->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="メニュー開閉">
+    <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true"></label>
+
     <nav>
       <a href="page01_what.html">仕事を知る</a>
       <a href="page02_workflow.html" class="active">ワークフロー</a>
@@ -91,6 +156,9 @@
       <a href="page06_client.html">クライアントワーク</a>
       <a href="page07_start.html">始め方</a>
     </nav>
+
+    <!-- 背景クリックで閉じるためのオーバーレイ（追加）-->
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </header>
 
   <section class="page-hero">
@@ -105,6 +173,10 @@
     <section class="card" id="flow-overview">
       <h2 class="section-title">ワークフロー全体図（8 ステップ）</h2>
       <p class="section-lead">赤系カードは<strong>デザイナーが主役</strong>の工程、青緑カードは<strong>エンジニア・実装寄り</strong>の工程。完全な分業ではなく、ヒアリング〜公開まで重なり合いながら進みます。</p>
+      <p style="font-size:13px; color:var(--text-sub); margin-top:-6px; margin-bottom:18px; line-height:1.95;">
+        Web 制作は「作る前」と「作った後」が肝。全工程を俯瞰して、各段階で<strong>何を決め、何を確認するか</strong>がわかると、
+        デザイナーとしての立ち位置（設計側・ディレクション側）も一気に見えやすくなる。
+      </p>
 
       <div class="flow-grid">
         <div class="flow-step phase-design"><span class="num">STEP 01</span><h5>ヒアリング</h5><p>要件・目的・ターゲットの確認</p></div>
@@ -144,6 +216,19 @@
           <p>各ページの骨組みを作る（色を付けない "箱と文字" だけの状態）。まさに本ガイドのような状態。</p>
         </div>
       </details>
+
+      <div style="background:linear-gradient(135deg, #fff7f7, #fff); border:1px solid #ffc9c9; border-left:5px solid var(--accent); border-radius:10px; padding:20px 24px; margin-bottom:10px;">
+        <h4 style="font-size:14px; font-weight:700; color:var(--accent); margin-bottom:8px;">
+          <i class="fa-solid fa-film" style="margin-right:6px;"></i> 実例で見る：このサイト自体のワイヤーフレーム
+        </h4>
+        <p style="font-size:13px; color:var(--text-main); line-height:1.85; margin-bottom:12px;">
+          いま読んでいる "How to Webデザイナー" の各ページは、実際にワイヤーフレーム（骨組み）から段階的に作り上げられました。<br>
+          <strong>制作プロセスをそのまま追体験できるメイキングページ</strong>を公開しています。
+        </p>
+        <a href="wireframe/guide.html" style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px; background:var(--bg-dark); color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:700; transition:opacity 0.2s;">
+          <i class="fa-solid fa-arrow-right"></i> メイキングを見る（ワイヤーフレーム版）
+        </a>
+      </div>
 
       <details class="step-accordion">
         <summary>STEP 04：デザインカンプ <span class="chip">デザイナー</span></summary>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -60,6 +60,10 @@
     }
     header nav a:hover,
     header nav a.active { color: var(--accent); }
+
+    /* ハンバーガートグル（PCでは非表示）*/
+    .nav-toggle { display: none; }
+    .nav-toggle-label { display: none; }
 
     .page-hero {
       background: var(--bg-dark);
@@ -312,7 +316,63 @@
 
     @media (max-width: 768px) {
       header { padding: 0 20px; }
-      header nav { display: none; }
+      /* ハンバーガーアイコン（ヘッダー右に表示）*/
+      .nav-toggle-label {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .nav-toggle-label::before { content: "\2630"; } /* ☰ */
+
+      /* ナビをドロワー化 */
+      header nav {
+        display: block;
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 80%;
+        max-width: 320px;
+        height: calc(100vh - 64px);
+        background: var(--bg-dark);
+        padding: 24px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+        overflow-y: auto;
+      }
+      header nav a {
+        display: block;
+        margin-left: 0;
+        padding: 14px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 15px;
+      }
+
+      /* チェック時：ドロワー展開 + アイコンを × に */
+      .nav-toggle:checked ~ nav {
+        transform: translateX(0);
+      }
+      .nav-toggle:checked ~ .nav-toggle-label::before {
+        content: "\00D7"; /* × */
+        font-size: 28px;
+      }
+
+      /* オーバーレイ（背景クリックで閉じる）*/
+      .nav-toggle:checked ~ .nav-overlay {
+        display: block;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 64px);
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+      }
+      .nav-overlay { display: none; }
       .page-hero { padding: 32px 20px; }
       .page-hero h1 { font-size: 24px; }
       .top-hero { padding: 56px 20px 48px; }
@@ -334,6 +394,11 @@
   <!-- ヘッダー -->
   <header>
     <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+
+    <!-- ハンバーガートグル（追加）-->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="メニュー開閉">
+    <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true"></label>
+
     <nav>
       <a href="page01_what.html">仕事を知る</a>
       <a href="page02_workflow.html">ワークフロー</a>
@@ -343,12 +408,14 @@
       <a href="page06_client.html">クライアントワーク</a>
       <a href="page07_start.html">始め方</a>
     </nav>
+
+    <!-- 背景クリックで閉じるためのオーバーレイ（追加）-->
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </header>
 
   <!-- ヒーローエリア -->
   <section class="page-hero top-hero">
     <div class="page-num">HOW TO WEBDESIGNER</div>
-    <!-- CATCHCOPY: 現在検討中。ここを差し替える。暫定：「デザインを、仕事に変える。」 -->
     <h1>デザインを、<span class="accent">仕事に変える。</span></h1>
     <p class="sub">
       素材を作れるだけでは、仕事にならない時代がきた。<br>
@@ -527,10 +594,20 @@
     </a>
   </nav>
 
-  <!-- 制作の裏側を見るリンク -->
-  <div style="text-align:center; padding:24px; border-top:1px solid #e5e7eb; margin-top:8px;">
-    <a href="wireframe/guide.html" style="font-size:13px; color:#6b7280; text-decoration:none;">
-      <i class="fa-solid fa-film"></i> このサイトの制作過程を見る（ワイヤーフレーム版）
+  <div style="max-width:960px; margin:0 auto; padding:24px 24px 0;">
+    <a href="wireframe/guide.html" style="
+      display:flex; align-items:center; gap:16px;
+      padding:20px 24px; background:#fafbff; border:1px solid #e5e7eb;
+      border-radius:10px; text-decoration:none; color:#1a1f36;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    " onmouseover="this.style.borderColor='#ff6b6b'; this.style.boxShadow='0 4px 16px rgba(255,107,107,0.12)';"
+       onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none';">
+      <i class="fa-solid fa-film" style="font-size:20px; color:#ff6b6b; flex-shrink:0;"></i>
+      <div>
+        <div style="font-size:14px; font-weight:700;">このサイトの制作過程を見る</div>
+        <div style="font-size:12px; color:#6b7280; margin-top:2px;">ワイヤーフレーム → 完成版への変遷をメイキング形式で追体験できます</div>
+      </div>
+      <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#ff6b6b; font-size:14px; flex-shrink:0;"></i>
     </a>
   </div>
 

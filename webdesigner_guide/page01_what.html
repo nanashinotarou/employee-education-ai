@@ -26,6 +26,10 @@
     header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
     header nav a:hover, header nav a.active { color: var(--accent); }
 
+    /* ハンバーガートグル（PCでは非表示）*/
+    .nav-toggle { display: none; }
+    .nav-toggle-label { display: none; }
+
     .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
     .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
     .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
@@ -80,7 +84,64 @@
 
     @media (max-width: 768px) {
       header { padding: 0 20px; }
-      header nav { display: none; }
+      /* ハンバーガーアイコン（ヘッダー右に表示）*/
+      .nav-toggle-label {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .nav-toggle-label::before { content: "\2630"; } /* ☰ */
+
+      /* ナビをドロワー化 */
+      header nav {
+        display: block;
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 80%;
+        max-width: 320px;
+        height: calc(100vh - 64px);
+        background: var(--bg-dark);
+        padding: 24px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+        overflow-y: auto;
+      }
+      header nav a {
+        display: block;
+        margin-left: 0;
+        padding: 14px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 15px;
+      }
+
+      /* チェック時：ドロワー展開 + アイコンを × に */
+      .nav-toggle:checked ~ nav {
+        transform: translateX(0);
+      }
+      .nav-toggle:checked ~ .nav-toggle-label::before {
+        content: "\00D7"; /* × */
+        font-size: 28px;
+      }
+
+      /* オーバーレイ（背景クリックで閉じる）*/
+      .nav-toggle:checked ~ .nav-overlay {
+        display: block;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 64px);
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+      }
+      .nav-overlay { display: none; }
+
       .page-hero { padding: 32px 20px; }
       .page-hero h1 { font-size: 24px; }
       .content-wrap { margin: 32px auto; }
@@ -96,6 +157,11 @@
 
   <header>
     <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+
+    <!-- ハンバーガートグル（追加）-->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="メニュー開閉">
+    <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true"></label>
+
     <nav>
       <a href="page01_what.html" class="active">仕事を知る</a>
       <a href="page02_workflow.html">ワークフロー</a>
@@ -105,6 +171,9 @@
       <a href="page06_client.html">クライアントワーク</a>
       <a href="page07_start.html">始め方</a>
     </nav>
+
+    <!-- 背景クリックで閉じるためのオーバーレイ（追加）-->
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </header>
 
   <section class="page-hero">

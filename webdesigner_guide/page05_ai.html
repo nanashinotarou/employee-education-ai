@@ -14,6 +14,10 @@
     .site-logo { font-family: "Roboto", sans-serif; font-weight: 900; font-size: 18px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; }
     header nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; margin-left: 20px; transition: color 0.2s; }
     header nav a:hover, header nav a.active { color: var(--accent); }
+
+    /* ハンバーガートグル（PCでは非表示）*/
+    .nav-toggle { display: none; }
+    .nav-toggle-label { display: none; }
     .page-hero { background: var(--bg-dark); color: #fff; padding: 48px 40px; text-align: center; }
     .page-hero .page-num { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
     .page-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
@@ -55,7 +59,63 @@
 
     @media (max-width: 768px) {
       header { padding: 0 20px; }
-      header nav { display: none; }
+      /* ハンバーガーアイコン（ヘッダー右に表示）*/
+      .nav-toggle-label {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .nav-toggle-label::before { content: "\2630"; } /* ☰ */
+
+      /* ナビをドロワー化 */
+      header nav {
+        display: block;
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 80%;
+        max-width: 320px;
+        height: calc(100vh - 64px);
+        background: var(--bg-dark);
+        padding: 24px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+        overflow-y: auto;
+      }
+      header nav a {
+        display: block;
+        margin-left: 0;
+        padding: 14px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 15px;
+      }
+
+      /* チェック時：ドロワー展開 + アイコンを × に */
+      .nav-toggle:checked ~ nav {
+        transform: translateX(0);
+      }
+      .nav-toggle:checked ~ .nav-toggle-label::before {
+        content: "\00D7"; /* × */
+        font-size: 28px;
+      }
+
+      /* オーバーレイ（背景クリックで閉じる）*/
+      .nav-toggle:checked ~ .nav-overlay {
+        display: block;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 64px);
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+      }
+      .nav-overlay { display: none; }
       .page-hero { padding: 32px 20px; }
       .page-hero h1 { font-size: 24px; }
       .content-wrap { margin: 32px auto; }
@@ -69,6 +129,11 @@
 
   <header>
     <a href="index.html" class="site-logo">HOW TO WEBDESIGNER</a>
+
+    <!-- ハンバーガートグル（追加）-->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="メニュー開閉">
+    <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true"></label>
+
     <nav>
       <a href="page01_what.html">仕事を知る</a>
       <a href="page02_workflow.html">ワークフロー</a>
@@ -78,6 +143,9 @@
       <a href="page06_client.html">クライアントワーク</a>
       <a href="page07_start.html">始め方</a>
     </nav>
+
+    <!-- 背景クリックで閉じるためのオーバーレイ（追加）-->
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </header>
 
   <section class="page-hero">
@@ -101,12 +169,51 @@
         <div class="ai-usage-item"><h5><i class="fa-solid fa-magnifying-glass-chart"></i> 情報整理</h5><p>ヒアリング内容の要約・構造化・FAQ 抽出。</p></div>
         <div class="ai-usage-item"><h5><i class="fa-solid fa-bug"></i> デバッグ</h5><p>表示崩れ・JS エラーの原因特定をアシスト。</p></div>
       </div>
+
+      <div style="margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div style="border:1px solid var(--border); border-radius:10px; padding:16px; background:#fafbff;">
+          <h4 style="font-size:14px; margin-bottom:8px;"><i class="fa-solid fa-check" style="color:var(--accent); margin-right:6px;"></i>AI が得意なこと</h4>
+          <ul style="font-size:13px; color:var(--text-sub); line-height:1.9; padding-left:1.1em;">
+            <li>素材生成（画像・テキスト・コード）</li>
+            <li>パターン化された作業の高速化</li>
+            <li>大量の選択肢からの絞り込み</li>
+          </ul>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:10px; padding:16px; background:#fff;">
+          <h4 style="font-size:14px; margin-bottom:8px;"><i class="fa-solid fa-user" style="color:var(--accent); margin-right:6px;"></i>人が担うべきこと</h4>
+          <ul style="font-size:13px; color:var(--text-sub); line-height:1.9; padding-left:1.1em;">
+            <li>ゴール設定（何を作るべきか）</li>
+            <li>クライアント・ユーザーとの対話</li>
+            <li>採算・優先度の判断</li>
+            <li>成果物の最終的な品質判断</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- 画像生成AI -->
     <section class="card" id="image-ai">
       <h2 class="section-title">画像生成 AI</h2>
       <p class="section-lead">ヒーロー画像・バナー・アイコンまで。著作権・商用利用規約だけ要注意。</p>
+
+      <div style="overflow-x:auto; margin: 10px 0 14px;">
+        <table style="width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:13px;">
+          <thead>
+            <tr style="background:#f3f4f6; color:var(--text-sub);">
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">ツール</th>
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">特徴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Midjourney</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">写実的・芸術的画像。Discord ベース。</td></tr>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">DALL·E</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">自然言語で画像生成。手軽。</td></tr>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Stable Diffusion</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">オープンソース・自由度高い・ローカル運用可。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px; color:var(--text-sub); line-height:1.9; margin-bottom:10px;">
+        使いどころは「完成品を作る」ではなく「叩き台を作って意思決定を早める」こと。たとえばヒーロー画像のドラフト、アイコン/装飾素材、ペルソナのイメージ画像（社内資料用）など。
+      </p>
 
       <div class="ai-category">
         <h4><i class="fa-solid fa-palette"></i> 代表ツール</h4>
@@ -125,6 +232,25 @@
       <h2 class="section-title">デザイン生成 AI</h2>
       <p class="section-lead">UI コンポーネント・画面全体を、プロンプトから出力してくれるツール群。</p>
 
+      <div style="overflow-x:auto; margin: 10px 0 14px;">
+        <table style="width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:13px;">
+          <thead>
+            <tr style="background:#f3f4f6; color:var(--text-sub);">
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">ツール</th>
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">特徴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Stitch（Google）</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">UI生成・Figmaに近い操作感。</td></tr>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Galileo AI</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">UI モックアップ生成。</td></tr>
+            <tr><td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Uizard</td><td style="padding:10px 12px; border-bottom:1px solid var(--border);">手描きスケッチからデジタルデザインへ変換。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px; color:var(--text-sub); line-height:1.9; margin-bottom:10px;">
+        注意点：AI が出力したものをそのまま納品はできない。「叩き台」として使い、人がブランド・UX観点で仕上げるのが現実的。
+      </p>
+
       <div class="ai-category">
         <h4><i class="fa-solid fa-wand-magic-sparkles"></i> 代表ツール</h4>
         <p style="font-size:13px;">Google Stitch（Figma 連携）、Framer AI（そのまま公開）、Uizard（ワイヤーフレーム特化）。</p>
@@ -142,6 +268,10 @@
       <h2 class="section-title">コード生成 AI</h2>
       <p class="section-lead">"コードは書かなくていい" を実現する主役。Cursor・Claude Code・GitHub Copilot が中心。</p>
 
+      <p style="font-size:13px; color:var(--text-sub); line-height:1.95; margin-top:-6px; margin-bottom:12px;">
+        このサイト自体も、AI を役割分担して作っています。<strong>Claude Code（設計・計画）→ Cursor（実装）→ Antigravity（デプロイ）</strong>のように、分業すると止まりにくい。
+      </p>
+
       <div class="ai-category">
         <h4><i class="fa-solid fa-terminal"></i> 代表ツール</h4>
         <div class="tools">
@@ -157,6 +287,22 @@
     <section class="card" id="prompt">
       <h2 class="section-title">プロンプトの書き方</h2>
       <p class="section-lead">"良いプロンプト = 良いクライアントブリーフ"。ヒアリングを構造化する感覚に近い。</p>
+
+      <div style="border:1px solid var(--border); border-radius:10px; padding:16px; background:#fafbff; margin: 10px 0 14px;">
+        <p style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">
+          基本構造は「5点セット」。これを押さえるだけで、出力のブレが激減します。
+        </p>
+        <ol style="font-size:13px; color:var(--text-sub); line-height:1.9; padding-left:1.2em;">
+          <li>何を作るか（具体的な対象）</li>
+          <li>なぜ作るか（目的・用途）</li>
+          <li>どう使うか（ターゲット・配置）</li>
+          <li>スタイル指定（モダン/レトロ等）</li>
+          <li>出力形式（画像サイズ・コード言語等）</li>
+        </ol>
+        <p style="font-size:13px; color:var(--text-sub); margin-top:10px;">
+          悪い例：「いい感じのバナー作って」／良い例：「30代女性向け化粧品ECサイトのトップ用バナー（横長1200×400px）。白＋ベージュ基調で上品に。コピー『あなたの肌に、やさしい一歩』を中央に配置」
+        </p>
+      </div>
 
       <div class="prompt-example">
         <span class="label">PROMPT SAMPLE</span>
@@ -175,6 +321,10 @@
     <section class="card" id="to-training">
       <h2 class="section-title">研修コンテンツへの誘導</h2>
       <p class="section-lead">実際に手を動かすパートは、H.K社内研修サイトで用意しています。</p>
+
+      <p style="font-size:13px; color:var(--text-sub); line-height:1.95; margin-top:-6px; margin-bottom:10px;">
+        研修サイトの Day08〜Day12 では、Cursor / Claude Code / Stitch を実際に動かす回を用意しています。本ページの理論を、研修で実装に落とし込んでみてください。
+      </p>
 
       <div class="cta-training">
         <h4><i class="fa-solid fa-graduation-cap"></i> 実践編は研修サイトで</h4>
