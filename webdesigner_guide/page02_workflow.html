@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -68,6 +68,30 @@
 
     footer { background: var(--bg-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
     footer a { color: var(--accent-2); text-decoration: none; }
+
+    /* === Visual Break コンポーネント === */
+    .point-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: linear-gradient(135deg, #fdf6f0, #faf8f5);
+      border: 1px solid #e8e4df; border-left: 5px solid var(--accent);
+      border-radius: 10px; padding: 20px; margin: 20px 0;
+    }
+    .point-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .point-label {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .point-card p { font-size: 14px; color: var(--text-main); line-height: 1.85; margin: 0; }
+    .visual-divider {
+      height: 1px; margin: 32px 0;
+      background: linear-gradient(90deg, transparent, #e8e4df 20%, #e8e4df 80%, transparent);
+    }
+    .icon-list { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+    .icon-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; line-height: 1.8; color: var(--text-main);
+    }
+    .icon-list li i { color: var(--accent-2); margin-top: 4px; flex-shrink: 0; font-size: 11px; }
 
     @media (max-width: 768px) {
       header { padding: 0 20px; }
@@ -188,6 +212,14 @@
         <div class="flow-step phase-dev"><span class="num">STEP 07</span><h5>テスト</h5><p>表示確認・リンクチェック</p></div>
         <div class="flow-step phase-dev"><span class="num">STEP 08</span><h5>公開 / 運用</h5><p>サーバーアップ・更新対応</p></div>
       </div>
+
+      <div class="point-card">
+        <div class="point-icon">🎨</div>
+        <div>
+          <div class="point-label">デザイナーの出番</div>
+          <p>赤系のSTEP 01〜04が、デザイナーが主に関わる<strong>"設計" のフェーズ</strong>です。ここがしっかりしていれば、後半の実装フェーズもスムーズに進みます。</p>
+        </div>
+      </div>
     </section>
 
     <!-- セクション 2：各ステップ詳細 -->
@@ -198,8 +230,12 @@
       <details class="step-accordion" open>
         <summary>STEP 01：ヒアリング / 要件定義 <span class="chip">デザイナー</span></summary>
         <div class="body">
-          <p>クライアントの目的・ターゲット・予算・スケジュール・競合を確認。デザイナーも同席する場合が多い。</p>
-          <p>ここで得た情報が後工程すべての土台になるため、最も重要な工程。</p>
+          <p>クライアントの目的・ターゲット・予算・スケジュール・競合を確認します。デザイナーも同席することが多いです。</p>
+          <ul class="icon-list">
+            <li><i class="fa-solid fa-circle-check"></i><span><strong>聞くこと:</strong> 目的 / ターゲット / 予算 / 納期 / 競合</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span><strong>ツール例:</strong> ヒアリングシート / Notion / Google Docs</span></li>
+          </ul>
+          <p>ここで得た情報が後工程すべての土台になります。</p>
         </div>
       </details>
 
@@ -275,6 +311,14 @@
         <h4><i class="fa-solid fa-user-tie"></i> デザイナー = ディレクター + 設計者、と考える</h4>
         <p>Web 制作では「設計できる人」と「実装できる人」は分かれていることが多い。デザイナーは前者に軸足を置き、実装は AI・エンジニアに任せる体制でも十分回ります。</p>
         <p>特に AI 時代は、<strong>STEP 05 以降を AI に "指示する側" の役割</strong> が重要になる。本ガイド Page 05 で詳しくお伝えします。</p>
+      </div>
+
+      <div class="point-card">
+        <div class="point-icon">💪</div>
+        <div>
+          <div class="point-label">AI時代のキーメッセージ</div>
+          <p><strong>"指示する側" になれることが、最大の武器です。</strong>コードが書けなくても、「何を作りたいか」「どう動いてほしいか」を的確に伝えられれば、AIやエンジニアと協力して高品質なサイトを作れます。</p>
+        </div>
       </div>
     </section>
 

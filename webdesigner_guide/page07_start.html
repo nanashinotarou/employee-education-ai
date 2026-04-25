@@ -65,6 +65,31 @@
 
     .finale .signature { display: block; margin-top: 18px; font-size: 12px; opacity: 0.85; letter-spacing: 0.05em; }
 
+    
+    /* === Visual Break コンポーネント === */
+    .point-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: linear-gradient(135deg, #fdf6f0, #faf8f5);
+      border: 1px solid #e8e4df; border-left: 5px solid var(--accent);
+      border-radius: 10px; padding: 20px; margin: 20px 0;
+    }
+    .point-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .point-label {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .point-card p { font-size: 14px; color: var(--text-main); line-height: 1.85; margin: 0; }
+    .visual-divider {
+      height: 1px; margin: 32px 0;
+      background: linear-gradient(90deg, transparent, #e8e4df 20%, #e8e4df 80%, transparent);
+    }
+    .icon-list { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+    .icon-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; line-height: 1.8; color: var(--text-main);
+    }
+    .icon-list li i { color: var(--accent-2); margin-top: 4px; flex-shrink: 0; font-size: 11px; }
+
     @media (max-width: 768px) {
       header { padding: 0 20px; }
       /* ハンバーガーアイコン（ヘッダー右に表示）*/
@@ -251,6 +276,14 @@
         </p>
         <a href="index.html"><i class="fa-solid fa-house"></i> トップへ戻る</a>
         <span class="signature">― How to Webデザイナー 編集チーム</span>
+      </div>
+    
+      <div class="point-card">
+        <div class="point-icon">🚀</div>
+        <div>
+          <div class="point-label">はじめの一歩</div>
+          <p><strong>完璧を目指さなくて大丈夫。まずは1つ、小さなサイトを作ってみましょう。</strong>友人のお店、自分の趣味、架空のカフェ——題材は何でもOKです。「作って見せる」経験が、次の仕事につながります。</p>
+        </div>
       </div>
     </section>
 

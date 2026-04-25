@@ -82,6 +82,30 @@
     .scope-box.gray li::before { content: "△"; position: absolute; left: 0; color: #64748b; font-weight: 900; font-size: 12px; top: 0.25em; }
     .scope-box.gray li b { color: var(--text-main); }
 
+    /* === Visual Break コンポーネント === */
+    .point-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: linear-gradient(135deg, #fdf6f0, #faf8f5);
+      border: 1px solid #e8e4df; border-left: 5px solid var(--accent);
+      border-radius: 10px; padding: 20px; margin: 20px 0;
+    }
+    .point-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .point-label {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .point-card p { font-size: 14px; color: var(--text-main); line-height: 1.85; margin: 0; }
+    .visual-divider {
+      height: 1px; margin: 32px 0;
+      background: linear-gradient(90deg, transparent, #e8e4df 20%, #e8e4df 80%, transparent);
+    }
+    .icon-list { list-style: none; padding: 0; margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+    .icon-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; line-height: 1.8; color: var(--text-main);
+    }
+    .icon-list li i { color: var(--accent-2); margin-top: 4px; flex-shrink: 0; }
+
     @media (max-width: 768px) {
       header { padding: 0 20px; }
       /* ハンバーガーアイコン（ヘッダー右に表示）*/
@@ -227,6 +251,14 @@
           </tbody>
         </table>
       </div>
+
+      <div class="point-card">
+        <div class="point-icon">💡</div>
+        <div>
+          <div class="point-label">ポイント</div>
+          <p>一番の違いは<strong>「更新し続ける」という前提</strong>があること。紙は刷ったら終わりですが、Webは公開してからが本番です。この感覚の違いが、ワークフロー全体に影響してきます。</p>
+        </div>
+      </div>
     </section>
 
     <!-- セクション 2：必要なスキルセット -->
@@ -256,9 +288,15 @@
           <p>コードを書くのは<strong>エンジニアやAIの役割</strong>です。デザイナーは「設計して渡す・指示する」側でOK。ここ、よく誤解されるポイントです。</p>
         </div>
       </div>
-    </section>
 
-    <!-- セクション 3：働き方 -->
+      <div class="point-card">
+        <div class="point-icon">🎯</div>
+        <div>
+          <div class="point-label">大切なこと</div>
+          <p>コードが書けなくても大丈夫。大切なのは<strong>「何を作りたいか」を人やAIに正しく伝える力</strong>です。これがあれば、Webデザイナーとして十分に活躍できます。</p>
+        </div>
+      </div>
+    </section>
     <section class="card" id="work-style">
       <h2 class="section-title">Webデザイナーの働き方</h2>
       <p class="section-lead">大きく 3 パターン。グラフィック出身者の最初の一歩としては「<strong>副業</strong>」または「<strong>フリーランスで小規模案件から始める</strong>」が現実的です。詳しい始め方は Page 07 で扱います。</p>
@@ -317,6 +355,8 @@
         <p>範囲外のことを正直に伝えて、適切な専門家につなげるディレクターは、クライアントから長く信頼されます。「持ち帰って確認しますね」「ここから先はエンジニアと一緒に検討させてください」——そう言える人こそ、結果的に大きな案件を任されるようになっていきます。</p>
       </div>
     </section>
+
+    <div class="visual-divider"></div>
 
   </main>
 

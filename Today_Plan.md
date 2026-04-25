@@ -1,313 +1,174 @@
-# Day 11 構造改善計画（Cursor実装用）
+# Today_Plan.md — Webデザイナーガイド ビジュアル改善計画
 
-## 問題の本質
-現在のDay11は**テキストの壁**。動画の解説がアコーディオンの中に長文で詰め込まれており、IT初心者が「結局この動画で何が分かるの？」を**視覚的に一瞬で掴めない**。テキストを増やすのではなく、**構造で理解させる**改善が必要。
-
----
-
-## 改善方針：3つの柱
-
-1. **「動画の中身マップ」を新設** — 各動画の内容を `compare-table` や `step-strip-sakura` で構造化し、長文アコーディオンを廃止
-2. **「Web制作 vs アプリ開発」比較を `compare-table` 化** — 現在の縦積み `column-box` ×2 を、横並び比較テーブル1つに凝縮
-3. **ツール進化マップを新設** — Day10→11の学習の流れを `diagram-steps` で可視化し、各ツールの位置づけを一目で把握できるようにする
+> **最終更新**: 2026-04-25 16:35 by Antigravity
+> **状態**: ✅ 実装完了（全ページに Visual Break コンポーネント追加済み）
+> **対象**: `webdesigner_guide/` 配下全ページ
 
 ---
 
-## 改善A：タブ1「本日の目標」の構造改善
+## 背景と目的
 
-### A-1. Web制作 vs アプリ開発 → `compare-table` に置換
+### 問題
+受講生（カジュアル層・ライト層が大半）にとって、現状の Webデザイナーガイドは **テキスト壁（Wall of Text）** になっており、とっつきづらい印象がある。
 
-**現状の問題**: `column-box` が2つ縦に並んでおり、比較が直感的でない。
+### 方針
+- テキスト量は減らさない（内容は正確で必要）
+- **視覚的な休憩ポイント（Visual Break）** を挿入して、読みやすさ・スキャナビリティを向上させる
+- 以下の4つのコンポーネントを戦略的に配置する
 
-**改善**: vol03〜07で実績のある `.compare-table` を使い、**1つの表で横並び比較**する。
+---
 
-`.compare-table` のCSSは vol11-1.html に未定義なので、vol03-1.html L109-112 から以下をコピーして `<style>` 内に追加：
+## ✅ 完了済みの作業（Antigravity 実施分）
 
+### 1. テーマ変更: Dark → Warm Professional
+- `:root` カラーパレット全面変更（全9ファイル）
+- 旧ダーク色 `#1a1f36` → `#3d4f6f`（ソフトネイビー）
+- アクセント `#ff6b6b` → `#e07050`（ウォームコーラル）
+- ボディ `#f8f9fc` → `#faf8f5`（ウォームクリーム）
+- **詳細は `GEMINI.md` §3 を参照**
+
+### 2. 文体の軟化
+- だ/である → です/ます調に統一（全ファイル）
+- 体言止めの多用を廃止し、述語で結ぶ柔らかい文体に
+- **トーンルールは `GEMINI.md` §3.2 を参照**
+
+### 3. メイキング導線
+- トップページのワイヤーフレームリンクをカード型に格上げ
+- Page 02 の STEP 03（ワイヤーフレーム）直下にメイキング導線を追加
+
+---
+
+## 🔨 残りの作業: テキスト壁の解消（ビジュアル改善）
+
+### 使用する4つの Visual Break コンポーネント
+
+以下のCSSクラスを各ページの `<style>` 内に追加し、HTMLに適用する。
+
+#### A. `point-card`（ポイントカード）— 重要な気づきを強調
+```html
+<div class="point-card">
+  <div class="point-icon">💡</div>
+  <div>
+    <div class="point-label">ポイント</div>
+    <p>ここに要点を書く。セクションの冒頭や末尾に配置する。</p>
+  </div>
+</div>
+```
 ```css
-.compare-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; border-radius: 16px; overflow: hidden; border: 1px solid #fbcfe8; box-shadow: 0 8px 25px rgba(216,27,96,0.05); }
-.compare-table th { background: var(--accent-bg); color: var(--accent); font-weight: 900; padding: 1.5rem 1.2rem; text-align: left; font-size: 1.1rem; border-bottom: 2px solid #f8bbd0; }
-.compare-table td { padding: 1.5rem 1.2rem; border-bottom: 1px solid #fce4ec; color: var(--text-main); line-height: 1.7; background: #fff; }
-.compare-table tr:hover td { background: #fffbfd; }
+.point-card {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: linear-gradient(135deg, #fdf6f0, #faf8f5);
+  border: 1px solid #e8e4df; border-left: 5px solid #e07050;
+  border-radius: 10px; padding: 20px; margin: 20px 0;
+}
+.point-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.point-label {
+  font-size: 12px; font-weight: 700; color: #e07050;
+  letter-spacing: 0.08em; margin-bottom: 4px;
+}
+.point-card p { font-size: 14px; color: #2c3440; line-height: 1.85; margin: 0; }
 ```
 
-**HTMLの置換対象**: L1849〜L1872の `column-box` ×2 を削除し、以下に置換：
-
+#### B. `icon-list`（アイコンリスト）— 箇条書きをビジュアル化
 ```html
-<div class="compare-table-wrapper" style="overflow-x:auto;">
-    <table class="compare-table">
-        <thead>
-            <tr>
-                <th style="width:25%;"></th>
-                <th style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); color:#be185d;">
-                    <i class="fa-solid fa-palette" style="margin-right:6px;"></i> Web制作（Day 7〜10）
-                </th>
-                <th style="background: linear-gradient(135deg, #eff6ff, #dbeafe); color:#1e40af;">
-                    <i class="fa-solid fa-gears" style="margin-right:6px;"></i> アプリ開発（Day 11〜）
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>ひと言で</strong></td>
-                <td>📄 見せるだけの<strong>ポスター</strong></td>
-                <td>⚙️ 動く<strong>システム</strong></td>
-            </tr>
-            <tr>
-                <td><strong>例え</strong></td>
-                <td>会社案内のパンフレット</td>
-                <td>電卓・チャットボット・予約フォーム</td>
-            </tr>
-            <tr>
-                <td><strong>ユーザーは</strong></td>
-                <td>読む・見る・リンクをクリック</td>
-                <td><strong>入力 → 結果を受け取る</strong></td>
-            </tr>
-            <tr>
-                <td><strong>裏側の技術</strong></td>
-                <td>HTML / CSS（見た目だけ）</td>
-                <td>API連携（<strong>AIの脳みそを借りる</strong>）</td>
-            </tr>
-            <tr>
-                <td><strong>データ</strong></td>
-                <td>固定（書いた通りのまま）</td>
-                <td>リアルタイムに変化する</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<ul class="icon-list">
+  <li><i class="fa-solid fa-check-circle"></i><span>リスト項目をアイコン付きに</span></li>
+</ul>
 ```
-
-### A-2. 「今日の進行ステータス」3カードはそのまま維持
-L1874〜L1890 の `.bento-grid` は簡潔で良い。変更不要。
-
----
-
-## 改善B：タブ2「前半」の構造改善
-
-### B-1. 長文アコーディオンを「動画の中身マップ」カードに置換
-
-**現状の問題**: アコーディオン内が `<p>` と `<ul>` の長文テキスト。開いても「結局何の話？」が分かりにくい。
-
-**改善**: アコーディオンを廃止し、各動画の直下に **`step-strip-sakura`（番号付きステップカード）** を使った「この動画で学べること」を配置。1ステップ＝1行で、**スキャンだけで内容が把握できる**ようにする。
-
-**動画①の直下に配置するHTML**（L1953〜L1965のアコーディオンを置換）：
-
-```html
-<div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem;">
-    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
-        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
-        動画①で学べること（3つのポイント）
-    </h4>
-    <ol class="step-strip-sakura">
-        <li><strong>1</strong> <b>AI Studioとは</b> — Geminiの高性能AIモデルを<b>無料で</b>テスト・操作できる開発者向けコンソール</li>
-        <li><strong>2</strong> <b>APIキーとは</b> — あなたのアプリとGoogleのAI頭脳を繋ぐ「鍵（パスワード）」。これがないとアプリは空っぽの箱のまま</li>
-        <li><strong>3</strong> <b>裏側の仕組み</b> — ChatGPTもGeminiも、裏ではAPIキーを使ってAIサーバーに質問を投げて答えを受け取っている</li>
-    </ol>
-</div>
-```
-
-**動画②の直下に配置するHTML**（L1967〜L1979のアコーディオンを置換）：
-
-```html
-<div class="glass-card" style="border-top: 3px solid #2563eb; padding:1.5rem 2rem;">
-    <h4 style="margin:0 0 0.75rem; color:#1e40af; font-size:1.1rem;">
-        <i class="fa-solid fa-map" style="color:#2563eb; margin-right:8px;"></i>
-        動画②で学べること（3つのポイント）
-    </h4>
-    <ol class="step-strip-sakura">
-        <li><strong>1</strong> <b>Build機能</b> — AI Studioに搭載された「日本語で指示→即アプリ生成」の神機能。コーディング知識ゼロでOK</li>
-        <li><strong>2</strong> <b>実演トップ5</b> — 動画内で業務効率化アプリを5つ、プロンプトから完成まで<b>ノーカット</b>で実演</li>
-        <li><strong>3</strong> <b>常識の崩壊</b> — 「アプリ開発＝難しいプログラミング言語」という思い込みが完全に覆る体験</li>
-    </ol>
-</div>
-```
-
-### B-2. APIキー図解セクション — 図解そのものは良いが、補足テキストを圧縮
-
-**現状**: L1982〜L2017 の `.diagram-box` + `.diagram-steps` + `.alert-warn` は視覚的で良い。
-**改善**: 図解の下の補足テキスト（L2009-L2011）を1行に圧縮。alert-warnの長文も2行以内に。
-
-図解下部テキストを以下に短縮：
-```html
-<p style="margin:0.75rem 0 0; color:var(--text-main); font-size:0.95rem; line-height:1.7; text-align:center;">
-    💡 あなたのアプリ＝<strong>頭脳を持たない入れ物</strong>。APIキーで<strong>Googleの頭脳を借りて</strong>賢くなる。
-</p>
-```
-
-alert-warnを以下に短縮：
-```html
-<div class="alert-warn">
-    <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ APIキーは絶対に他人に見せない</h4>
-    <p>GitHub公開やSNS投稿で漏れると、<strong>第三者に使われて高額請求</strong>が発生します。管理方法は動画内で解説されています。</p>
-</div>
-```
-
----
-
-## 改善C：タブ3「後半」の構造改善
-
-### C-1. Stitch / GenSpark の bento-item を「機能比較テーブル」に統合
-
-**現状の問題**: bento-item が2つ縦に並び、それぞれ長文の `<p>` で説明。2つのツールの違いが直感的に掴めない。
-
-**改善**: 2つの bento-item（L2075〜L2096）を1つの `compare-table` に置換。
-
-```html
-<div class="compare-table-wrapper" style="overflow-x:auto; margin-top:1.5rem;">
-    <table class="compare-table">
-        <thead>
-            <tr>
-                <th style="width:22%;"></th>
-                <th style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); color:#5b21b6;">
-                    <img src="./素材/Stitchアイコン画像.png" alt="Stitch" class="inline-icon"> Stitch
-                </th>
-                <th style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); color:#7e22ce;">
-                    <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px;"></i> GenSpark
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>ひと言で</strong></td>
-                <td>AIに画面デザインを作らせる</td>
-                <td>AIにスマホアプリを丸ごと作らせる</td>
-            </tr>
-            <tr>
-                <td><strong>入力</strong></td>
-                <td>「こんな画面が欲しい」とテキスト入力</td>
-                <td>「こんなアプリが欲しい」と<b>会話</b></td>
-            </tr>
-            <tr>
-                <td><strong>出力</strong></td>
-                <td>綺麗なUI部品＋<b>そのまま使えるコード</b></td>
-                <td><b>iOS / Android 対応のスマホアプリ</b></td>
-            </tr>
-            <tr>
-                <td><strong>動画内の実例</strong></td>
-                <td>テキスト指示だけでアプリ画面を自動生成</td>
-                <td>「英単語帳アプリ」を会話だけで構築（正答率トラッキング付き）</td>
-            </tr>
-            <tr>
-                <td><strong>すごい点</strong></td>
-                <td>デザイン→コード変換の手間がゼロ</td>
-                <td>プログラミング知識ゼロでストア公開レベル</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-```
-
-### C-2. 動画③④の直下にもステップカード追加
-
-動画③（Stitch）の直下：
-```html
-<div class="glass-card" style="border-top: 3px solid #7c3aed; padding:1.5rem 2rem;">
-    <h4 style="margin:0 0 0.75rem; color:#5b21b6; font-size:1.1rem;">
-        <i class="fa-solid fa-map" style="color:#7c3aed; margin-right:8px;"></i>
-        動画③で学べること
-    </h4>
-    <ol class="step-strip-sakura" style="--tier-beginner:#7c3aed;">
-        <li><strong>1</strong> Stitchに「こんな画面を作って」とテキストで指示するだけでUIデザインが生成される</li>
-        <li><strong>2</strong> 生成されたデザインは画像ではなく<b>そのまま動くコード</b>として出力される</li>
-        <li><strong>3</strong> デザイン→開発の「翻訳作業」がゼロになり、アイデアから即プロトタイプが完成</li>
-    </ol>
-</div>
-```
-
-動画④（GenSpark）の直下：
-```html
-<div class="glass-card" style="border-top: 3px solid #a855f7; padding:1.5rem 2rem;">
-    <h4 style="margin:0 0 0.75rem; color:#7e22ce; font-size:1.1rem;">
-        <i class="fa-solid fa-map" style="color:#a855f7; margin-right:8px;"></i>
-        動画④で学べること
-    </h4>
-    <ol class="step-strip-sakura" style="--tier-beginner:#a855f7;">
-        <li><strong>1</strong> GenSparkに「英単語帳アプリを作って」と話しかけるだけでスマホアプリが構築される</li>
-        <li><strong>2</strong> スワイプ操作・正答率トラッキングなど<b>本格的な機能</b>が会話だけで実装される</li>
-        <li><strong>3</strong> iOS / Android 両対応でストア公開レベルまで到達可能</li>
-    </ol>
-</div>
-```
-
-### C-3. 「知識ゼロでもアプリが世に出せる時代」ボックスを圧縮
-
-L2099-L2105 の `.highlight-box` 内テキストを以下に短縮：
-```html
-<p style="margin:0; line-height:1.85; color:#3b0764;">
-    <strong>Bolt.new</strong>（Webアプリ）→ <strong>AI Studio</strong>（API連携アプリ）→ <strong>Stitch + GenSpark</strong>（スマホアプリ）。<br>
-    この3層で、「作りたい！」がプログラミング知識なしで全て形になります。
-</p>
-```
-
----
-
-## 改善D：ツール進化マップの新設（タブ1 or タブ3の末尾）
-
-Day10〜11で登場するツールの**位置づけを一目で把握**できる `diagram-steps` スタイルのフローを、タブ3の比較テーブルの上に新設。
-
-```html
-<div class="diagram-box" style="background: linear-gradient(135deg, #faf5ff, #fff); border-color:#ddd6fe;">
-    <h4 style="margin:0 0 1rem; color:#5b21b6; font-weight:900;">
-        <i class="fa-solid fa-layer-group" style="margin-right:8px;"></i>
-        ツールの進化マップ — 何がどこまでできる？
-    </h4>
-    <div class="diagram-steps">
-        <div class="diagram-step" style="background:linear-gradient(135deg, #fdf2f8, #fce7f3); border-color:#fbcfe8;">
-            <i class="fa-solid fa-bolt ds-icon" style="color:#d81b60;"></i>
-            <div class="ds-title" style="color:#be185d;">Bolt.new</div>
-            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">Webアプリを<br>自動生成</p>
-        </div>
-        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="diagram-step" style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border-color:#bfdbfe;">
-            <i class="fa-solid fa-flask ds-icon" style="color:#2563eb;"></i>
-            <div class="ds-title" style="color:#1e40af;">AI Studio</div>
-            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">API連携で<br>AIの頭脳を搭載</p>
-        </div>
-        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="diagram-step" style="background:linear-gradient(135deg, #f5f3ff, #ede9fe); border-color:#ddd6fe;">
-            <i class="fa-solid fa-palette ds-icon" style="color:#7c3aed;"></i>
-            <div class="ds-title" style="color:#5b21b6;">Stitch</div>
-            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">UIデザインを<br>即コード化</p>
-        </div>
-        <div class="diagram-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="diagram-step" style="background:linear-gradient(135deg, #faf5ff, #f3e8ff); border-color:#e9d5ff;">
-            <i class="fa-solid fa-wand-magic-sparkles ds-icon" style="color:#a855f7;"></i>
-            <div class="ds-title" style="color:#7e22ce;">GenSpark</div>
-            <p style="margin:0; color:var(--text-sub); font-size:0.85rem;">スマホアプリ<br>まで自動生成</p>
-        </div>
-    </div>
-</div>
-```
-
----
-
-## 改善E：レスポンシブ追加
-
-`.compare-table` のモバイル対応を `@media (max-width: 768px)` 内に追記：
 ```css
-.compare-table th, .compare-table td { padding: 0.8rem 0.6rem; font-size: 0.85rem; }
-.compare-table-wrapper { margin: 1rem -0.5rem; }
+.icon-list { list-style: none; padding: 0; margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+.icon-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; line-height: 1.8; color: #2c3440;
+}
+.icon-list li i { color: #3bb4a0; margin-top: 4px; flex-shrink: 0; }
 ```
 
-`step-strip-sakura` に `--tier-beginner` のCSS変数オーバーライドが効くよう、`.step-strip-sakura strong` のbackgroundを `var(--tier-beginner, #f59e0b)` に変更。
+#### C. `visual-divider`（視覚的セパレーター）— セクション間の呼吸
+```html
+<div class="visual-divider"></div>
+```
+```css
+.visual-divider {
+  height: 1px; margin: 32px 0;
+  background: linear-gradient(90deg, transparent, #e8e4df 20%, #e8e4df 80%, transparent);
+}
+```
+
+#### D. `mini-card-grid`（ミニカードグリッド）— 並列情報の視覚化
+```html
+<div class="mini-card-grid">
+  <div class="mini-card">
+    <i class="fa-solid fa-pencil"></i>
+    <h5>カードタイトル</h5>
+    <p>短い説明</p>
+  </div>
+</div>
+```
+```css
+.mini-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 16px 0; }
+.mini-card {
+  background: #faf8f5; border: 1px solid #e8e4df; border-radius: 10px;
+  padding: 18px; text-align: center;
+}
+.mini-card i { font-size: 24px; color: #e07050; margin-bottom: 8px; }
+.mini-card h5 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.mini-card p { font-size: 12px; color: #7a8494; line-height: 1.7; }
+```
 
 ---
 
-## 実装手順（Cursor向け）
+### ページ別 Visual Break 挿入指示
 
-1. **CSS追加**: `.compare-table` 4行を `<style>` 内に追加、`.step-strip-sakura strong` の background を `var(--tier-beginner, #f59e0b)` に変更
-2. **タブ1**: L1849-L1872 の `column-box` ×2 を `compare-table` に置換（改善A-1）
-3. **タブ2**: L1953-L1979 のアコーディオン×2 を `step-strip-sakura` カード×2 に置換（改善B-1）
-4. **タブ2**: L2009-L2017 の補足テキスト＋alert-warnを圧縮（改善B-2）
-5. **タブ3**: 動画③④の直下（video-gridの閉じタグ直後）に `step-strip-sakura` カード×2 を追加（改善C-2）
-6. **タブ3**: L2075-L2096 の `bento-item` ×2 を `compare-table` に置換（改善C-1）
-7. **タブ3**: 比較テーブルの上にツール進化マップを追加（改善D）
-8. **タブ3**: L2099-L2105 のhighlight-boxテキストを圧縮（改善C-3）
-9. **レスポンシブCSS追加**（改善E）
+#### index.html ✅ 実装済み
+- 3カラム「このサイトについて」セクションは既にカード化されている
+- 7カードナビも視覚的に問題なし
 
-## 絶対に守ること
-- **Facadeパターン厳守**: 動画の `video-grid` / `vc-thumb` / `data-video-id` は一切触らない
-- **Sticky Video**: `.video-grid` のCSS（L1778-L1788）は変更しない
-- **ナビゲーションボタン**: 各タブ末尾の `bottom-nav` は変更しない
-- **ミッションエリア**: タブ4の `.mission-area` は変更しない
-- **新規CSSクラスは追加しない**: 既存の `.compare-table` / `.step-strip-sakura` / `.diagram-steps` のみ使用
+#### page01_what.html — 優先度: 🔴高
+挿入箇所:
+1. **比較テーブル直後**（L229付近）: `point-card` で「一番の違いは "更新し続ける" という前提です」を強調
+2. **スキルセット全体直後**（L258付近）: `point-card` で「コードは書かなくて大丈夫。大切なのは "何を作りたいか" を伝える力です」
+3. **守備範囲セクションの2カラム間**（L312付近）: `visual-divider` を挿入
+4. **既存 `<ul>` / `<li>`** を `icon-list` に変換（守備範囲リスト2箇所）
+
+#### page02_workflow.html — 優先度: 🔴高
+挿入箇所:
+1. **8ステップフロー図直後**（L190付近）: `point-card` で「デザイナーが主に関わるのは STEP 01〜04。ここが "設計" のフェーズです」
+2. **各アコーディオンの中身**: 本文が1〜2行と短すぎる。各STEPの `<div class="body">` 内にアイコン付きで「誰が」「何を」「ツール例」の3点を箇条書き追加（`icon-list` 使用）
+3. **ディレクターコラム直後**: `point-card` で「AI時代のキーメッセージ: "指示する側" になれることが最大の武器です」
+
+#### page03_design.html — 優先度: 🟡中
+挿入箇所:
+1. 各デザイン概念（タイポグラフィ・カラー・レイアウト・レスポンシブ）の説明を `mini-card-grid` に再構成
+2. 各カードにFontAwesomeアイコンを配置（✏️ タイポグラフィ → `fa-font`、🎨 カラー → `fa-droplet` 等）
+3. セクション間に `visual-divider`
+
+#### page04_tools.html — 優先度: 🟡中
+挿入箇所:
+1. ツール一覧を `mini-card-grid` で再構成（各ツール名 + アイコン + 一言説明）
+2. フェーズ別ツールマップをステップ形式（STEP 01〜08 と対応）に
+
+#### page05_ai.html — 優先度: 🟡中
+挿入箇所:
+1. AI活用の3分類（画像生成・デザイン生成・コード生成）を `mini-card-grid` 化
+2. 「AIに任せていいこと / 人間がやるべきこと」を既存の `scope-grid` パターンで対比表示
+
+#### page06_client.html — 優先度: 🟢低（既にカード・テーブル多用で視覚的に良好）
+挿入箇所:
+1. ヒアリング7項目リスト直後に `point-card`「最も重要なのは "目的" 。ここがブレると全工程が迷走します」
+2. コラム2箇所は既にビジュアル化されているため、`visual-divider` の挿入のみ
+
+#### page07_start.html — 優先度: 🟢低
+挿入箇所:
+1. ロードマップを `mini-card-grid`（3ステップ: 学ぶ → 作る → 売る）として視覚化
+2. ポートフォリオ作成の重要性を `point-card` で強調
+
+---
+
+## 実装上の注意
+
+1. **CSSは各ページの `<style>` 内に追加**する（共通CSSファイルは未導入のため）
+2. **文体は必ず です/ます調** を維持する（`GEMINI.md` §3.2）
+3. **カラーは `:root` 変数を使用**する。ハードコード値は `#e07050`（accent）、`#3bb4a0`（accent-2）、`#2c3440`（text-main）のみ許容
+4. **レスポンシブ**: `@media (max-width: 768px)` 内で `.mini-card-grid` は `grid-template-columns: 1fr` に
+5. **既存コンポーネントを壊さない**: `.compare-table`, `.skill-grid`, `.callout` 等は維持。追加のみ行う
