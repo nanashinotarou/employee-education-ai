@@ -148,10 +148,22 @@
 
 ---
 
+## 2026-04-25：Phase 7 完了（Claude Code レビュー反映）
+
+- `page06_client.html`：ヒアリングリストの `<ol>` 未閉タグを修正（`<ul>` 化＋閉じタグ追加）し、無効HTMLを解消
+- `page03_design.html`：カラーサンプルの HEX を指定値に修正（Accent2/Dark/Bg）
+- `page06_client.html`：AI 開発コスト表の直下に注記を追加（Claude.ai Pro 目安である旨）
+- `page04_tools.html`：未解決 TODO 文（「太字にする予定」）を削除し、DEPLOY マップに `Cloudflare Pages` を追加
+- `index.html`：ワイヤーフレーム（メイキング）リンクを `<main>` 内へ移動し、`</main>` 外の孤立ブロックを削除
+- `page07_start.html`：署名を `― H.K` に修正、ロードマップ Step 2 を自己参照にならない内容へ差し替え
+- Lint（対象 HTML）：問題なし
+
+---
+
 ## 今後の想定タスク（本計画の範囲外・メモ）
 
 - ヒーローのキャッチコピー確定（`index.html` の `<!-- CATCHCOPY -->` コメント箇所）
-- ハンバーガーメニュー実装（現状は `@media (max-width:768px)` で `header nav` を非表示）
+- ハンバーガーメニュー実装（Phase 6 で対応済み）
 - ポートフォリオ事例・ヒアリングシート PDF など外部素材の差し替え（許諾取得後）
 - ディレクター署名入り「締めメッセージ」最終版への差し替え（Page 07 `.signature`）
 - Cloudflare Pages へのデプロイ実施（Page 04 で言及済み・本サイト自体を実例化）

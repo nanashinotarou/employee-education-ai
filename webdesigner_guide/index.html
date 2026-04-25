@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -584,6 +584,24 @@
       </div>
     </section>
 
+    <!-- メイキングリンク（main内に移動） -->
+    <section class="card" id="making-link" style="padding:0; background:transparent; box-shadow:none;">
+      <a href="wireframe/guide.html" style="
+        display:flex; align-items:center; gap:16px;
+        padding:20px 24px; background:#fafbff; border:1px solid #e8e4df;
+        border-radius:10px; text-decoration:none; color:#2c3440;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      " onmouseover="this.style.borderColor='#e07050'; this.style.boxShadow='0 4px 16px rgba(224,112,80,0.1)';"
+         onmouseout="this.style.borderColor='#e8e4df'; this.style.boxShadow='none';">
+        <i class="fa-solid fa-film" style="font-size:20px; color:#e07050; flex-shrink:0;"></i>
+        <div>
+          <div style="font-size:14px; font-weight:700;">このサイトの制作過程を見る</div>
+          <div style="font-size:12px; color:#7a8494; margin-top:2px;">ワイヤーフレーム → 完成版への変遷をメイキング形式で追体験できます</div>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#e07050; font-size:14px; flex-shrink:0;"></i>
+      </a>
+    </section>
+
   </main>
 
   <!-- ページナビゲーション（トップなので"次へ"のみ） -->
@@ -593,23 +611,6 @@
       次へ：Webデザイナーという仕事 <i class="fa-solid fa-arrow-right"></i>
     </a>
   </nav>
-
-  <div style="max-width:960px; margin:0 auto; padding:24px 24px 0;">
-    <a href="wireframe/guide.html" style="
-      display:flex; align-items:center; gap:16px;
-      padding:20px 24px; background:#fafbff; border:1px solid #e8e4df;
-      border-radius:10px; text-decoration:none; color:#2c3440;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    " onmouseover="this.style.borderColor='#e07050'; this.style.boxShadow='0 4px 16px rgba(224,112,80,0.1)';"
-       onmouseout="this.style.borderColor='#e8e4df'; this.style.boxShadow='none';">
-      <i class="fa-solid fa-film" style="font-size:20px; color:#e07050; flex-shrink:0;"></i>
-      <div>
-        <div style="font-size:14px; font-weight:700;">このサイトの制作過程を見る</div>
-        <div style="font-size:12px; color:#7a8494; margin-top:2px;">ワイヤーフレーム → 完成版への変遷をメイキング形式で追体験できます</div>
-      </div>
-      <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#e07050; font-size:14px; flex-shrink:0;"></i>
-    </a>
-  </div>
 
   <!-- フッター -->
   <footer>

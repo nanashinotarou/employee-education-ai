@@ -1609,6 +1609,272 @@ AIに「いいアウトプット」を出させる鍵は、依頼文（プロン
 
 ---
 
+### Phase 7：Claude Code レビュー反映（バグ修正・事実修正・構造改善）
+
+**担当**：Cursor  
+**目的**：Claude Code による全ページ精査で発見した、バグ・ハルシネーション・構造問題を修正する。  
+**対象**：本番版のみ（`wireframe/` 配下は触らない）
+
+---
+
+#### 優先度の分類
+
+| P | 内容 | 対象ファイル |
+|---|---|---|
+| 🔴 P1 | HTMLバグ（壊れている） | page06 |
+| 🟠 P2 | 事実誤認・ハルシネーション | page03 / page06 / page07 |
+| 🟡 P3 | 未解決TODO / コンテンツ不整合 | page04 |
+| 🔵 P4 | 構造・UX問題 | index / page04 / page07 |
+
+---
+
+#### 7-1：page06 — `<ol>` 未閉タグの修正 🔴
+
+**対象ファイル**：`page06_client.html`
+
+**問題**：`<ol class="hearing-list">` が閉じられないまま `<div class="point-card">` が始まっており、div が ol の子要素として扱われている。無効なHTMLで、ブラウザによってはレイアウトが崩れる。
+
+**修正箇所**（ヒアリングリストの末尾 `</li>` の直後）：
+
+```html
+<!-- 修正前（バグ） -->
+        <li><strong>参考サイト</strong>好き／嫌いを 3 サイトずつ</li>
+      
+      <div class="point-card">
+
+<!-- 修正後 -->
+        <li><strong>参考サイト</strong>好き／嫌いを 3 サイトずつ</li>
+      </ol>
+
+      <div class="point-card">
+```
+
+また `<ol>` タグは `<ul>` に変更する（番号付き + `<strong>` ラベルで二重表示になっているため）。  
+`.hearing-list` の CSS は変更不要（スタイルは `li` に当たっているので問題なし）。
+
+```html
+<!-- <ol class="hearing-list"> を以下に変更 -->
+<ul class="hearing-list">
+  ...
+</ul>  <!-- </ol> を </ul> に変更 -->
+```
+
+---
+
+#### 7-2：page03 — カラースウォッチのHEXコード修正 🟠
+
+**対象ファイル**：`page03_design.html`
+
+**問題**：「カラー」セクションのスウォッチが、このサイトの実際のCSSカラー変数と食い違っている。  
+このページ自体が「このサイトのデザインシステム」を説明しているため、実値と異なるのは教材として致命的。
+
+**修正**（`color-row` の中の4つの swatch）：
+
+```html
+<!-- 修正前 -->
+<div class="color-row">
+  <div class="swatch" style="background:#e07050;">Accent #e07050</div>
+  <div class="swatch" style="background:#4ecdc4;">Accent2 #4ECDC4</div>
+  <div class="swatch" style="background:#1a1f36;">Dark #1A1F36</div>
+  <div class="swatch" style="background:#f8f9fc; color:#1a1f36;">Bg #F8F9FC</div>
+</div>
+
+<!-- 修正後（実際のCSSカラー変数に合わせる） -->
+<div class="color-row">
+  <div class="swatch" style="background:#e07050;">Accent #e07050</div>
+  <div class="swatch" style="background:#3bb4a0;">Accent2 #3BB4A0</div>
+  <div class="swatch" style="background:#3d4f6f;">Dark #3D4F6F</div>
+  <div class="swatch" style="background:#faf8f5; color:#2c3440;">Bg #FAF8F5</div>
+</div>
+```
+
+**確認**：上記4色はそれぞれ `--accent`, `--accent-2`, `--bg-dark`, `--bg-body` の値と完全一致している。
+
+---
+
+#### 7-3：page07 — 署名の修正 🟠
+
+**対象ファイル**：`page07_start.html`
+
+**問題**：`「How to Webデザイナー 編集チーム」` という架空の組織名が署名として記述されている。このサイトは H.K 個人の教材であり、「編集チーム」は存在しない。
+
+**修正**：
+
+```html
+<!-- 修正前 -->
+<span class="signature">― How to Webデザイナー 編集チーム</span>
+
+<!-- 修正後 -->
+<span class="signature">― H.K</span>
+```
+
+---
+
+#### 7-4：page06 — AI開発コスト表に注記を追加 🟠
+
+**対象ファイル**：`page06_client.html`
+
+**問題**：`Claude Code: ¥2,500〜3,000/月` は Claude.ai Pro プランの月額を指しているが、読者が「Claude Code = 月3,000円で使い放題」と誤読するおそれがある。API使用量課金モデルとの違いを補足する。
+
+**修正**（`.ai-stack-total` の直後に1行追加）：
+
+```html
+<!-- 修正前 -->
+<div class="ai-stack-total">
+  合計 <strong>月 ¥10,000</strong> 前後で、役割分担された「止まらない開発環境」が成立する。
+</div>
+
+<!-- 修正後 -->
+<div class="ai-stack-total">
+  合計 <strong>月 ¥10,000</strong> 前後で、役割分担された「止まらない開発環境」が成立する。
+</div>
+<p style="font-size:12px; color:var(--text-sub); margin-top:8px; line-height:1.7;">
+  ※ Claude Code の金額は Claude.ai Pro プラン（$20/月 相当）を利用する場合の目安。案件規模・利用頻度によっては変動します。
+</p>
+```
+
+---
+
+#### 7-5：page04 — 「太字にする予定」の削除 🟡
+
+**対象ファイル**：`page04_tools.html`
+
+**問題**：ツール全体マップの `section-lead` に「研修内で実際に触れるものは太字にする予定。」という未解決のTODO文がそのままユーザーに見える状態になっている。
+
+**修正**：
+
+```html
+<!-- 修正前 -->
+<p class="section-lead">フェーズ別に "主要どころ" だけ並べた一覧図。研修内で実際に触れるものは太字にする予定。</p>
+
+<!-- 修正後 -->
+<p class="section-lead">フェーズ別に "主要どころ" だけ並べた一覧図。案件の性質に合わせて組み合わせる感覚を掴もう。</p>
+```
+
+---
+
+#### 7-6：page04 — ツール全体マップに Cloudflare Pages を追加 🔵
+
+**対象ファイル**：`page04_tools.html`
+
+**問題**：ツール全体マップの DEPLOY カードに `Netlify / GitHub Pages / レンタルサーバー` の3つしかないが、本文の「納品・公開」詳細セクションでは `Cloudflare Pages` を最初に紹介している（「本サイトもこれを採用」と明記）。一覧マップに筆頭ツールがないのは矛盾。
+
+**修正**（DEPLOYカードの `<ul>` の先頭に追加）：
+
+```html
+<!-- 修正前 -->
+<div class="tool-phase">
+  <div class="label">DEPLOY</div>
+  <h5>納品・公開</h5>
+  <ul><li>Netlify</li><li>GitHub Pages</li><li>レンタルサーバー</li></ul>
+</div>
+
+<!-- 修正後 -->
+<div class="tool-phase">
+  <div class="label">DEPLOY</div>
+  <h5>納品・公開</h5>
+  <ul><li>Cloudflare Pages</li><li>Netlify</li><li>GitHub Pages</li><li>レンタルサーバー</li></ul>
+</div>
+```
+
+---
+
+#### 7-7：index.html — ワイヤーフレームリンクを `<main>` 内へ移動 🔵
+
+**対象ファイル**：`index.html`
+
+**問題**：現状、ワイヤーフレームリンク（「このサイトの制作過程を見る」）が `</main>` の外、`<nav class="page-nav">` と `<footer>` の間に孤立している。セマンティックHTMLとして不正確。
+
+**修正方針**：  
+`<main class="content-wrap">` 内の最後のセクション（研修コンテンツとの連携カード）の直後に移動する。  
+外側の孤立した `<div>` は削除する。
+
+**削除する箇所**（`</main>` 以降にある以下のブロックを丸ごと削除）：
+
+```html
+<!-- このブロックを削除 -->
+<div style="max-width:960px; margin:0 auto; padding:24px 24px 0;">
+  <a href="wireframe/guide.html" style="
+    display:flex; align-items:center; gap:16px;
+    padding:20px 24px; background:#fafbff; border:1px solid #e8e4df;
+    border-radius:10px; text-decoration:none; color:#2c3440;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  " onmouseover="this.style.borderColor='#e07050'; this.style.boxShadow='0 4px 16px rgba(224,112,80,0.1)';"
+     onmouseout="this.style.borderColor='#e8e4df'; this.style.boxShadow='none';">
+    <i class="fa-solid fa-film" style="font-size:20px; color:#e07050; flex-shrink:0;"></i>
+    <div>
+      <div style="font-size:14px; font-weight:700;">このサイトの制作過程を見る</div>
+      <div style="font-size:12px; color:#7a8494; margin-top:2px;">ワイヤーフレーム → 完成版への変遷をメイキング形式で追体験できます</div>
+    </div>
+    <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#e07050; font-size:14px; flex-shrink:0;"></i>
+  </a>
+</div>
+```
+
+**追加する箇所**（`<main>` 内の「研修コンテンツとの連携」セクションの **直後**、`</main>` の **直前** に追加）：
+
+```html
+    <!-- メイキングリンク（main内に移動） -->
+    <section class="card" id="making-link" style="padding:0; background:transparent; box-shadow:none;">
+      <a href="wireframe/guide.html" style="
+        display:flex; align-items:center; gap:16px;
+        padding:20px 24px; background:#fafbff; border:1px solid #e8e4df;
+        border-radius:10px; text-decoration:none; color:#2c3440;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      " onmouseover="this.style.borderColor='#e07050'; this.style.boxShadow='0 4px 16px rgba(224,112,80,0.1)';"
+         onmouseout="this.style.borderColor='#e8e4df'; this.style.boxShadow='none';">
+        <i class="fa-solid fa-film" style="font-size:20px; color:#e07050; flex-shrink:0;"></i>
+        <div>
+          <div style="font-size:14px; font-weight:700;">このサイトの制作過程を見る</div>
+          <div style="font-size:12px; color:#7a8494; margin-top:2px;">ワイヤーフレーム → 完成版への変遷をメイキング形式で追体験できます</div>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#e07050; font-size:14px; flex-shrink:0;"></i>
+      </a>
+    </section>
+
+  </main>
+```
+
+---
+
+#### 7-8：page07 — ロードマップ Step 2 の自己参照を修正 🔵
+
+**対象ファイル**：`page07_start.html`
+
+**問題**：学習ロードマップの Step 2 が「本ガイドを通読する」となっているが、このページを読んでいる時点で読者はすでにガイドを読んでいる。自己参照になっており、アクションとして意味をなさない。
+
+**修正**：
+
+```html
+<!-- 修正前 -->
+<div class="roadmap-step" data-step="2">
+  <h5>本ガイドを通読する</h5>
+  <p>Web 制作の全体像・ワークフロー・クライアントワークを理解。</p>
+</div>
+
+<!-- 修正後 -->
+<div class="roadmap-step" data-step="2">
+  <h5>HTML / CSS 基礎で1ページ作ってみる（架空サイト可）</h5>
+  <p>Cursor や Claude Code を使ってもOK。架空のカフェでもペットショップでも、公開まで1件やり切ることが最大の学習。</p>
+</div>
+```
+
+---
+
+#### Phase 7 完了チェックリスト
+
+- [x] `page06_client.html`：`<ol>` → `<ul>` 変更 ＋ `</ul>` 閉じタグ追加済み
+- [x] `page03_design.html`：カラースウォッチの HEX が実際の CSS 変数と一致している
+  - Accent2: `#3bb4a0`、Dark: `#3d4f6f`、Bg: `#faf8f5`
+- [x] `page07_start.html`：署名が `H.K` になっている
+- [x] `page06_client.html`：AI コスト表の下に注記（`※ Claude Code の金額は...`）が入っている
+- [x] `page04_tools.html`：`section-lead` から「太字にする予定」が消えている
+- [x] `page04_tools.html`：DEPLOY カードに `Cloudflare Pages` が先頭に入っている
+- [x] `index.html`：ワイヤーフレームリンクが `<main>` 内（最後の section）に移動し、`</main>` 外の孤立 div が削除されている
+- [x] `page07_start.html`：ロードマップ Step 2 が「HTML / CSS 基礎で1ページ作ってみる」になっている
+
+---
+
 ## 作業完了後にすること（Cursor向け）
 
 1. このファイル（`implementation_plan.md`）の各Phaseの状態を更新
