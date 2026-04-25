@@ -61,8 +61,9 @@
 | Phase 2 | 内部ページ 7 枚（`page01`〜`page07`） | ✅ 完了 |
 | Phase 3 | 研修サイト本体との相互導線 | ✅ 完了 |
 | Phase 4 | 本番化・コンテンツ執筆（全 8 ファイル本番版＋新規セクション） | ✅ 完了 |
+| Phase 5 | ワイヤーフレーム体験ガイド（`wireframe/guide.html`＋本番トップのリンク向き先変更） | ✅ 完了 |
 
-`implementation_plan.md` の完了チェックリストすべて `[x]` 済み。
+`implementation_plan.md` の Phase 1〜3・5 完了チェックリストおよび Phase 4 詳細チェックを反映済み。Phase 5 チェックリストは `[x]` 済み（2026-04-25）。
 
 ---
 
@@ -135,6 +136,15 @@
 - ✅ `page07` 締めメッセージに「プロジェクト屋」への転換
 - ✅ 全ページのナビ `.active` クラス維持
 - ✅ Lint エラー 0
+
+---
+
+## 2026-04-25：Phase 5 完了（ワイヤーフレーム体験ガイド）
+
+- 新規：`webdesigner_guide/wireframe/guide.html`（メイキング風トーン、`.wf-note` / `.page-meta` 解説、5 ステップの制作プロセス、本番比較 3 点、CTA → `wireframe/index.html`）
+- 変更：`webdesigner_guide/index.html` の「制作の裏側を見る」リンク先を `wireframe/index.html` → `wireframe/guide.html`
+- `implementation_plan.md`：最終更新日・フォルダ構成・実装フェーズに Phase 5 追記、Phase 5 完了チェックリストを `[x]`
+- Lint（対象 HTML）：問題なし
 
 ---
 

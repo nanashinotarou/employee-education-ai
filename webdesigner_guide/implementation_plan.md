@@ -1,6 +1,6 @@
 # How to Webデザイナー ― 実装計画書
 
-最終更新：2026-04-24  
+最終更新：2026-04-25  
 設計：Claude Code / 実装：Cursor / デプロイ：Antigravity
 
 ---
@@ -39,6 +39,7 @@ webdesigner_guide/
 ├─ page06_client.html       ← 本番：クライアントワークの実際
 ├─ page07_start.html        ← 本番：これから始める人へ
 └─ wireframe/               ← ★ メイキング特典（Phase 2 時点のワイヤー版を保存）
+   ├─ guide.html            ← ワイヤー体験の入口（Phase 5：読み方・制作プロセス解説）
    └─ *.html                ← .wf-note と .page-meta 付きの制作途中版
 ```
 
@@ -62,6 +63,10 @@ Phase 1 完了・確認後に着手。page01 から順に作成する。
 **担当**：Cursor  
 **前提として読むファイル**：必ず `site_structure.md` を最初から最後まで読むこと。  
 特に「サイトを貫くメッセージ」「各ページの詳細構成」を把握してから作業を開始する。
+
+### Phase 5：ワイヤーフレーム体験ガイドページの新設 ✅ 完了（2026-04-25）
+
+`webdesigner_guide/wireframe/guide.html` を新設。`webdesigner_guide/index.html` のワイヤーリンク先を `wireframe/guide.html` に変更。手順の詳細は下記「Phase 5：ワイヤーフレーム体験ガイドページの新設」を参照。
 
 ---
 
@@ -1066,15 +1071,15 @@ STEP 5：デプロイ（Antigravity）
 
 #### Phase 5 完了チェックリスト
 
-- [ ] `wireframe/guide.html` が新規作成されている
-- [ ] `guide.html` の6セクション（ヒーロー・定義・読み方・プロセス・比較・CTA）がすべて入っている
-- [ ] 読み方セクションに `.wf-note` と `.page-meta` のサンプルボックスが実際のスタイルで表示されている
-- [ ] 制作プロセス図が5ステップで表示されている
-- [ ] 比較ポイント3選が3カードで表示されている
-- [ ] CTAボタンが `wireframe/index.html` へ正しくリンクしている
-- [ ] ヘッダー・フッターに `../index.html`（本番版）へのリンクがある
-- [ ] `webdesigner_guide/index.html` のワイヤーリンクが `wireframe/guide.html` に変更されている
-- [ ] スマホ（768px以下）でレイアウトが崩れないこと
+- [x] `wireframe/guide.html` が新規作成されている
+- [x] `guide.html` の6セクション（ヒーロー・定義・読み方・プロセス・比較・CTA）がすべて入っている
+- [x] 読み方セクションに `.wf-note` と `.page-meta` のサンプルボックスが実際のスタイルで表示されている
+- [x] 制作プロセス図が5ステップで表示されている
+- [x] 比較ポイント3選が3カードで表示されている
+- [x] CTAボタンが `wireframe/index.html` へ正しくリンクしている
+- [x] ヘッダー・フッターに `../index.html`（本番版）へのリンクがある
+- [x] `webdesigner_guide/index.html` のワイヤーリンクが `wireframe/guide.html` に変更されている
+- [x] スマホ（768px以下）でレイアウトが崩れないこと
 
 ---
 
