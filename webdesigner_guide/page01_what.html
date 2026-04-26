@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -98,6 +98,24 @@
     .visual-divider {
       height: 1px; margin: 32px 0;
       background: linear-gradient(90deg, transparent, #e8e4df 20%, #e8e4df 80%, transparent);
+    }
+
+    .author-note {
+      border-left: 4px solid var(--accent);
+      background: #fdf6f0;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--text-main);
+    }
+    .author-note .signature {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 8px;
     }
     .icon-list { list-style: none; padding: 0; margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
     .icon-list li {
@@ -296,6 +314,11 @@
           <p>コードが書けなくても大丈夫。大切なのは<strong>「何を作りたいか」を人やAIに正しく伝える力</strong>です。これがあれば、Webデザイナーとして十分に活躍できます。</p>
         </div>
       </div>
+
+      <div class="author-note">
+        正直に言うと、私はコードを一行も書いていません。書けないし、書くつもりもなかった。このサイトを作るために用意したのは、「こういうものを作りたい」という意図だけです。それをAIに伝え続けた結果が、いまあなたが読んでいるこのページです。アイデアを言葉にできる人なら、誰でもできます。
+        <span class="signature">― H.K.</span>
+      </div>
     </section>
     <section class="card" id="work-style">
       <h2 class="section-title">Webデザイナーの働き方</h2>
@@ -368,6 +391,7 @@
   <footer>
     <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
     <p style="margin-top:8px;">© 2026 H.K</p>
+    <p style="margin-top:6px;">わからないことがあれば、H.K. に直接声をかけてください。</p>
   </footer>
 
 </body>

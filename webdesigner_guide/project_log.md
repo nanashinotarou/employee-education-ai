@@ -160,6 +160,26 @@
 
 ---
 
+## 2026-04-26：Phase 8 完了（薄い3箇所の補強）
+
+- `page02_workflow.html`：Step 02（サイトマップ/情報設計）と Step 04（デザインカンプ）のアコーディオン本文を補強（他ステップは未変更）
+- `page05_ai.html`：コード生成AIセクションに比較表（4ツール）を追加し、分業の補足文を追記
+- `page03_design.html`：UX/UI セクション末尾に `.callout` で「UXチェックの3問」を追加
+- Lint（対象 HTML）：問題なし
+
+---
+
+## 2026-04-27：Phase 9 完了（受講生フレンドリー化）
+
+- `index.html`：推奨読み順のコンパクト帯を `#learn` に追加（Page 01 → Page 05 → Page 07）
+- `index.html` / `page01`〜`page07`：フッターに「わからないことがあれば、H.K. に直接声をかけてください。」を追加
+- `page07_start.html`：ロードマップ Step 1 を「Canva または Figma」に変更し、Canva ユーザー向け補足を追記
+- `index.html`：`#about` の3カラム下に `.author-note`（H.K. 一言）を追加
+- `page01_what.html`：`#skills` の「大切なこと」直後に `.author-note`（H.K. 実体験コメント）を追加
+- Lint（対象 HTML）：問題なし
+
+---
+
 ## 今後の想定タスク（本計画の範囲外・メモ）
 
 - ヒーローのキャッチコピー確定（`index.html` の `<!-- CATCHCOPY -->` コメント箇所）

@@ -61,6 +61,24 @@
     header nav a:hover,
     header nav a.active { color: var(--accent); }
 
+    .author-note {
+      border-left: 4px solid var(--accent);
+      background: #fdf6f0;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--text-main);
+    }
+    .author-note .signature {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 8px;
+    }
+
     /* ハンバーガートグル（PCでは非表示）*/
     .nav-toggle { display: none; }
     .nav-toggle-label { display: none; }
@@ -476,6 +494,13 @@
         </div>
       </div>
 
+      <div class="author-note">
+        みなさんお疲れ様です。制作(したAIを監督しました)H.K.です。<br>
+        動画を観て、課題をこなして、また次のテーマへ——その繰り返しの中で、「普段の研修まとめ教材だけでなく、もう少し踏み込んだ地図があれば」と思って今回の教材を作りました。<br>
+        半年後・一年後に、今より一歩踏み込んだ人材でいるために。読んで損はないと思います。<br>
+        ― H.K.
+      </div>
+
       <style>
         @media (max-width: 768px) {
           #about > div { grid-template-columns: 1fr !important; }
@@ -489,6 +514,11 @@
     <section class="card" id="learn">
       <h2 class="section-title">このサイトで学べること</h2>
       <p class="section-lead">7つのテーマで、Web デザイナーとして活躍するための知識を体系的にまとめています。気になるカードから読んでもOK。</p>
+
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 12px; margin:10px 0 14px; border-left:4px solid var(--accent-2); background:#f3fcfb; border-radius:8px; font-size:13px; color:var(--text-main);">
+        <i class="fa-solid fa-route" style="color:var(--accent-2);"></i>
+        <div><strong>はじめての方へ：</strong> Page 01（仕事を知る）→ Page 05（AIと活用）→ Page 07（始め方）の順で読むと全体像が掴みやすいです</div>
+      </div>
 
       <div class="nav-cards">
         <a class="nav-card" href="page01_what.html">
@@ -616,6 +646,7 @@
   <footer>
     <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
     <p style="margin-top:8px;">© 2026 H.K</p>
+    <p style="margin-top:6px;">わからないことがあれば、H.K. に直接声をかけてください。</p>
   </footer>
 
 </body>

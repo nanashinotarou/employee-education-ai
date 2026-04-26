@@ -293,8 +293,43 @@
       <h2 class="section-title">コード生成 AI</h2>
       <p class="section-lead">"コードは書かなくていい" を実現する主役。Cursor・Claude Code・GitHub Copilot が中心。</p>
 
-      <p style="font-size:13px; color:var(--text-sub); line-height:1.95; margin-top:-6px; margin-bottom:12px;">
-        このサイト自体も、AI を役割分担して作っています。<strong>Claude Code（設計・計画）→ Cursor（実装）→ Antigravity（デプロイ）</strong>のように、分業すると止まりにくい。
+      <div style="overflow-x:auto; margin: 10px 0 14px;">
+        <table style="width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--border); border-radius:10px; overflow:hidden; font-size:13px;">
+          <thead>
+            <tr style="background:#f3f4f6; color:var(--text-sub);">
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">ツール</th>
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">特徴</th>
+              <th style="padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);">向いている使い方</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Cursor</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">AIエディター内蔵。実装作業に特化</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">HTML/CSS実装・修正・デバッグ</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Claude Code</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">設計・計画・レビューに強い</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">要件整理・仕様書作成・コードレビュー</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">GitHub Copilot</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">エディター補完型。既存コードへの追記が得意</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">コーダーの補佐ツール</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;">Bolt.new</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">ブラウザ完結でWebアプリを生成</td>
+              <td style="padding:10px 12px; border-bottom:1px solid var(--border);">プロトタイプ・アイデア検証</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-sub); line-height:1.95; margin-top:-2px; margin-bottom:12px;">
+        このサイト自体も <strong>Claude Code → Cursor → Antigravity</strong> の3ツール分業で作られています。<br>
+        「コードを書く」だけでなく「指示する」立場でも、十分に使いこなせます。
       </p>
 
       <div class="ai-category">
@@ -376,6 +411,7 @@
   <footer>
     <p>How to Webデザイナー ― <a href="../index.html">← 研修サイトへ戻る</a></p>
     <p style="margin-top:8px;">© 2026 H.K</p>
+    <p style="margin-top:6px;">わからないことがあれば、H.K. に直接声をかけてください。</p>
   </footer>
 
 </body>
