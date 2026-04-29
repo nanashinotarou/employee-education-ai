@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12 | AI活用によるアプリケーション開発実践②</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@500;700;900&family=Teko:wght@600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fff5f8;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --text-main: #4a4a4a;
+            --text-sub: #71717a;
+            --accent: #d81b60;
+            --accent-light: #f06292;
+            --accent-bg: #fce4ec;
+            --accent-glow: rgba(216, 27, 96, 0.25);
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --blue: #2563eb;
+            --blue-bg: #eff6ff;
+            --purple: #7c3aed;
+            --glass-blur: blur(20px);
+            --radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(252, 228, 236, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.8) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(240, 98, 146, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.3s;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .back-link:hover {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .progress-container {
+            width: 350px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #fee2e2;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f48fb1, #d81b60);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-top: 2rem;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 0 0 1rem;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            max-width: 820px;
+            margin: 0 auto;
+            color: var(--text-sub);
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .tab-btn {
+            border: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+            font-weight: 900;
+            color: var(--text-main);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 240px;
+            justify-content: center;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            outline: 2px solid rgba(216, 27, 96, 0.18);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid rgba(216, 27, 96, 0.12);
+            backdrop-filter: var(--glass-blur);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.07);
+            padding: 2rem 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(216, 27, 96, 0.12);
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+        }
+
+        .card-header i {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #fff;
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
+            font-size: 1.2rem;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .info-box {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid rgba(216, 27, 96, 0.12);
+            padding: 1.25rem 1.5rem;
+            line-height: 1.9;
+            color: var(--text-sub);
+        }
+
+        .info-box h4 {
+            margin: 0 0 0.6rem;
+            color: var(--text-main);
+            font-weight: 900;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            position: sticky !important;
+            top: 75px;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 14px;
+            margin-left: -14px;
+            margin-right: -14px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(216, 27, 96, 0.10);
+        }
+
+        /* YouTube Facade（GEMINI.md） */
+        .video-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(216, 27, 96, 0.12);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        .vc-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .vc-thumb::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.08);
+            transition: background 0.25s ease;
+            pointer-events: none;
+        }
+
+        .vc-thumb:hover::before {
+            background: rgba(216, 27, 96, 0.25);
+        }
+
+        .vc-thumb-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.25s ease, color 0.25s ease;
+            pointer-events: none;
+        }
+
+        .vc-thumb:hover .vc-thumb-play {
+            transform: translate(-50%, -50%) scale(1.08);
+            color: #ff0000;
+        }
+
+        .vc-info {
+            padding: 12px 14px 14px;
+        }
+
+        .vc-title {
+            font-weight: 900;
+            font-size: 0.98rem;
+            color: var(--text-main);
+            line-height: 1.45;
+        }
+
+        .vc-note {
+            margin-top: 6px;
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #fff;
+            font-weight: 900;
+            box-shadow: 0 12px 28px var(--accent-glow);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            transition: transform 0.18s ease, opacity 0.18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.96;
+        }
+
+        .step-box {
+            background: #fff;
+            border-radius: 18px;
+            border: 1px solid rgba(216, 27, 96, 0.12);
+            padding: 1.25rem 1.5rem;
+            margin-top: 14px;
+        }
+
+        .step-box h4 {
+            margin: 0 0 0.6rem;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-box ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            color: var(--text-sub);
+            line-height: 1.85;
+        }
+
+        .mission-area {
+            position: relative;
+            background: #fff;
+            border-radius: 22px;
+            border: 1px solid rgba(236, 72, 153, 0.18);
+            padding: 1.5rem 1.5rem 1.25rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 20px 45px rgba(219, 39, 119, 0.08);
+        }
+
+        .wax-seal {
+            position: absolute; top: -20px; right: -20px;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle at 30% 30%, #f48fb1, #d81b60, #880e4f);
+            border-radius: 50%; opacity: 0; transform: scale(3) rotate(-30deg);
+            pointer-events: none; display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.95); font-size: 4rem;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 40px rgba(216,27,96,0.5);
+            border: 5px solid #880e4f; z-index: 10;
+        }
+
+        .wax-seal::after {
+            content: ''; position: absolute; inset: 12px;
+            border: 3px dotted rgba(255,255,255,0.5); border-radius: 50%;
+        }
+
+        .mission-area.completed .wax-seal {
+            animation: stampIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stampIn {
+            0%   { opacity:0; transform: scale(3) translateY(-50px) rotate(-30deg); }
+            60%  { opacity:1; transform: scale(0.9) translateY(0) rotate(5deg); }
+            80%  { transform: scale(1.1) rotate(-2deg); }
+            100% { opacity:1; transform: scale(1) rotate(0deg); }
+        }
+
+        .mission-header h3 {
+            margin: 0 0 0.6rem;
+            font-size: 1.25rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .task-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 1rem 1.1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(216, 27, 96, 0.12);
+            background: #fff;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .task-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .custom-checkbox {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            border: 2px solid rgba(216, 27, 96, 0.25);
+            display: grid;
+            place-items: center;
+            flex: 0 0 28px;
+            background: #fff;
+        }
+
+        .custom-checkbox i {
+            color: #fff;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: 0.18s ease;
+        }
+
+        .task-content h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .task-content p {
+            margin: 0.35rem 0 0;
+            color: var(--text-sub);
+            line-height: 1.75;
+            font-size: 0.92rem;
+        }
+
+        .task-item.completed {
+            border-color: rgba(16, 185, 129, 0.35);
+            background: #f0fdf4;
+        }
+
+        .task-item.completed .custom-checkbox {
+            background: linear-gradient(135deg, #34d399, #059669);
+            border-color: transparent;
+        }
+
+        .task-item.completed .custom-checkbox i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .nav-row {
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* === レスポンシブ対応（モバイル最適化） === */
+        @media (max-width: 768px) {
+            .container { padding: 0 10px; margin-top: 80px; }
+            .hero { margin-bottom: 2rem; padding-top: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .glass-card { padding: 1.5rem; margin-bottom: 1.2rem; }
+            .tab-btn { padding: 0.8rem 1rem; font-size: 0.95rem; flex: 1 1 100%; justify-content: center; min-width: auto; }
+            .fixed-header { padding: 0 20px; }
+            .progress-container { width: 130px; }
+            .wax-seal { width: 100px; height: 100px; font-size: 2.5rem; right: -10px; top: -10px; border-width: 3px; }
+            .video-grid { grid-template-columns: 1fr; top: 75px; }
+            .task-item { flex-direction: column; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="fixed-header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Course Home</a>
+        <div class="progress-container">
+            <div class="progress-text"><span>Day 12 Progress</span><span id="progress-percent">0%</span></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+        <div style="width:100px;"></div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <div class="day-badge">DAY 12</div>
+            <h1>AI活用によるアプリケーション開発実践②</h1>
+            <p>
+                Day 11 で「AIにアプリを生成させる」感覚を掴みました。今日はその先へ。<br>
+                <strong>Antigravity でエージェントを動かし、Gemini Canvas で実際のアプリを完成させ、Google Opal で自動化まで体験する</strong>回です。<br>
+                コードを書けなくても「動くものを作り切る」——その達成感を今日持ち帰ってください。
+            </p>
+        </div>
+
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" onclick="switchTab('tab-goal')"><i class="fa-solid fa-bullseye" style="color:#d81b60;"></i> 本日の目標</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-first')"><i class="fa-solid fa-robot" style="color:#7c3aed;"></i> 前半：Antigravity & Gemini Canvas</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-second')"><i class="fa-solid fa-bolt" style="color:#7c3aed;"></i> 後半：最新ツール</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-summary')"><i class="fa-solid fa-flag-checkered" style="color:#10b981;"></i> 実習・まとめ</button>
+        </div>
+
+        <!-- ===== タブ：本日の目標 ===== -->
+        <div id="tab-goal" class="tab-content active">
+            <div class="glass-card" style="border-top: 5px solid var(--accent);">
+                <div class="card-header">
+                    <i class="fa-solid fa-bullseye" style="color:var(--accent); background:var(--accent-bg);"></i>
+                    <h2>本日の研修ねらい</h2>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-user-gear"></i> 今日のゴール</h4>
+                    <p style="margin:0;">
+                        AIに「こういうUIにしたい」を伝え、<strong>画面を作る → 動かす → 崩れたら直す</strong>までを一連で回せるようになること。<br>
+                        重要なのは“全部理解すること”ではなく、<strong>詰まったときの戻し方</strong>（スクショやエラーを投げて直す）を体験することです。
+                    </p>
+                </div>
+
+                <div class=”step-box”>
+                    <h4><i class=”fa-solid fa-circle-nodes” style=”color:var(--blue);”></i> Day12 の核心ポイント</h4>
+                    <ul>
+                        <li><strong>Antigravity でエージェント体験：</strong>AIが自律的に考えて動いてアプリを作る様子を、実際に操作して体感する。</li>
+                        <li><strong>Gemini Canvas × GAS でアプリ完成：</strong>コードをコピペするだけでスプレッドシート連携アプリが動く「コード不要の開発体験」をする。</li>
+                        <li><strong>Google Opal で自動化：</strong>ノーコードで業務フローを自動化できるツールを知り、「作ったものを使い続ける」イメージを掴む。</li>
+                    </ul>
+                </div>
+
+                <div style=”text-align:center; margin-top: 1.4rem;”>
+                    <button type=”button” class=”btn” onclick=”switchTab('tab-first'); window.scrollTo(0,0);”>
+                        前半：Antigravity & Gemini Canvas へ進む <i class=”fa-solid fa-arrow-right”></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== タブ：前半 ===== -->
+        <div id="tab-first" class="tab-content">
+            <div class="glass-card" style="border-top: 5px solid #2563eb;">
+                <div class="card-header">
+                    <i class="fa-solid fa-layer-group" style="color:#2563eb; background:var(--blue-bg);"></i>
+                    <h2>前半：Antigravity & Gemini Canvas でアプリを動かす</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.85;">
+                    前半の2本は、実際にエージェントを動かしてアプリを作る体験です。<br>
+                    <strong>Antigravity</strong> でAIエージェントに作業を任せる感覚と、<strong>Gemini Canvas × GAS</strong> でコピペだけでTodoアプリを完成させる手順を確認します。
+                </p>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="vc-thumb" data-video-id="glMsSI3JSAM"
+                        style="background-image: url('https://img.youtube.com/vi/glMsSI3JSAM/maxresdefault.jpg'), url('https://img.youtube.com/vi/glMsSI3JSAM/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                    <div class="vc-info">
+                        <div class="vc-title">【初心者向け】Google Antigravityの使い方を徹底解説</div>
+                        <div class="vc-note">AIエージェントが「考えて・動いて・作る」仕組みと、2つの画面モードの使い分けを学ぶ。</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="vc-thumb" data-video-id="XoF3fv4XLSs"
+                        style="background-image: url('https://img.youtube.com/vi/XoF3fv4XLSs/maxresdefault.jpg'), url('https://img.youtube.com/vi/XoF3fv4XLSs/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                    <div class="vc-info">
+                        <div class="vc-title">コピペで完成！Gemini Canvas×GASでTodoアプリ作成｜プログラミング知識不要</div>
+                        <div class="vc-note">Gemini Canvasでコードを生成 → GASに貼るだけ。コーディング不要でスプレッドシート連携アプリが完成。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 3px solid #2563eb;">
+                <div class="card-header">
+                    <i class="fa-solid fa-screwdriver-wrench" style="color:#2563eb; background:var(--blue-bg);"></i>
+                    <h2>実習（前半）</h2>
+                </div>
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-list-check" style="color:#2563eb;"></i> やること（目安）</h4>
+                    <ul>
+                        <li>Antigravity を起動し、プロンプト1本でアプリを自動生成してみる。</li>
+                        <li>Gemini Canvas を開き、動画を参考に Todo アプリのコードを生成 → GAS に貼って動作確認。</li>
+                        <li>「動いた！」体験を1つ作ることを最低ラインにする。</li>
+                    </ul>
+                </div>
+                <div style="text-align:center; margin-top:1.1rem;">
+                    <button type="button" class="btn" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);" onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                        後半：最新ツールへ進む <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== タブ：後半 ===== -->
+        <div id="tab-second" class="tab-content">
+            <div class="glass-card" style="border-top: 5px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-bolt" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>後半：シームレスに作る（OPALなど）</h2>
+                </div>
+                <p style="margin:0; color:var(--text-sub); line-height:1.85;">
+                    ここは“体験パート”。最新ツールで「アイデア → UI → 実装」を一気通貫で進める感覚を掴みます。
+                </p>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="vc-thumb" data-video-id="1hprmnresn8"
+                        style="background-image: url('https://img.youtube.com/vi/1hprmnresn8/maxresdefault.jpg'), url('https://img.youtube.com/vi/1hprmnresn8/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                    <div class="vc-info">
+                        <div class="vc-title">AIをフル活用してコードを書けない非エンジニアがアプリを作成します！</div>
+                        <div class="vc-note">AI×プログラミング講師が一緒に考える「要件定義→指示→確認」のサイクルを実演で体験。</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="vc-thumb" data-video-id="vHMgM26j7jU"
+                        style="background-image: url('https://img.youtube.com/vi/vHMgM26j7jU/maxresdefault.jpg'), url('https://img.youtube.com/vi/vHMgM26j7jU/hqdefault.jpg');">
+                        <i class="fa-brands fa-youtube vc-thumb-play"></i>
+                    </div>
+                    <div class="vc-info">
+                        <div class="vc-title">【無料】Googleの「Opal」で作れる自分専用の自動化ツールがマジですごい！</div>
+                        <div class="vc-note">ノーコードで業務フローを自動化できる Google Opal の概要と使い方を確認する。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 3px solid #7c3aed;">
+                <div class="card-header">
+                    <i class="fa-solid fa-link" style="color:#7c3aed; background:#f5f3ff;"></i>
+                    <h2>OPAL（公式）</h2>
+                </div>
+                <div class="info-box" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                    <div>
+                        <h4 style="margin:0 0 4px;"><i class="fa-solid fa-globe"></i> OPAL Landing</h4>
+                        <p style="margin:0;">公式ページで「何ができるか」をざっと掴んでから、動画の内容と照らし合わせてみましょう。</p>
+                    </div>
+                    <a class="btn" href="https://opal.google/landing/" target="_blank" rel="noopener"
+                        style="background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 12px 28px rgba(5, 150, 105, 0.25);">
+                        OPAL を開く <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+                <div style="text-align:center; margin-top:1.1rem;">
+                    <button type="button" class="btn" style="background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 12px 28px rgba(5, 150, 105, 0.25);" onclick="switchTab('tab-summary'); window.scrollTo(0,0);">
+                        実習・まとめへ進む <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== タブ：実習・まとめ ===== -->
+        <div id="tab-summary" class="tab-content">
+            <div class="glass-card" style="border-top: 5px solid #10b981;">
+                <div class="card-header">
+                    <i class="fa-solid fa-flag-checkered" style="color:#10b981; background:var(--teal-bg);"></i>
+                    <h2>実習・まとめ</h2>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-circle-check"></i> 今日できるようになれば十分なこと</h4>
+                    <p style="margin:0;">
+                        完璧なアプリを作る必要はありません。<strong>「AIに作らせて、崩れたら直して、動くところまで持っていく」</strong>を1回でも回せたらOKです。<br>
+                        Day 13 の成果発表は、ここまでの“動くもの”をベースに話せます。
+                    </p>
+                </div>
+
+                <div class="step-box">
+                    <h4><i class="fa-solid fa-lightbulb" style="color:#10b981;"></i> 仕上げのコツ（短く）</h4>
+                    <ul>
+                        <li>「動かない」時は、<strong>エラー文 / 画面の状態 / 期待する動き</strong>をセットでAIに渡す。</li>
+                        <li>UIは“まず動く” → “整える”の順。いきなり完璧を狙わない。</li>
+                        <li>Day13用に、<strong>何を作ったか・どこが工夫点か</strong>を1分で言えるようにする。</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card" style="border-top: 5px solid #ec4899; text-align:center; background: linear-gradient(180deg, #fff 0%, #fdf2f8 100%); margin-top:1.2rem;">
+                    <div class="card-header" style="justify-content:center; border-bottom:none; padding-bottom:0; margin-bottom:8px;">
+                        <i class="fa-solid fa-thumbtack" style="color:#ec4899; background:#fce7f3;"></i>
+                        <h2>📌 作ったものはここにシェア</h2>
+                    </div>
+                    <p style="margin:0; color:var(--text-sub); line-height:1.8;">【DX】社員教育とAIコース 課題シェアボード（Padlet）</p>
+                    <div style="padding: 1rem 0 0.5rem;">
+                        <a href="https://padlet.com/platinumzonedx/dx-ai-2m1o5unlgm3dl2ji" target="_blank" rel="noopener" class="btn"
+                            style="padding: 1.3rem 3rem; font-size:1.2rem; background: linear-gradient(135deg, #f472b6, #db2777); border-radius:50px; box-shadow: 0 15px 35px rgba(219, 39, 119, 0.3);">
+                            <i class="fa-solid fa-rocket"></i> 🚀 Padlet を開いて投稿する
+                        </a>
+                    </div>
+                    <p style="margin:0.5rem 0 0; font-size:0.92rem; color:var(--text-sub);">※ 今日は「完成に近い版」を投稿できたら最高です（Day 13 の話の材料になります）。</p>
+                </div>
+
+                <div class="mission-area" id="mission-group-12">
+                    <div class="wax-seal">CLEAR</div>
+                    <div class="mission-header">
+                        <h3><i class="fa-solid fa-clipboard-check"></i> 今日のミッションリスト</h3>
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item" onclick="toggleTask('t12_1', this)">
+                            <div class="custom-checkbox" id="check_t12_1"><i class="fa-solid fa-check"></i></div>
+                            <div class="task-content">
+                                <h4><i class="fa-solid fa-layer-group" style="color:#2563eb; margin-right:0.5rem;"></i> STEP 01: AIにUI（画面構成）を指示してコードが出た</h4>
+                                <p>見出し・入力・ボタン・結果表示など、最低限の“画面”が出力されればOK。</p>
+                            </div>
+                        </li>
+                        <li class="task-item" onclick="toggleTask('t12_2', this)">
+                            <div class="custom-checkbox" id="check_t12_2"><i class="fa-solid fa-check"></i></div>
+                            <div class="task-content">
+                                <h4><i class="fa-solid fa-bug" style="color:#ef4444; margin-right:0.5rem;"></i> STEP 02: デバッグループを1回回した</h4>
+                                <p>崩れ/動作不良を、<strong>スクショ or エラー文 + 期待する動き</strong>でAIに投げて修正した。</p>
+                            </div>
+                        </li>
+                        <li class="task-item" onclick="toggleTask('t12_3', this)">
+                            <div class="custom-checkbox" id="check_t12_3"><i class="fa-solid fa-check"></i></div>
+                            <div class="task-content">
+                                <h4><i class="fa-solid fa-globe" style="color:#10b981; margin-right:0.5rem;"></i> STEP 03: OPAL を開き「何ができるか」を把握した</h4>
+                                <p>全部理解しなくてOK。「アイデア→UI→実装」の一気通貫の感覚を掴めればチェック。</p>
+                            </div>
+                        </li>
+                        <li class="task-item" onclick="toggleTask('t12_4', this)">
+                            <div class="custom-checkbox" id="check_t12_4"><i class="fa-solid fa-check"></i></div>
+                            <div class="task-content">
+                                <h4><i class="fa-solid fa-link" style="color:#7c3aed; margin-right:0.5rem;"></i> STEP 04: “動く部分”を1つでも作れた</h4>
+                                <p>入力→計算/通信→表示、など<strong>1つでも反応が返る</strong>動作ができればOK。</p>
+                            </div>
+                        </li>
+                        <li class="task-item" onclick="toggleTask('t12_5', this)">
+                            <div class="custom-checkbox" id="check_t12_5"><i class="fa-solid fa-check"></i></div>
+                            <div class="task-content">
+                                <h4><i class="fa-solid fa-thumbtack" style="color:#ec4899; margin-right:0.5rem;"></i> STEP 05: Padlet に作品を1つ投稿した（Day 13 の話の材料）</h4>
+                                <p>未完成でもOK。<strong>「ここまでできた」</strong>が残れば、Day13の発表が楽になります。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="margin-top:1.8rem;">
+                    <h4><i class="fa-solid fa-forward"></i> 次のステップ（Day 13）</h4>
+                    <p style="margin:0;">Day 13 は<strong>成果発表</strong>です。今日の“動くもの”をベースに、<strong>何を作ったか／何が難しかったか／次に何を改善するか</strong>を1〜2分で説明できるようにしておきましょう。</p>
+                </div>
+
+                <div class="nav-row">
+                    <button type="button" class="btn"
+                        style="padding: 1.2rem 4rem; font-size:1.25rem; border-radius:50px;"
+                        onclick="if(typeof fetch==='function'){fetch('vol13-1.html',{method:'HEAD'}).then(function(r){if(r.ok){window.location.href='vol13-1.html';}else{alert('Day 13 は公開準備中です。');}}).catch(function(){alert('Day 13 は公開準備中です。');});}else{window.location.href='vol13-1.html';}">
+                        Day 13 へ進む <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+                        <button type="button" class="btn"
+                            style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                            onclick="window.location.href='vol11-1.html'">
+                            <i class="fa-solid fa-arrow-left"></i> Day 11 に戻る
+                        </button>
+                        <button type="button" class="btn"
+                            style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                            onclick="window.location.href='index.html'">
+                            <i class="fa-solid fa-house"></i> 🏠 Home に戻る
+                        </button>
+                        <button type="button" class="btn"
+                            style="padding: 1rem 2rem; font-size:1rem; background:#fff; color:var(--text-main); border:2px solid #e4e4e7; box-shadow:none; border-radius:50px;"
+                            onclick="switchTab('tab-second'); window.scrollTo(0,0);">
+                            <i class="fa-solid fa-arrow-left"></i> 後半タブに戻る
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* YouTube Facade（GEMINI.md） */
+        document.querySelectorAll('.vc-thumb[data-video-id]').forEach(function (thumb) {
+            thumb.addEventListener('click', function () {
+                var videoId = this.dataset.videoId;
+                var start = this.dataset.start;
+                var src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+                if (start) src += '&start=' + encodeURIComponent(start);
+                this.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>';
+                this.style.backgroundImage = 'none';
+                this.style.cursor = 'default';
+            }, { once: true });
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+            var el = document.getElementById(tabId);
+            if (el) el.classList.add('active');
+            var targetBtn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+            if (targetBtn) targetBtn.classList.add('active');
+            updateProgress(tabId);
+        }
+
+        var progressMap = { 'tab-goal': 0, 'tab-first': 33, 'tab-second': 66, 'tab-summary': 100 };
+
+        function updateProgress(tabId) {
+            var pct = progressMap[tabId] ?? 0;
+            var bar = document.getElementById('progress-bar');
+            var txt = document.getElementById('progress-percent');
+            if (bar) bar.style.width = pct + '%';
+            if (txt) txt.textContent = pct + '%';
+        }
+
+        function toggleTask(taskId, liEl) {
+            var key = 'day12_' + taskId;
+            var done = localStorage.getItem(key) === '1';
+            var next = !done;
+            localStorage.setItem(key, next ? '1' : '0');
+            if (liEl) liEl.classList.toggle('completed', next);
+            updateMissionState();
+        }
+
+        function updateMissionState() {
+            var all = ['t12_1', 't12_2', 't12_3', 't12_4', 't12_5'];
+            var completedCount = 0;
+            all.forEach(function (id) {
+                var key = 'day12_' + id;
+                if (localStorage.getItem(key) === '1') completedCount++;
+            });
+            var mission = document.getElementById('mission-group-12');
+            if (mission) mission.classList.toggle('completed', completedCount === all.length);
+        }
+
+        function restoreTasks() {
+            var pairs = [
+                ['t12_1', 'check_t12_1'],
+                ['t12_2', 'check_t12_2'],
+                ['t12_3', 'check_t12_3'],
+                ['t12_4', 'check_t12_4'],
+                ['t12_5', 'check_t12_5'],
+            ];
+            pairs.forEach(function (p) {
+                var taskId = p[0];
+                var key = 'day12_' + taskId;
+                var isDone = localStorage.getItem(key) === '1';
+                var checkbox = document.getElementById(p[1]);
+                if (checkbox) {
+                    var li = checkbox.closest('.task-item');
+                    if (li) li.classList.toggle('completed', isDone);
+                }
+            });
+            updateMissionState();
+        }
+
+        restoreTasks();
+        updateProgress('tab-goal');
+    </script>
+
+</body>
+
+</html>
+
